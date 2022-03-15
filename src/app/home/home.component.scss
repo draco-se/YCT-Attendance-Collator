@@ -1,0 +1,52 @@
+@mixin display-flex() {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.overview {
+  width: 100vw;
+  height: 100vh;
+  @include display-flex();
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+  padding: 1rem;
+
+  svg {
+    width: 100%;
+    max-width: 60rem;
+    margin: 0;
+
+    @media (min-width: 90rem) {
+      position: absolute;
+      bottom: 2rem;
+      right: 0;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    width: 75vw;
+  }
+
+  h1 {
+    width: 15rem;
+    font-family: 'Roboto', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: #003200;
+    margin: 2rem 0;
+    @media (min-width: 48rem) {
+
+      font-size: 4rem;
+      margin: 3rem;
+    }
+
+    @media (min-width: 64rem) {
+      width: 25rem;
+      font-size: 5rem;
+    }
+  }
+}
