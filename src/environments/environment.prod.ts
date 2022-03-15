@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  restApiAddress: 'http://localhost:5000',
-  frontEndAddress: 'http://localhost:5000/login',
+  restApiAddress: 'http://192.168.8.101:5000',
+  frontEndAddress: 'http://192.168.8.101:5000/login',
   publicKey:
     'pk_test_51IwvJoJe2ZuBrbA8cGNV9yvaDcTgQUDGW8RJF5m1IlaHAHnnNUfX2GslRbysl0eCCrFg34bCYoSdpYklrJE9gf6R00a5Hxx4D6',
   clientId:
