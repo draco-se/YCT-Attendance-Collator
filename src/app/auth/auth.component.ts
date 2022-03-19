@@ -20,8 +20,8 @@ import { AuthService } from './auth.service';
 export class AuthComponent implements OnInit {
   @ViewChild('loginTitle') loginTitle: ElementRef<HTMLElement>;
   @ViewChild('signupTitle') signupTitle: ElementRef<HTMLElement>;
-  @ViewChild('underline') underline: ElementRef<HTMLElement>;
-  @ViewChild('formContainer') formContainer: ElementRef<HTMLElement>;
+  @ViewChild('underline') underline: ElementRef<HTMLHRElement>;
+  @ViewChild('formContainer') formContainer: ElementRef<HTMLDivElement>;
   error: any;
   signedup: boolean = false;
   isLoading: boolean = false;
@@ -53,6 +53,7 @@ export class AuthComponent implements OnInit {
     this.isLoading = true;
     if (!form.valid) {
       this.error = 'invalid form';
+      this.isLoading = false;
       return;
     }
     const email = form.value.email;
@@ -67,6 +68,7 @@ export class AuthComponent implements OnInit {
       },
       (errorMessage) => {
         this.error = errorMessage;
+        this.isLoading = false;
       },
     );
   }
@@ -75,12 +77,13 @@ export class AuthComponent implements OnInit {
     this.isLoading = true;
     if (!form.valid) {
       this.error = 'invalid form';
+      this.isLoading = false;
       return;
     }
-    const email = form.value.email;
-    const password = form.value.password;
-    const confirmPassword = form.value.confirmPassword;
-    const fullName = form.value.fullName;
+    const email: string = form.value.email;
+    const password: string = form.value.password;
+    const confirmPassword: string = form.value.confirmPassword;
+    const fullName: string = form.value.fullName;
     this.authService
       .signup(email, fullName, password, confirmPassword)
       .subscribe(
@@ -92,6 +95,7 @@ export class AuthComponent implements OnInit {
         },
         (errorMessage: any) => {
           this.error = errorMessage;
+          this.isLoading = false;
         },
       );
   }
@@ -109,6 +113,7 @@ export class AuthComponent implements OnInit {
       },
       (errorMessage) => {
         this.error = errorMessage;
+        this.isLoading = false;
       },
     );
   }

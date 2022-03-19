@@ -24,7 +24,7 @@
 
     <div class="back-button__cover">
       <svg
-      (click)="previousPage()"
+        (click)="previousPage()"
         viewBox="0 0 447.243 447.243"
         xml:space="preserve"
         class="back-button"
@@ -47,12 +47,13 @@
     <div class="form-container__box">
       <p *ngIf="error && !isLoading" class="error-box">{{ error }}</p>
 
-      <div *ngIf="isLoading" class="auth-load__box">
-        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-      </div>
-
-      <div class="form-container" *ngIf="!isLoading" #formContainer>
-        <form id="form-control__login" class="form-control" #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+      <div class="form-container" #formContainer>
+        <form
+          id="form-control__login"
+          class="form-control"
+          #loginForm="ngForm"
+          (ngSubmit)="onLogin(loginForm)"
+        >
           <div class="form-input__cover">
             <input
               type="text"
@@ -88,7 +89,10 @@
                 minlength="8"
                 #password="ngModel"
               />
-              <div class="biometric-trigger__cover" (click)="webauthnLogin(loginForm)">
+              <div
+                class="biometric-trigger__cover"
+                (click)="webauthnLogin(loginForm)"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   version="1.1"
@@ -230,11 +234,18 @@
           </div>
           <button
             type="submit"
+            *ngIf="!isLoading"
             class="form-btn login"
             [disabled]="!loginForm.valid"
           >
             Login
           </button>
+          <div *ngIf="isLoading" class="lds-ellipsis loader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
           <p><a href="/reset">Forgot Password?</a></p>
 
           <div class="google-login__btn" (click)="onGoogleAuth(false)">
@@ -358,12 +369,19 @@
             >
           </div>
           <button
+          *ngIf="!isLoading"
             type="submit"
             class="form-btn signup"
             [disabled]="!signupForm.valid"
           >
             Signup
           </button>
+          <div *ngIf="isLoading" class="lds-ellipsis loader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
 
           <div class="google-login__btn" (click)="onGoogleAuth(true)">
             <div>

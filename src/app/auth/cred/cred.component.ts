@@ -9,10 +9,26 @@ import { AuthService } from '../auth.service';
 export class CredComponent implements OnInit {
   isLoading: boolean = false;
   success: boolean = false;
+  available: boolean;
+  error: any =
+    'Sorry. Your device does not support biometric authentication, kindly skip this step.';
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (window.PublicKeyCredential) {
+      PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
+      .then(uvpaa => {
+        if (uvpaa) {
+          this.available = !!uvpaa
+        } else {
+          this.available = false;
+        }
+      });
+    } else {
+      this.available = false;
+    }
+  }
 
   onBioReg() {
     this.isLoading = true;

@@ -303,12 +303,12 @@ p a {
   max-width: 30rem;
   overflow-x: hidden;
 
-  .auth-load__box {
-    width: 100%;
-    @include display-flex();
-    justify-content: center;
-    align-items: center;
-  }
+  // .auth-load__box {
+  //   width: 100%;
+  //   @include display-flex();
+  //   justify-content: center;
+  //   align-items: center;
+  // }
 
   @media (min-width: 48rem) {
     padding-top: 5rem;
@@ -327,21 +327,5 @@ p a {
 }
 
 .loader {
-  margin: 1.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 5px solid;
-  border-color: #256325 #256325 #256325 transparent;
-  border-radius: 50%;
-  animation: loader 10s linear infinite alternate;
-}
-
-@keyframes loader {
-  0% {
-    transform: rotateZ(0deg);
-  }
-
-  100% {
-    transform: rotateZ(3600deg);
-  }
+  align-self: flex-end;
 }
