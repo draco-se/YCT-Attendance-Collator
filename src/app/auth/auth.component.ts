@@ -60,6 +60,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       });
 
       this.authService.errorMessage.subscribe((error) => {
+        console.log(error);
         this.error = error;
         this.isLoading = false;
       });
@@ -138,8 +139,14 @@ export class AuthComponent implements OnInit, OnDestroy {
   webauthnLogin(form: NgForm) {
     this.isLoading = true;
     this.authService.webauthnLogin(form.value.email).subscribe({
-      next: () => console.log('Logged In'),
-      error: (err) => (this.error = err),
+      next: () => console.log('Verifying...'),
+      error: (err) => {
+        if (err) {
+          console.log(err);
+          this.error = 'Operation timed out or not allowed';
+          this.isLoading = false;
+        }
+      },
     });
   }
 

@@ -188,15 +188,15 @@ export class AuthService {
                 ...createCredentialDefaultArgs.allowCredentials[0],
                 id: base64URLStringToBuffer(
                   createCredentialDefaultArgs.allowCredentials[0].id,
-                ),
-              },
-            ],
-          };
+                  ),
+                },
+              ],
+            };
 
-          return navigator.credentials.get({ publicKey: credentials });
-        }),
+            return navigator.credentials.get({ publicKey: credentials });
+          }),
         switchMap(async (resData: any) => {
-          console.log(resData)
+          console.log(resData);
           const credential = await {
             id: resData.id,
             response: {
@@ -215,6 +215,7 @@ export class AuthService {
             .post<AuthResponseData>(
               environment.restApiAddress + '/webauthn-login-verification',
               {
+                email,
                 credential,
               },
             )
@@ -231,8 +232,12 @@ export class AuthService {
               }),
             )
             .subscribe({
-              next: () => this.sucessMessage.next(true),
-              error: (err) => this.errorMessage.next(err),
+              next: () => {
+                this.sucessMessage.next(true);
+              },
+              error: (err) => {
+                this.errorMessage.next(err);
+              },
             });
         }),
       );
