@@ -55,11 +55,11 @@ h1 {
   }
 
   .courses {
-    @include transition();
-    transform: translateY(-150%);
-    -webkit-transform: translateY(-150%);
-    -moz-transform: translateY(-150%);
-    -o-transform: translateY(-150%);
+    // @include transition();
+    // transform: translateY(-150%);
+    // -webkit-transform: translateY(-150%);
+    // -moz-transform: translateY(-150%);
+    // -o-transform: translateY(-150%);
     display: none;
     box-shadow: 0.05px 0.05px 1px #003200c4;
     list-style: none;

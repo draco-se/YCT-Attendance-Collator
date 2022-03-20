@@ -263,9 +263,9 @@ export class AuthService {
   }
 
   autoLogin() {
-    if (this.redirectUrl) {
-      this.router.navigate([this.redirectUrl]);
-    }
+    // if (this.redirectUrl) {
+    //   this.router.navigate([this.redirectUrl]);
+    // }
     const userData: {
       email: string;
       id: string;

@@ -87,12 +87,12 @@ export class AttendanceRecordsComponent implements OnInit {
   dropdown(unordered: HTMLUListElement, prog: HTMLUListElement) {
     this.closedropdown(prog);
     unordered.style.display = 'block';
-    setTimeout(() => {
-      unordered.style.transform = 'translateY(0)';
-      unordered.style['-webkit-transform'] = 'translateY(0)';
-      unordered.style['-moz-transform'] = 'translateY(0)';
-      unordered.style['-o-transform'] = 'translateY(0)';
-    }, 300);
+    // setTimeout(() => {
+    //   unordered.style.transform = 'translateY(0)';
+    //   unordered.style['-webkit-transform'] = 'translateY(0)';
+    //   unordered.style['-moz-transform'] = 'translateY(0)';
+    //   unordered.style['-o-transform'] = 'translateY(0)';
+    // }, 300);
   }
 
   closedropdown(programmes: HTMLUListElement) {

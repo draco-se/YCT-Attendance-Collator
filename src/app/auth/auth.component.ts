@@ -40,9 +40,9 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.userSub = this.authService.user.subscribe(
-        (user) => (this.isAuthenticated = !!user),
-      );
+      this.userSub = this.authService.user.subscribe((user) => {
+        if (!!user) location.href = '';
+      });
 
       if (location.pathname == '/signup') {
         this.signupControl();
