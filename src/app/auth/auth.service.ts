@@ -188,13 +188,13 @@ export class AuthService {
                 ...createCredentialDefaultArgs.allowCredentials[0],
                 id: base64URLStringToBuffer(
                   createCredentialDefaultArgs.allowCredentials[0].id,
-                  ),
-                },
-              ],
-            };
+                ),
+              },
+            ],
+          };
 
-            return navigator.credentials.get({ publicKey: credentials });
-          }),
+          return navigator.credentials.get({ publicKey: credentials });
+        }),
         switchMap(async (resData: any) => {
           console.log(resData);
           const credential = await {
@@ -263,6 +263,9 @@ export class AuthService {
   }
 
   autoLogin() {
+    if (this.redirectUrl) {
+      this.router.navigate([this.redirectUrl]);
+    }
     const userData: {
       email: string;
       id: string;
@@ -285,10 +288,6 @@ export class AuthService {
       const expirationDuration =
         new Date(userData._tokenExpirationDate).getTime() - Date.now();
       this.autoLogout(expirationDuration);
-    }
-
-    if (this.redirectUrl) {
-      this.router.navigate([this.redirectUrl]);
     }
   }
 
