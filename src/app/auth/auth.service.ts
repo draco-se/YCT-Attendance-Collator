@@ -68,7 +68,7 @@ export class AuthService {
   signedUSer: string;
   sucessMessage = new Subject<boolean>();
   errorMessage = new Subject<string>();
-  redirectUrl: string;
+  redirectUrl = new BehaviorSubject<string>(null);
 
   private tokenExpirationTimer: any;
 
@@ -263,9 +263,11 @@ export class AuthService {
   }
 
   autoLogin() {
-    if (this.redirectUrl) {
-      this.router.navigate([this.redirectUrl]);
+   this.redirectUrl.subscribe((redirectUrl) => {
+    if (redirectUrl) {
+      this.router.navigate([redirectUrl]);
     }
+   })
     const userData: {
       email: string;
       id: string;
