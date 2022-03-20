@@ -9,9 +9,8 @@ import { AuthService } from '../auth.service';
 export class CredComponent implements OnInit {
   isLoading: boolean = false;
   success: boolean = false;
-  available: boolean;
-  error: any =
-    'Sorry. Your device does not support biometric authentication, kindly skip this step.';
+  available: boolean = true;
+  error: any = null;
 
   constructor(private authService: AuthService) {}
 
@@ -27,11 +26,15 @@ export class CredComponent implements OnInit {
             });
           } else {
             this.available = false;
+            this.error =
+            'Sorry. Your device does not support biometric authentication, kindly skip this step.';
           }
         },
       );
     } else {
       this.available = false;
+      this.error =
+            'Sorry. Your device does not support biometric authentication, kindly skip this step.';
     }
   }
 

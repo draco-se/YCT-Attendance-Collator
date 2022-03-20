@@ -1,11 +1,11 @@
 <div class="cred-main__container">
   <div class="cred-box">
     <h1 class="title">Register Your Biometrics!</h1>
-    <p *ngIf="available && !error" class="info">
+    <p *ngIf="available" class="info">
       Click the button below to register your biometric credential for
       authentication to improve your account security. This is optional.
     </p>
-    <p *ngIf="error" class="info">
+    <p *ngIf="!available" class="info">
       {{error}}
     </p>
     <button (click)="onBioReg()" class="btn" *ngIf="!isLoading && !success && available">
