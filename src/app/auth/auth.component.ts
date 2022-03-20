@@ -168,6 +168,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.userSub.unsubscribe();
+    if (isPlatformBrowser(this.platformId)) {
+      this.userSub.unsubscribe();
+    }
   }
 }
