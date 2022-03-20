@@ -43,20 +43,60 @@ export class AttendanceRecordsComponent implements OnInit {
       },
       {
         title: 'ND3',
-        courses: [],
+        courses: [
+          { title: 'COM 221' },
+          { title: 'COM 222' },
+          { title: 'COM 223' },
+          { title: 'COM 224' },
+          { title: 'COM 225' },
+        ],
       },
       {
         title: 'HND1',
-        courses: [],
+        courses: [
+          { title: 'COM 311' },
+          { title: 'COM 312' },
+          { title: 'COM 313' },
+          { title: 'COM 314' },
+          { title: 'COM 315' },
+        ],
       },
       {
         title: 'HND2',
-        courses: [],
+        courses: [
+          { title: 'COM 321' },
+          { title: 'COM 322' },
+          { title: 'COM 323' },
+          { title: 'COM 324' },
+          { title: 'COM 325' },
+        ],
       },
       {
         title: 'HND3',
-        courses: [],
+        courses: [
+          { title: 'COM 331' },
+          { title: 'COM 332' },
+          { title: 'COM 333' },
+          { title: 'COM 334' },
+          { title: 'COM 335' },
+        ],
       },
     ];
+  }
+
+  dropdown(unordered: HTMLUListElement, prog: HTMLUListElement) {
+    this.closedropdown(prog);
+    unordered.style.display = 'block';
+    setTimeout(() => {
+      unordered.style.transform = 'translateY(0)';
+    }, 300);
+  }
+
+  closedropdown(programmes: HTMLUListElement) {
+    const courses: NodeList = programmes.querySelectorAll('.courses');
+
+    Array.from(courses).forEach((el: HTMLElement) => {
+      el.removeAttribute('style');
+    });
   }
 }

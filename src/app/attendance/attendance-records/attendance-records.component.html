@@ -1,9 +1,9 @@
 <h1>Programmes & Courses</h1>
 
-<ul class="programmes">
-  <li *ngFor="let programme of programmes" class="programme">
+<ul class="programmes" #prog>
+  <li *ngFor="let programme of programmes" class="programme" (click)="dropdown(unordered, prog)">
     <h1>{{ programme.title }}</h1>
-    <ul class="courses">
+    <ul class="courses" #unordered>
       <li *ngFor="let course of programme.courses" class="course">
         {{ course.title }}
       </li>
