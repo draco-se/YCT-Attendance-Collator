@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   BehaviorSubject,
   catchError,
@@ -15,7 +16,6 @@ export interface AuthResponseData {
   email: string;
   id: string;
   name: string;
-  isAdmin: boolean;
   token: string;
   expiresIn: number;
 }
@@ -67,10 +67,12 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
   signedUSer: string;
   sucessMessage = new Subject<boolean>();
+  errorMessage = new Subject<string>();
+  redirectUrl: string;
 
   private tokenExpirationTimer: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(email: string, password: string) {
     return this.http
@@ -85,7 +87,6 @@ export class AuthService {
             resData.email,
             resData.id,
             resData.name,
-            resData.isAdmin,
             resData.token,
             +resData.expiresIn,
           );
@@ -120,6 +121,7 @@ export class AuthService {
         userId: this.signedUSer,
       })
       .pipe(
+        catchError(this.handleErrors),
         switchMap((createCredentialDefaultArgs) => {
           const credentials: PublicKeyCredentialCreationOptions = {
             ...createCredentialDefaultArgs,
@@ -137,12 +139,9 @@ export class AuthService {
           };
 
           this.signedUSer = null;
-          console.log(credentials);
           return navigator.credentials.create({ publicKey: credentials });
         }),
         switchMap(async (resData: any) => {
-          console.log(resData);
-
           const credential = {
             response: {
               clientDataJSON: bufferToBase64URLString(
@@ -161,8 +160,10 @@ export class AuthService {
                 credential,
               },
             )
-            .subscribe((res: any) => {
-              this.sucessMessage.next(!!res.message);
+            .pipe(catchError(this.handleErrors))
+            .subscribe({
+              next: (res: any) => this.sucessMessage.next(!!res.message),
+              error: (err) => this.errorMessage.next(err),
             });
         }),
       );
@@ -174,6 +175,7 @@ export class AuthService {
         email,
       })
       .pipe(
+        catchError(this.handleErrors),
         switchMap((createCredentialDefaultArgs) => {
           const credentials: PublicKeyCredentialRequestOptions = {
             ...createCredentialDefaultArgs,
@@ -191,12 +193,9 @@ export class AuthService {
             ],
           };
 
-          console.log(credentials);
           return navigator.credentials.get({ publicKey: credentials });
         }),
         switchMap(async (resData: any) => {
-          console.log(resData);
-
           const credential = await {
             id: resData.id,
             response: {
@@ -212,14 +211,27 @@ export class AuthService {
           };
 
           this.http
-            .post<{ message: string }>(
+            .post<AuthResponseData>(
               environment.restApiAddress + '/webauthn-login-verification',
               {
                 credential,
               },
             )
-            .subscribe((resData) => {
-              console.log(resData.message);
+            .pipe(
+              catchError(this.handleErrors),
+              tap((resData) => {
+                this.handleAuthentication(
+                  resData.email,
+                  resData.id,
+                  resData.name,
+                  resData.token,
+                  +resData.expiresIn,
+                );
+              }),
+            )
+            .subscribe({
+              next: () => this.sucessMessage.next(true),
+              error: (err) => this.errorMessage.next(err),
             });
         }),
       );
@@ -237,7 +249,6 @@ export class AuthService {
             resData.email,
             resData.id,
             resData.name,
-            resData.isAdmin,
             resData.token,
             +resData.expiresIn,
           );
@@ -259,7 +270,6 @@ export class AuthService {
       userData.email,
       userData.id,
       userData.name,
-      userData.isAdmin,
       userData._token,
       new Date(userData._tokenExpirationDate),
     );
@@ -269,6 +279,10 @@ export class AuthService {
       const expirationDuration =
         new Date(userData._tokenExpirationDate).getTime() - Date.now();
       this.autoLogout(expirationDuration);
+    }
+
+    if (this.redirectUrl) {
+      this.router.navigate([this.redirectUrl]);
     }
   }
 
@@ -292,12 +306,11 @@ export class AuthService {
     email: string,
     userId: string,
     name: string,
-    isAdmin: boolean,
     token: string,
     expiresIn: number,
   ) {
     const expirationDate = new Date(Date.now() + expiresIn * 1000);
-    const user = new User(email, userId, name, isAdmin, token, expirationDate);
+    const user = new User(email, userId, name, token, expirationDate);
     this.autoLogout(expiresIn * 1000);
     this.user.next(user);
     localStorage.setItem('YctUserData', JSON.stringify(user));
@@ -312,6 +325,10 @@ export class AuthService {
     switch (errorRes.error.message) {
       case 'E-mail already exist!':
         errorMeassge = 'This email exist already!';
+        break;
+
+      case 'E-mail does not exist!':
+        errorMeassge = 'This email does not exist!';
         break;
 
       case 'Please enter a valid email':
@@ -338,6 +355,22 @@ export class AuthService {
 
       case 'Enter Full Name':
         errorMeassge = 'Enter Full Name!';
+        break;
+
+      case 'Invalid user':
+        errorMeassge = 'Invalid user!';
+        break;
+
+      case 'User not found':
+        errorMeassge = 'User not found!';
+        break;
+
+      case 'Invalid origin':
+        errorMeassge = 'Invalid origin!';
+        break;
+
+      case 'Invalid biometric credential':
+        errorMeassge = 'Invalid biometric credential!';
         break;
     }
 

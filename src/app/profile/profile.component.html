@@ -121,25 +121,25 @@
         </g>
       </svg>
     </div>
-    <div class="profile-display">AY</div>
+    <div class="profile-display">{{ innitials }}</div>
     <div class="profile-greetings">
-      <p>Hi, Abdul</p>
+      <p>Hi, {{ firstName }}</p>
     </div>
   </div>
   <div class="profile-nav-container">
     <div class="profile-nav-cover">
       <ul id="profile-nav">
-        <li>
-          <a>Records</a>
+        <li routerLink="/attendance">
+          <a>Attendance Records</a>
         </li>
         <li>
           <a>Aggregate Records</a>
         </li>
         <li>
-          <a>Details</a>
+          <a>Account Details</a>
         </li>
         <li>
-          <a>Biometrics</a>
+          <a>Biometric Settings</a>
         </li>
         <li>
           <a>Log out</a>

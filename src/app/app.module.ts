@@ -13,6 +13,9 @@ import { ValidateEqualModule } from 'ng-validate-equal';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { environment } from 'src/environments/environment';
 import { CredComponent } from './auth/cred/cred.component';
+import { RecordAttendanceComponent } from './attendance/record-attendance/record-attendance.component';
+import { AttendanceRecordsComponent } from './attendance/attendance-records/attendance-records.component';
+import { SessionComponent } from './attendance/session/session.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { CredComponent } from './auth/cred/cred.component';
     HomeComponent,
     AuthComponent,
     CredComponent,
-    ProfileComponent
+    ProfileComponent,
+    RecordAttendanceComponent,
+    AttendanceRecordsComponent,
+    SessionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

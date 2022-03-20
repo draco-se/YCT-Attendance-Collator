@@ -1,0 +1,12 @@
+<h1>Programmes & Courses</h1>
+
+<ul class="programmes">
+  <li *ngFor="let programme of programmes" class="programme">
+    <h1>{{ programme.title }}</h1>
+    <ul class="courses">
+      <li *ngFor="let course of programme.courses" class="course">
+        {{ course.title }}
+      </li>
+    </ul>
+  </li>
+</ul>

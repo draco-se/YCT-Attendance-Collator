@@ -3,7 +3,6 @@ export class User {
     public email: string,
     public id: string,
     public name: string,
-    public isAdmin: boolean,
     private _token: string,
     // private _credId: string,
     private _tokenExpirationDate: Date

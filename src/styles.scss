@@ -25,12 +25,27 @@
 body {
   font-family: 'Roboto', sans-serif;
   background-color: whitesmoke;
+  color: rgb(34, 34, 34);
   margin: 0;
   padding: 0;
 }
 
 app-home {
   @include display-flex();
+  justify-content: center;
+  align-items: center;
+}
+
+app-attendance-records {
+  @include display-flex();
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+app-session {
+  @include display-flex();
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -73,9 +88,9 @@ app-home {
   }
 }
 
-.biometric-auth__success {
-  width: 100%;
-}
+// .biometric-auth__success {
+//   width: 100%;
+// }
 
 @keyframes lds-ellipsis1 {
   0% {

@@ -1,0 +1,68 @@
+h1 {
+  padding: 0;
+  padding-top: 3rem;
+  font-size: 1.8rem;
+
+  @media (min-width: 48rem) {
+    padding-top: 5rem;
+  }
+}
+
+.programmes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-weight: bold;
+  width: 100vw;
+
+  @media (min-width: 64rem) {
+    width: 70vw;
+    padding-top: 5rem;
+  }
+
+  .programme {
+    padding-left: 1rem;
+    // box-shadow: 0.05px 0.05px 1px #003200c4;
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 550;
+      margin: 0;
+      padding: 0.5rem;
+    }
+
+    &:hover,
+    &:active {
+      border-left: 5px solid #006400;
+    }
+
+    &:nth-child(even) {
+      background-color: #00640035;
+    }
+  }
+
+  .courses {
+    box-shadow: 0.05px 0.05px 1px #003200c4;
+    list-style: none;
+    padding: 0;
+    margin-left: 2rem;
+
+    .course {
+      font-family: 'Montserrat', sans-serif;
+      padding: 0.2rem;
+      font-size: 0.8;
+      font-weight: 400;
+      background-color: #f5f5f5;
+
+      &:hover,
+      &:active {
+        border-left: 5px solid #006400;
+      }
+
+      &:nth-child(even) {
+        background-color: #00640035;
+      }
+    }
+  }
+}

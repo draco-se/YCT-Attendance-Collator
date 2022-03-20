@@ -73,7 +73,7 @@
               >Please enter a valid E-mail!</span
             >
           </div>
-          <div class="form-input__cover">
+          <div class="form-input__cover" *ngIf="!isLoading">
             <div class="biometric-cover">
               <input
                 type="password"

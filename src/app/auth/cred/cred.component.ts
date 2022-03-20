@@ -17,14 +17,19 @@ export class CredComponent implements OnInit {
 
   ngOnInit(): void {
     if (window.PublicKeyCredential) {
-      PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
-      .then(uvpaa => {
-        if (uvpaa) {
-          this.available = !!uvpaa
-        } else {
-          this.available = false;
-        }
-      });
+      PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(
+        (uvpaa) => {
+          if (uvpaa) {
+            this.available = !!uvpaa;
+
+            this.authService.errorMessage.subscribe((err) => {
+              this.error = err;
+            });
+          } else {
+            this.available = false;
+          }
+        },
+      );
     } else {
       this.available = false;
     }
@@ -32,9 +37,15 @@ export class CredComponent implements OnInit {
 
   onBioReg() {
     this.isLoading = true;
-    this.authService.webAuthnReg().subscribe(() => {
-      this.isLoading = false;
-      this.success = true;
+    this.authService.webAuthnReg().subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.success = true;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.error = err;
+      },
     });
   }
 

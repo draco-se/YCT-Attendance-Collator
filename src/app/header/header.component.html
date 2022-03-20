@@ -1,17 +1,33 @@
 <div (click)="closeNav()" class="backdrop" #backdrop></div>
 <header class="main-header">
-  <a href="/" class="logo"><img src="../../assets/images/yct.png" alt="Yabatech Logo"> YABATECH</a>
+  <a href="/" class="logo"
+    ><img src="../../assets/images/yct.png" alt="Yabatech Logo" /> YABATECH</a
+  >
   <ul class="header-list">
-    <li class="header-list__item">
-      <a routerLink="/">Home</a>
+    <li routerLink="/" class="header-list__item">
+      <a routerLinkActive="active">Home</a>
     </li>
     <li class="header-list__item">
       <a href="#about">About</a>
     </li>
-    <li routerLink="login" class="header-list__item header-login__btn">
+    <li *ngIf="isAuthenticated" routerLink="/profile" class="header-list__item">
+      <a>My Account</a>
+    </li>
+    <li *ngIf="isAuthenticated"  class="header-list__item">
+      <a>Record Attendance</a>
+    </li>
+    <li
+      *ngIf="!isAuthenticated"
+      routerLink="login"
+      class="header-list__item header-login__btn"
+    >
       <a>Login</a>
     </li>
-    <li routerLink="signup" class="header-list__item header-signup__btn">
+    <li
+      *ngIf="!isAuthenticated"
+      routerLink="signup"
+      class="header-list__item header-signup__btn"
+    >
       <a>Signup</a>
     </li>
   </ul>
@@ -78,11 +94,52 @@
   </svg>
   <ul class="nav-list">
     <li class="nav-list__item" (click)="closeNav()" routerLink="/">Home</li>
-    <li class="nav-list__item" (click)="closeNav()" routerLink="/profile">My Account</li>
-    <li class="nav-list__item" (click)="closeNav()" >Features</li>
-    <li class="nav-list__item" (click)="closeNav()" >About</li>
+    <li
+      *ngIf="isAuthenticated"
+      class="nav-list__item"
+      (click)="closeNav()"
+      routerLink="/profile"
+    >
+      My Account
+    </li>
+    <li *ngIf="!isAuthenticated" class="nav-list__item" (click)="closeNav()">
+      About
+    </li>
+    <li *ngIf="!isAuthenticated" class="nav-list__item" (click)="closeNav()">
+      Features
+    </li>
     <li class="nav-list__item">Contact</li>
-    <li class="nav-list__item login-btn" (click)="closeNav()" routerLink="login">Login</li>
-    <li class="nav-list__item signup-btn" (click)="closeNav()" routerLink="signup">Signup</li>
+    <li *ngIf="isAuthenticated" class="nav-list__item">Record Attendance</li>
+    <li
+      *ngIf="isAuthenticated"
+      class="nav-list__item"
+      (click)="closeNav()"
+      routerLink="/sessions"
+    >
+      Manage Records
+    </li>
+    <li
+      *ngIf="!isAuthenticated"
+      class="nav-list__item login-btn"
+      (click)="closeNav()"
+      routerLink="login"
+    >
+      Login
+    </li>
+    <li
+      *ngIf="!isAuthenticated"
+      class="nav-list__item signup-btn"
+      (click)="closeNav()"
+      routerLink="signup"
+    >
+      Signup
+    </li>
+    <li
+      *ngIf="isAuthenticated"
+      class="nav-list__item signup-btn"
+      (click)="onLogout()"
+    >
+      Logout
+    </li>
   </ul>
 </nav>

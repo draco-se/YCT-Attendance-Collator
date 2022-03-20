@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   Inject,
+  OnDestroy,
   OnInit,
   PLATFORM_ID,
   ViewChild,
@@ -10,6 +11,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { Subscription } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -17,7 +19,7 @@ import { AuthService } from './auth.service';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   @ViewChild('loginTitle') loginTitle: ElementRef<HTMLElement>;
   @ViewChild('signupTitle') signupTitle: ElementRef<HTMLElement>;
   @ViewChild('underline') underline: ElementRef<HTMLHRElement>;
@@ -25,6 +27,8 @@ export class AuthComponent implements OnInit {
   error: any;
   signedup: boolean = false;
   isLoading: boolean = false;
+  userSub: Subscription;
+  isAuthenticated: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -36,15 +40,28 @@ export class AuthComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      this.userSub = this.authService.user.subscribe(
+        (user) => (this.isAuthenticated = !!user),
+      );
+
       if (location.pathname == '/signup') {
         this.signupControl();
       }
 
       this.authService.sucessMessage.subscribe((success) => {
         if (!!success) {
-          this.signedup = false;
-          this.loginControl();
+          if (location.pathname == '/signup') {
+            this.signedup = false;
+            this.loginControl();
+          } else {
+            this.router.navigate(['../'], { relativeTo: this.route });
+          }
         }
+      });
+
+      this.authService.errorMessage.subscribe((error) => {
+        this.error = error;
+        this.isLoading = false;
       });
     }
   }
@@ -86,18 +103,18 @@ export class AuthComponent implements OnInit {
     const fullName: string = form.value.fullName;
     this.authService
       .signup(email, fullName, password, confirmPassword)
-      .subscribe(
-        (resData) => {
+      .subscribe({
+        next: (resData) => {
           this.isLoading = false;
           console.log(resData);
           form.reset();
           this.signedup = true;
         },
-        (errorMessage: any) => {
+        error: (errorMessage: any) => {
           this.error = errorMessage;
           this.isLoading = false;
         },
-      );
+      });
   }
 
   async onGoogleAuth(type: boolean) {
@@ -119,7 +136,11 @@ export class AuthComponent implements OnInit {
   }
 
   webauthnLogin(form: NgForm) {
-    this.authService.webauthnLogin(form.value.email).subscribe()
+    this.isLoading = true;
+    this.authService.webauthnLogin(form.value.email).subscribe({
+      next: () => console.log('Logged In'),
+      error: (err) => (this.error = err),
+    });
   }
 
   signupControl() {
@@ -144,5 +165,9 @@ export class AuthComponent implements OnInit {
 
   previousPage() {
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
   }
 }
