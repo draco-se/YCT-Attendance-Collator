@@ -14,16 +14,16 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: AuthComponent
+    component: AuthComponent,
   },
   {
     path: 'signup',
-    component: AuthComponent
+    component: AuthComponent,
   },
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'sessions',
@@ -38,10 +38,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'enabled',
-    initialNavigation: 'enabledBlocking'
-  })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled',
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

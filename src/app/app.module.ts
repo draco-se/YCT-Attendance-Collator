@@ -29,6 +29,7 @@ import { SessionComponent } from './attendance/session/session.component';
     AttendanceRecordsComponent,
     SessionComponent
   ],
+
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     FormsModule,
@@ -37,6 +38,7 @@ import { SessionComponent } from './attendance/session/session.component';
     SocialLoginModule,
     AppRoutingModule
   ],
+
   providers: [
     {
       provide: 'SocialAuthServiceConfig',

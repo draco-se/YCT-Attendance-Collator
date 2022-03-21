@@ -27,6 +27,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: any;
   signedup: boolean = false;
   isLoading: boolean = false;
+  userSub: Subscription;
   isAuthenticated: boolean = false;
 
   constructor(
@@ -39,10 +40,10 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.authService.redirectUrl.subscribe((redirectUrl) => {
-        if (redirectUrl) {
-          this.router.navigate([redirectUrl]);
-        }
+      this.userSub = this.authService.user.subscribe((user) => {
+        if (!!user) {
+          history.back()
+        };
       });
 
       if (location.pathname == '/signup') {
@@ -177,7 +178,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (isPlatformBrowser(this.platformId)) {
-console.log('leaving, auth page...')
+      this.userSub.unsubscribe();
     }
   }
 }

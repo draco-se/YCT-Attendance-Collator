@@ -6,7 +6,6 @@ import { join } from 'path';
 import 'zone.js/dist/zone-node';
 import { AppServerModule } from './src/main.server';
 
-
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
@@ -36,6 +35,14 @@ export function app(): express.Express {
     }),
   );
 
+  // server.get('/sessions', (req, res, next) => {
+  //   if (true) {
+  //     res.redirect('/login');
+  //     return;
+  //   }
+  //   next();
+  // });
+
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
     res.render(indexHtml, {
@@ -51,11 +58,9 @@ function run(): void {
   const port = process.env['PORT'] || 4000;
   const server = app();
 
-      server.listen(port, () => {
-        console.log(
-          `Node Express server listening on http://localhost:${port}`,
-        );
-      });
+  server.listen(port, () => {
+    console.log(`Node Express server listening on http://localhost:${port}`);
+  });
 
   // Start up the Node server
 }

@@ -68,7 +68,6 @@ export class AuthService {
   signedUSer: string;
   sucessMessage = new Subject<boolean>();
   errorMessage = new Subject<string>();
-  redirectUrl = new BehaviorSubject<string>(null);
 
   private tokenExpirationTimer: any;
 
@@ -263,11 +262,6 @@ export class AuthService {
   }
 
   autoLogin() {
-   this.redirectUrl.subscribe((redirectUrl) => {
-    if (redirectUrl) {
-      this.router.navigate([redirectUrl]);
-    }
-   })
     const userData: {
       email: string;
       id: string;
@@ -276,7 +270,9 @@ export class AuthService {
       _token: string;
       _tokenExpirationDate: string;
     } = JSON.parse(localStorage.getItem('YctUserData'));
+
     if (!userData) return;
+
     const loadedUser = new User(
       userData.email,
       userData.id,
