@@ -27,7 +27,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: any;
   signedup: boolean = false;
   isLoading: boolean = false;
-  userSub: Subscription;
   isAuthenticated: boolean = false;
 
   constructor(
@@ -178,7 +177,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.userSub.unsubscribe();
+console.log('leaving, auth page...')
     }
   }
 }
