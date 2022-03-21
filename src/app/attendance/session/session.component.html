@@ -1,9 +1,11 @@
 <h1>Acamedic Sessions</h1>
 
 <ul class="sessions">
-  <li class="session" routerLink="/attendance/2021-2022">Year 2021/2022 (current session)</li>
-  <li routerLink="/attendance/2021-2022" class="session">Year 2020/2021</li>
-  <li routerLink="/attendance/2021-2022" class="session">Year 2019/2020</li>
-  <li routerLink="/attendance/2021-2022" class="session">Year 2018/2019</li>
-  <li routerLink="/attendance/2021-2022" class="session">Year 2017/2018</li>
+  <li
+    *ngFor="let title of sessions; let i = index"
+    class="session"
+    routerLink="/attendance/{{ title.replace('/', '-') }}"
+  >
+    Year {{ title }} {{ i == 0 ? '(current session)' : '' }}
+  </li>
 </ul>

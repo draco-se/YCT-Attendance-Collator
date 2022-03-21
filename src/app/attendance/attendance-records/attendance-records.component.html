@@ -1,6 +1,8 @@
 <h1>Programmes & Courses</h1>
 
-<ul class="programmes" #prog>
+
+<h2  *ngIf="programmes.length == 0" >You haven't added Programmes to this session!</h2>
+<ul *ngIf="programmes.length > 0" class="programmes" #prog>
   <li *ngFor="let programme of programmes" class="programme" (click)="dropdown(unordered, prog)">
     <h1>{{ programme.title }}</h1>
     <ul class="courses" #unordered>
