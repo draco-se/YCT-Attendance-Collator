@@ -16,6 +16,9 @@ import { CredComponent } from './auth/cred/cred.component';
 import { RecordAttendanceComponent } from './attendance/record-attendance/record-attendance.component';
 import { AttendanceRecordsComponent } from './attendance/attendance-records/attendance-records.component';
 import { SessionComponent } from './attendance/session/session.component';
+import { ProgrammesComponent } from './attendance/programmes/programmes.component';
+import { RecordComponent } from './attendance/record/record.component';
+import { AggregateComponent } from './attendance/aggregate/aggregate.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { SessionComponent } from './attendance/session/session.component';
     ProfileComponent,
     RecordAttendanceComponent,
     AttendanceRecordsComponent,
-    SessionComponent
+    SessionComponent,
+    ProgrammesComponent,
+    RecordComponent,
+    AggregateComponent
   ],
 
   imports: [

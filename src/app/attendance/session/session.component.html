@@ -4,7 +4,7 @@
   <li
     *ngFor="let title of sessions; let i = index"
     class="session"
-    routerLink="/attendance/{{ title.replace('/', '-') }}"
+    routerLink="/programmes/{{ title.replace('/', '-') }}"
   >
     Year {{ title }} {{ i == 0 ? '(current session)' : '' }}
   </li>

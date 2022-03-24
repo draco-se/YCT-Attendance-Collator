@@ -27,6 +27,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: any;
   signedup: boolean = false;
   isLoading: boolean = false;
+  isBio: boolean = false;
   userSub: Subscription;
   isAuthenticated: boolean = false;
 
@@ -42,8 +43,8 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       this.userSub = this.authService.user.subscribe((user) => {
         if (!!user) {
-          history.back()
-        };
+          this.router.navigate(['/']);
+        }
       });
 
       if (location.pathname == '/signup') {
@@ -65,15 +66,18 @@ export class AuthComponent implements OnInit, OnDestroy {
         console.log(error);
         this.error = error;
         this.isLoading = false;
+        this.isBio = false;
       });
     }
   }
 
   onLogin(form: NgForm) {
+    if (this.isBio) return;
     this.isLoading = true;
     if (!form.valid) {
       this.error = 'invalid form';
       this.isLoading = false;
+      this.isBio = false;
       return;
     }
     const email = form.value.email;
@@ -82,6 +86,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.authService.login(email, password).subscribe(
       (resData) => {
         this.isLoading = false;
+        this.isBio = false;
         console.log(resData);
         form.reset();
         this.router.navigate(['../'], { relativeTo: this.route });
@@ -89,6 +94,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       (errorMessage) => {
         this.error = errorMessage;
         this.isLoading = false;
+        this.isBio = false;
       },
     );
   }
@@ -98,6 +104,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (!form.valid) {
       this.error = 'invalid form';
       this.isLoading = false;
+      this.isBio = false;
       return;
     }
     const email: string = form.value.email;
@@ -109,6 +116,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resData) => {
           this.isLoading = false;
+          this.isBio = false;
           console.log(resData);
           form.reset();
           this.signedup = true;
@@ -116,6 +124,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         error: (errorMessage: any) => {
           this.error = errorMessage;
           this.isLoading = false;
+          this.isBio = false;
         },
       });
   }
@@ -139,14 +148,19 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   webauthnLogin(form: NgForm) {
-    this.isLoading = true;
+    if (this.isLoading) return;
+    this.isBio = true;
     this.authService.webauthnLogin(form.value.email).subscribe({
       next: () => console.log('Verifying...'),
       error: (err) => {
         if (err) {
           console.log(err);
-          this.error = 'Operation timed out or not allowed';
+          this.error =
+            err.toString().length > 40
+              ? 'Operation timed out or not allowed'
+              : err;
           this.isLoading = false;
+          this.isBio = false;
         }
       },
     });

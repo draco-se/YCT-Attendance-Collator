@@ -36,7 +36,21 @@ app-home {
   align-items: center;
 }
 
+app-record {
+  @include display-flex();
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 app-attendance-records {
+  @include display-flex();
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+app-programmes {
   @include display-flex();
   flex-direction: column;
   justify-content: center;

@@ -1,14 +1,29 @@
-<h1>Programmes & Courses</h1>
+<h1>COM 221 Records</h1>
 
-
-<h2  *ngIf="programmes.length == 0" >You haven't added Programmes to this session!</h2>
-<ul *ngIf="programmes.length > 0" class="programmes" #prog>
-  <li *ngFor="let programme of programmes" class="programme" (click)="dropdown(unordered, prog)">
-    <h1>{{ programme.title }}</h1>
-    <ul class="courses" #unordered>
-      <li *ngFor="let course of programme.courses" class="course">
-        {{ course.title }}
-      </li>
-    </ul>
+<ul class="attendance-options">
+  <li class="attendance-option" (click)="closeDropDown(rec)">
+    <div class="drop-down__btn"></div>
+    <h1>Aggregate Score</h1>
   </li>
+  <li #rec class="attendance-option daily" (click)="dropDownRec(rec)">
+    <div class="drop-down__btn">
+      <div class="dash minus"></div>
+      <div class="dash plus"></div>
+    </div>
+    <h1>Daily Record</h1>
+  </li>
+  <ul class="daily-records">
+    <li
+      *ngFor="let dailyRecord of dailyRecords; let i = index"
+      class="daily-record"
+    >
+      <div class="border-left">
+        <div class="within"></div>
+        <div class="circle"></div>
+      </div>
+      <p routerLink="{{ i }}">
+        Day {{ i + 1 }} [{{ dailyRecord.date.replaceAll('/', '-') }}]
+      </p>
+    </li>
+  </ul>
 </ul>

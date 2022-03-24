@@ -1,0 +1,20 @@
+<h1>
+  Attendance <span>[{{ date }}]</span>
+</h1>
+
+<h2>
+  <span class="matric-title">Matric Number</span>
+  <span class="status-title">Status</span>
+</h2>
+<ul class="records">
+  <li *ngFor="let attendanceLine of attendance" class="record">
+    <div class="matric-number">{{ attendanceLine.matricNumber }}</div>
+    <div class="status">
+      <div class="current">{{ attendanceLine.status }}</div>
+      <div class="status-opt">
+        <div class="present">Present</div>
+        <div class="absent">Absent</div>
+      </div>
+    </div>
+  </li>
+</ul>

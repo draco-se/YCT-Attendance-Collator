@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
-export interface Course {
+export interface Sessions {
   title: string;
+  programmes: Programme[];
 }
 
 export interface Programme {
@@ -9,9 +10,32 @@ export interface Programme {
   courses: Course[];
 }
 
-export interface Sessions {
+export interface Course {
   title: string;
-  programmes: Programme[];
+  attendanceRecords?: AttendanceRecord[];
+  aggregateAttendance?: AggregateAttendance[];
+}
+
+export interface AttendanceRecord {
+  date: any;
+  attendance: AttendanceLine[];
+}
+
+export interface AttendanceLine {
+  name: string;
+  matricNumber: string;
+  status: string;
+}
+
+export interface AggregateAttendance {
+  date: Date;
+  attendance: AggregateAttendanceLine[];
+}
+
+export interface AggregateAttendanceLine {
+  name: string;
+  matricNumber: string;
+  score: number;
 }
 
 @Injectable({
@@ -25,11 +49,72 @@ export class AttendanceService {
         {
           title: 'ND1',
           courses: [
-            { title: 'COM 121' },
-            { title: 'COM 122' },
-            { title: 'COM 123' },
-            { title: 'COM 124' },
-            { title: 'COM 125' },
+            {
+              title: 'COM 121',
+              attendanceRecords: [
+                { date: new Date().toLocaleString(), attendance: [
+                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Present'},
+                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Absent'},
+                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Present'},
+                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Present'},
+                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Absent'},
+                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Absent'},
+                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Present'},
+                ] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+                { date: new Date().toLocaleString(), attendance: [] },
+              ],
+            },
+            {
+              title: 'COM 122',
+              attendanceRecords: [
+                { date: new Date().toLocaleString(), attendance: [] },
+              ],
+            },
+            {
+              title: 'COM 123',
+              attendanceRecords: [
+                { date: new Date().toLocaleString(), attendance: [] },
+              ],
+            },
+            {
+              title: 'COM 124',
+              attendanceRecords: [
+                { date: new Date().toLocaleString(), attendance: [] },
+              ],
+            },
+            {
+              title: 'COM 125',
+              attendanceRecords: [
+                { date: new Date().toLocaleString(), attendance: [] },
+              ],
+            },
           ],
         },
         {
@@ -142,7 +227,14 @@ export class AttendanceService {
   }
 
   getProgrammes(title: string) {
-    const session = this.sessions.find((session) => (session.title == title));
+    const session = this.sessions.find((session) => session.title == title);
     return session.programmes;
+  }
+
+  getRecords(title: string, progId: number, courseId: number) {
+    const records =
+      this.getProgrammes(title.replace('-', '/'))[progId].courses[courseId].attendanceRecords;
+
+    return records;
   }
 }

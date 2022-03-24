@@ -45,7 +45,7 @@
     </div>
 
     <div class="form-container__box">
-      <p *ngIf="error && !isLoading" class="error-box">{{ error }}</p>
+      <p *ngIf="error && !isLoading || !isBio" class="error-box">{{ error }}</p>
 
       <div class="form-container" #formContainer>
         <form
@@ -73,7 +73,7 @@
               >Please enter a valid E-mail!</span
             >
           </div>
-          <div class="form-input__cover" *ngIf="!isLoading">
+          <div class="form-input__cover" *ngIf="!isBio">
             <div class="biometric-cover">
               <input
                 type="password"
@@ -234,13 +234,13 @@
           </div>
           <button
             type="submit"
-            *ngIf="!isLoading"
+            *ngIf="!isLoading && !isBio"
             class="form-btn login"
             [disabled]="!loginForm.valid"
           >
             Login
           </button>
-          <div *ngIf="isLoading" class="lds-ellipsis loader">
+          <div *ngIf="isLoading || isBio" class="lds-ellipsis loader">
             <div></div>
             <div></div>
             <div></div>

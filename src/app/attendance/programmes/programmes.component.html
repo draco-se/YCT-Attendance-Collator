@@ -1,0 +1,23 @@
+<h1>Programmes & Courses</h1>
+
+<h2 *ngIf="programmes.length == 0">
+  You haven't added Programmes to this session!
+</h2>
+<ul *ngIf="programmes.length > 0" class="programmes" #prog>
+  <li
+    *ngFor="let programme of programmes; let progId = index"
+    class="programme"
+    (click)="dropdown(unordered, prog)"
+  >
+    <h1>{{ programme.title }}</h1>
+    <ul class="courses" #unordered>
+      <li
+        *ngFor="let course of programme.courses; let courseId = index"
+        routerLink="{{ progId + '/' + courseId }}"
+        class="course"
+      >
+        {{ course.title }}
+      </li>
+    </ul>
+  </li>
+</ul>
