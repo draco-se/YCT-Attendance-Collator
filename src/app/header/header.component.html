@@ -13,7 +13,7 @@
     <li *ngIf="isAuthenticated" routerLink="/profile" class="header-list__item">
       <a>My Account</a>
     </li>
-    <li *ngIf="isAuthenticated"  class="header-list__item">
+    <li *ngIf="isAuthenticated" class="header-list__item">
       <a>Record Attendance</a>
     </li>
     <li
@@ -114,6 +114,14 @@
       *ngIf="isAuthenticated"
       class="nav-list__item"
       (click)="closeNav()"
+      routerLink="/create-record"
+    >
+      Create Record
+    </li>
+    <li
+      *ngIf="isAuthenticated"
+      class="nav-list__item"
+      (click)="closeNav()"
       routerLink="/sessions"
     >
       Manage Records
@@ -122,7 +130,7 @@
       *ngIf="!isAuthenticated"
       class="nav-list__item login-btn"
       (click)="closeNav()"
-      routerLink="login"
+      routerLink="/login"
     >
       Login
     </li>
@@ -130,7 +138,7 @@
       *ngIf="!isAuthenticated"
       class="nav-list__item signup-btn"
       (click)="closeNav()"
-      routerLink="signup"
+      routerLink="/signup"
     >
       Signup
     </li>

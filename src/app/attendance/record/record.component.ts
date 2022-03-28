@@ -10,7 +10,7 @@ import { AttendanceLine, AttendanceService } from '../attendance.service';
 export class RecordComponent implements OnInit {
   attendance: AttendanceLine[];
   date: string;
-
+  clicked: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private attendanceService: AttendanceService,
@@ -33,5 +33,27 @@ export class RecordComponent implements OnInit {
         [recordId].date.replaceAll('/', '-')
         .split(',')[0];
     });
+  }
+
+  dropdown(el: HTMLDivElement, list: HTMLUListElement) {
+    const centered =
+      'display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex;';
+    if (!this.clicked) {
+      el.nextElementSibling.setAttribute('style', centered);
+      el.lastElementChild.setAttribute('style', 'transform: rotateZ(90deg)');
+      this.clicked = true;
+    } else {
+      this.closeDropdown(list);
+    }
+  }
+
+  closeDropdown(el: HTMLUListElement) {
+    const arrow = el.querySelectorAll('.dropdown-arrow');
+    const dropdown: NodeList = el.querySelectorAll('.status-opt');
+    dropdown.forEach((el: HTMLDivElement, idx) => {
+      if (arrow[idx].hasAttribute('style')) arrow[idx].removeAttribute('style');
+      el.style.display = 'none';
+    });
+    this.clicked = false;
   }
 }

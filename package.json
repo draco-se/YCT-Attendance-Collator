@@ -16,6 +16,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.1.0",
+    "@angular/cdk": "^13.3.1",
     "@angular/common": "~13.1.0",
     "@angular/compiler": "~13.1.0",
     "@angular/core": "~13.1.0",
@@ -26,7 +27,6 @@
     "@angular/router": "~13.1.0",
     "@nguniversal/express-engine": "^13.0.2",
     "angularx-social-login": "^4.0.1",
-    "domino": "^2.1.6",
     "express": "^4.17.3",
     "ng-validate-equal": "^6.0.1",
     "rxjs": "~7.4.0",

@@ -3,14 +3,29 @@
 </h1>
 
 <h2>
+  <span class="number-title">S/N</span>
   <span class="matric-title">Matric Number</span>
   <span class="status-title">Status</span>
 </h2>
-<ul class="records">
-  <li *ngFor="let attendanceLine of attendance" class="record">
+
+<ul class="records" #list>
+  <li *ngFor="let attendanceLine of attendance; let i = index" class="record">
+    <div class="number">{{ i + 1 }}.</div>
     <div class="matric-number">{{ attendanceLine.matricNumber }}</div>
     <div class="status">
-      <div class="current">{{ attendanceLine.status }}</div>
+      <div
+        style="
+          {{
+          attendanceLine.status == 'Present' ? '' : 'background-color: #d3ce47'
+        }}
+        "
+        #drop
+        class="current"
+        (click)="dropdown(drop, list)"
+      >
+        {{ attendanceLine.status }}
+        <div class="dropdown-arrow"></div>
+      </div>
       <div class="status-opt">
         <div class="present">Present</div>
         <div class="absent">Absent</div>

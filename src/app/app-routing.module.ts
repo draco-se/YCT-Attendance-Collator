@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AttendanceRecordsComponent } from './attendance/attendance-records/attendance-records.component';
+import { CreateRecordComponent } from './attendance/create-record/create-record.component';
 import { ProgrammesComponent } from './attendance/programmes/programmes.component';
 import { RecordComponent } from './attendance/record/record.component';
 import { SessionComponent } from './attendance/session/session.component';
@@ -50,6 +51,11 @@ const routes: Routes = [
   {
     path: 'programmes/:year/:progId/:courseId/:recordId',
     component: RecordComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'create-record',
+    component: CreateRecordComponent,
     canActivate: [AuthGuard],
   },
 ];

@@ -1,24 +1,30 @@
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  GoogleLoginProvider,
+  SocialAuthServiceConfig,
+  SocialLoginModule,
+} from 'angularx-social-login';
+import { ValidateEqualModule } from 'ng-validate-equal';
+import { environment } from 'src/environments/environment';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AggregateComponent } from './attendance/aggregate/aggregate.component';
+import { AttendanceRecordsComponent } from './attendance/attendance-records/attendance-records.component';
+import { ProgrammesComponent } from './attendance/programmes/programmes.component';
+import { RecordAttendanceComponent } from './attendance/record-attendance/record-attendance.component';
+import { RecordComponent } from './attendance/record/record.component';
+import { SessionComponent } from './attendance/session/session.component';
+import { AuthComponent } from './auth/auth.component';
+import { CredComponent } from './auth/cred/cred.component';
+import { CreateRecordComponent } from './attendance/create-record/create-record.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
-import { AuthComponent } from './auth/auth.component';
-import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
 import { ProfileComponent } from './profile/profile.component';
-import { HttpClientModule } from '@angular/common/http';
-import { ValidateEqualModule } from 'ng-validate-equal';
-import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
-import { environment } from 'src/environments/environment';
-import { CredComponent } from './auth/cred/cred.component';
-import { RecordAttendanceComponent } from './attendance/record-attendance/record-attendance.component';
-import { AttendanceRecordsComponent } from './attendance/attendance-records/attendance-records.component';
-import { SessionComponent } from './attendance/session/session.component';
-import { ProgrammesComponent } from './attendance/programmes/programmes.component';
-import { RecordComponent } from './attendance/record/record.component';
-import { AggregateComponent } from './attendance/aggregate/aggregate.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +39,8 @@ import { AggregateComponent } from './attendance/aggregate/aggregate.component';
     SessionComponent,
     ProgrammesComponent,
     RecordComponent,
-    AggregateComponent
+    AggregateComponent,
+    CreateRecordComponent,
   ],
 
   imports: [
@@ -42,10 +49,13 @@ import { AggregateComponent } from './attendance/aggregate/aggregate.component';
     HttpClientModule,
     ValidateEqualModule,
     SocialLoginModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
   ],
 
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
@@ -59,6 +69,6 @@ import { AggregateComponent } from './attendance/aggregate/aggregate.component';
       } as SocialAuthServiceConfig,
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

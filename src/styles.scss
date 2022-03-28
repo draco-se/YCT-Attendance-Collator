@@ -8,6 +8,13 @@
   display: flex;
 }
 
+@mixin general-flex() {
+  @include display-flex();
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -31,37 +38,28 @@ body {
 }
 
 app-home {
-  @include display-flex();
-  justify-content: center;
-  align-items: center;
+  @include general-flex();
+  flex-direction: row;
 }
 
 app-record {
-  @include display-flex();
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @include general-flex();
+}
+
+app-create-record {
+  @include general-flex();
 }
 
 app-attendance-records {
-  @include display-flex();
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @include general-flex();
 }
 
 app-programmes {
-  @include display-flex();
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @include general-flex();
 }
 
 app-session {
-  @include display-flex();
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @include general-flex();
 }
 
 .lds-ellipsis {
@@ -102,10 +100,6 @@ app-session {
   }
 }
 
-// .biometric-auth__success {
-//   width: 100%;
-// }
-
 @keyframes lds-ellipsis1 {
   0% {
     transform: scale(0);
@@ -130,4 +124,3 @@ app-session {
     transform: translate(24px, 0);
   }
 }
-

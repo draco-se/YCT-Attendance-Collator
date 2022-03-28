@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 export interface Sessions {
   title: string;
@@ -52,15 +54,96 @@ export class AttendanceService {
             {
               title: 'COM 121',
               attendanceRecords: [
-                { date: new Date().toLocaleString(), attendance: [
-                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Present'},
-                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Absent'},
-                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Present'},
-                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Present'},
-                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Absent'},
-                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Absent'},
-                  {name: 'Yusuf Abdulraheem', matricNumber: 'F/ND/19/3210089', status: 'Present'},
-                ] },
+                {
+                  date: new Date().toLocaleString(),
+                  attendance: [
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Present',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Absent',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Present',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Present',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Absent',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Present',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Absent',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Present',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Absent',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Present',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Absent',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Present',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Absent',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Present',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Absent',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Absent',
+                    },
+                    {
+                      name: 'Yusuf Abdulraheem',
+                      matricNumber: 'F/ND/19/3210089',
+                      status: 'Present',
+                    },
+                  ],
+                },
                 { date: new Date().toLocaleString(), attendance: [] },
                 { date: new Date().toLocaleString(), attendance: [] },
                 { date: new Date().toLocaleString(), attendance: [] },
@@ -220,7 +303,7 @@ export class AttendanceService {
     },
   ];
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getSessions() {
     return this.sessions.map((session) => session.title);
@@ -232,9 +315,29 @@ export class AttendanceService {
   }
 
   getRecords(title: string, progId: number, courseId: number) {
-    const records =
-      this.getProgrammes(title.replace('-', '/'))[progId].courses[courseId].attendanceRecords;
+    const records = this.getProgrammes(title.replace('-', '/'))[progId].courses[
+      courseId
+    ].attendanceRecords;
 
     return records;
+  }
+
+  createSession(
+    session: string,
+    programme: string,
+    course: string,
+    firstMatric: string,
+    indexNumber: number,
+    totalStudent: number,
+  ) {
+    console.log('gone')
+    return this.http.post(environment.restApiAddress + '/create-record', {
+      session,
+      programme,
+      course,
+      firstMatric,
+      indexNumber,
+      totalStudent
+    });
   }
 }
