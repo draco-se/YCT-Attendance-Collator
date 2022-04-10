@@ -83,7 +83,13 @@ h2 {
 
       summary {
         list-style: none;
+
         width: 100%;
+
+        &::marker,
+        &::-webkit-details-marker {
+          display: none;
+        }
 
         svg {
           width: 100%;
