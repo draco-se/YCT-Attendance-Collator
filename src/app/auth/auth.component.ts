@@ -173,7 +173,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.loginTitle.nativeElement.classList.remove('active');
       this.signupTitle.nativeElement.classList.add('active');
       this.router.navigate(['signup']);
-    }, 1);
+    }, 500);
   }
 
   loginControl() {

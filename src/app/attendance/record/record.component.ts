@@ -18,18 +18,18 @@ export class RecordComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      const title = params['year'].toLowerCase();
+      const sessionId = params['year'].toLowerCase();
       const progId = params['progId'].toLowerCase();
       const courseId = params['courseId'].toLowerCase();
       const recordId = params['recordId'].toLowerCase();
       this.attendance = this.attendanceService.getRecords(
-        title,
+        sessionId,
         progId,
         courseId,
       )[recordId].attendance;
 
       this.date = this.attendanceService
-        .getRecords(title, progId, courseId)
+        .getRecords(sessionId, progId, courseId)
         [recordId].date.replaceAll('/', '-')
         .split(',')[0];
     });

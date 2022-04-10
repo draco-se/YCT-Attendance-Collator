@@ -1,3 +1,4 @@
+import { Session } from './../attendance.service';
 import { Component, OnInit } from '@angular/core';
 import { AttendanceService } from '../attendance.service';
 
@@ -6,12 +7,13 @@ import { AttendanceService } from '../attendance.service';
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss'],
 })
+
 export class SessionComponent implements OnInit {
-  sessions: string[];
+  sessions: Session[];
 
   constructor(private attendanceService: AttendanceService) {}
 
   ngOnInit(): void {
-    this.sessions = this.attendanceService.getSessions();
+    this.sessions = [...this.attendanceService.getSessions()].reverse();
   }
 }

@@ -9,6 +9,7 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent implements OnInit {
   title = 'yct-biometric-auth';
+  loaded: boolean = false;
 
   constructor(private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId){}
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.authService.autoLogin();
+      this.loaded = true
     }
   }
 }

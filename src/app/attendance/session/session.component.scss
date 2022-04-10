@@ -18,6 +18,19 @@ h1 {
   }
 }
 
+
+p {
+  font-size: 1.2rem;
+  margin: 1rem;
+  text-align: justify;
+
+  a {
+    color: #215c21;
+    text-decoration: underline;
+    font-weight: bold;
+  }
+}
+
 .sessions {
   margin: 0;
   padding: 0;

@@ -1,6 +1,8 @@
-import { AttendanceService } from './../attendance.service';
-import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { AttendanceService } from './../attendance.service';
 
 @Component({
   selector: 'app-create-record',
@@ -10,43 +12,69 @@ import { Component, OnInit } from '@angular/core';
 export class CreateRecordComponent implements OnInit {
   min: number = new Date().getFullYear() - 1;
   max: number = new Date().getFullYear() + 1;
-  date: number = new Date().getMonth();
+  error: any;
+  isLoading: boolean = true;
+  sessionTitle: string = '';
+  progTitle: string = '';
+  sessionId: string = ''
+  header: string = '';
 
-  constructor(private attendanceService: AttendanceService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private attendanceService: AttendanceService,
+    private router: Router,
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params: Params) => {
+      const sessionId: string = params['session'];
+      const progId: string = params['programme'];
+      this.sessionId = sessionId
 
-  dropdown(form: HTMLFormElement, idx: number) {
-    let returned: boolean = false;
-    const labels = form.querySelectorAll('label');
-    labels.forEach((label) => {
-      if (label.nextElementSibling.classList.contains('ng-invalid')) {
-        returned = true;
-        return;
-      }
-      label.classList.remove('display-input');
+      const session = this.attendanceService
+        .getSessions()
+        .find((session) => session._id == sessionId);
+      const prog = this.attendanceService
+        .getProgrammes(sessionId)
+        .find((programme) => programme._id == progId);
+
+      if (session) this.sessionTitle = session.title;
+      if (prog) this.progTitle = prog.title;
     });
-    labels[idx].classList.add('display-input');
-  }
-
-  closeDropdown(e: Event, form: HTMLElement, idx: number) {
-    e.stopPropagation();
-    const labels = form.querySelectorAll('label');
-    labels.forEach((label) => {
-      if (label.nextElementSibling.classList.contains('ng-invalid')) return;
-      label.classList.remove('display-input');
-    });
-    labels[idx].classList.add('display-input');
   }
 
   submit(form: NgForm) {
-    this.attendanceService.createSession(
-      form.value.session,
-      form.value.programme,
-      form.value.course,
-      form.value.matricNumber,
-      form.value.indexNumber,
-      form.value.totalNumber,
-    ).subscribe();
+    this.isLoading = true;
+
+    this.attendanceService
+      .createSession(
+        form.value.session,
+        form.value.programme,
+        form.value.course,
+        form.value.matricNumber,
+        form.value.indexNumber,
+        form.value.totalNumber,
+        !!this.sessionTitle,
+      )
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.isLoading = false;
+          if (!!this.sessionTitle) {
+            this.router.navigate(['/programmes/' + this.sessionId]);
+          } else {
+            this.router.navigate(['/sessions/']);
+          }
+        },
+        error: async (err: HttpErrorResponse) => {
+          if (err.error.message.length > 40) {
+            this.error = 'There is a server error. Try again later!';
+          } else {
+            this.error = err.error.message;
+          }
+          this.isLoading = false;
+        },
+        complete: () => console.info('Created Successfully'),
+      });
   }
 }

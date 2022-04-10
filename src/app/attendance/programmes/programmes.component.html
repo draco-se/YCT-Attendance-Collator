@@ -1,23 +1,65 @@
 <h1>Programmes & Courses</h1>
 
 <h2 *ngIf="programmes.length == 0">
-  You haven't added Programmes to this session!
+  You haven't added Programmes to this session.
+  <a routerLink="/create-record"
+    >Click here!</a
+  >
+  to do so
 </h2>
 <ul *ngIf="programmes.length > 0" class="programmes" #prog>
   <li
-    *ngFor="let programme of programmes; let progId = index"
+    *ngFor="let programme of programmes"
     class="programme"
-    (click)="dropdown(unordered, prog)"
+    #listEl
+    (click)="dropdown(listEl, prog)"
   >
     <h1>{{ programme.title }}</h1>
-    <ul class="courses" #unordered>
-      <li
-        *ngFor="let course of programme.courses; let courseId = index"
-        routerLink="{{ progId + '/' + courseId }}"
-        class="course"
-      >
-        {{ course.title }}
-      </li>
-    </ul>
+    <div class="course-cover">
+      <details #detail (click)="autoCloseDetails(detail)">
+        <summary>
+          <svg
+            x="0"
+            y="0"
+            viewBox="0 0 32 32"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve"
+            class=""
+          >
+            <g>
+              <g xmlns="http://www.w3.org/2000/svg" id="options">
+                <path
+                  d="m13 8c0-1.654 1.346-3 3-3s3 1.346 3 3-1.346 3-3 3-3-1.346-3-3zm3 5c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3zm0 8c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z"
+                  fill="#215c21"
+                  data-original="#000000"
+                ></path>
+              </g>
+            </g>
+          </svg>
+        </summary>
+        <ul>
+          <li
+            style="font-size: 2rem; padding: 0 0.5rem"
+            (click)="closeDetails(detail)"
+          >
+            &times;
+          </li>
+          <li routerLink="/create-record" [queryParams]="{ session: sessionId, programme: programme._id }">Add Course</li>
+          <li routerLink="/create-record" [queryParams]="{ session: sessionId }">Add Programme</li>
+          <li>Edit course name</li>
+          <li>Edit programme name</li>
+          <li>Delete Course</li>
+        </ul>
+      </details>
+      <ul class="courses">
+        <li
+          *ngFor="let course of programme.courses"
+          routerLink="{{ programme._id + '/' + course._id }}"
+          class="course"
+        >
+          {{ course.title }}
+        </li>
+      </ul>
+    </div>
   </li>
 </ul>

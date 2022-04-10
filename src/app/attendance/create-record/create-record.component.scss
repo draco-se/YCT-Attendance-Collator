@@ -22,6 +22,14 @@ h1 {
   }
 }
 
+.error-box {
+  padding: 0;
+  margin: 0.5rem;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+  color: red;
+}
+
 .form-control {
   @include display-flex();
   flex-direction: column;
@@ -31,21 +39,13 @@ h1 {
   max-width: 30rem;
 
   label {
-    margin: 0 0 2rem -1.5rem;
+    margin-left: -1.5rem;
     color: #256325;
     font-size: 1rem;
     @include display-flex();
     justify-content: center;
     align-items: center;
     cursor: pointer;
-
-    & + * {
-      display: none;
-    }
-
-    & ~ p {
-      display: none;
-    }
 
     div {
       @include display-flex();
@@ -61,24 +61,13 @@ h1 {
     }
   }
 
-  .display-input {
-    & + * {
-      display: block;
-    }
-
-    & ~ p {
-      display: block;
-    }
-  }
-
   .form-input__cover {
     @include display-flex();
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 90%;
+    width: 95%;
     padding: 0;
-    padding-right: 1rem;
     border-left: 1px solid #2563254b;
 
     p {
@@ -127,7 +116,8 @@ h1 {
 
 .form-input {
   width: 90%;
-  margin: 0 2rem;
+  text-transform: uppercase;
+  margin: 1rem;
   height: 3rem;
   padding: 0.5rem;
   font-family: 'Montserrat', sans-serif;
@@ -147,18 +137,20 @@ h1 {
     color: #256325;
     &::placeholder {
       color: #256325;
+      text-transform: none;
     }
   }
 
   &::placeholder {
     color: #256325;
+    text-transform: none
   }
 }
 
 .matric-cover {
   @include display-flex();
   width: 90%;
-  margin: 1rem 2rem;
+  margin: 1rem;
 }
 
 .matric-input {
@@ -175,7 +167,6 @@ h1 {
 
 input.ng-invalid.ng-touched,
 input.ng-invalid.ng-touched,
-textarea.ng-invalid.ng-touched,
 input:-webkit-autofill.ng-invalid.ng-touched {
   color: red;
   background-color: rgba(255, 207, 207, 0.5);
@@ -196,4 +187,10 @@ input:-webkit-autofill.ng-invalid.ng-touched {
   &::placeholder {
     color: red;
   }
+}
+
+.loader {
+  margin: 0 2rem;
+  margin-top: -1.5rem;
+  align-self: flex-end;
 }

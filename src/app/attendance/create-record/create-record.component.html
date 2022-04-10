@@ -1,67 +1,88 @@
 <h1>Create New Record!</h1>
 
-<form class="form-control" #form  #createForm="ngForm" (ngSubmit)="submit(createForm)">
-  <div class="form-input__cover" (click)="dropdown(form, 0)">
+<p *ngIf="error && !isLoading" class="error-box">{{ error }}</p>
+
+<form
+  class="form-control"
+  #form
+  #createForm="ngForm"
+  (ngSubmit)="submit(createForm)"
+>
+  <div class="form-input__cover">
     <label class="display-input" for="session">
       <div>1</div>
       Enter Session</label
     >
     <input
-      class="form-input"
       type="text"
       name="session"
+      [ngClass]="{
+        'form-input': true,
+        'ng-valid': !error,
+        'ng-invalid ng-touched': error
+      }"
       placeholder="e.g 2021/2022 or 2021"
-      ngModel
+      [ngModel]="sessionTitle"
       required
       #session="ngModel"
+      minlength="1"
+      [readonly]="!!sessionTitle"
     />
 
     <span class="help-block" *ngIf="!session.valid && session.touched"
       >Please enter a valid session</span
     >
-    <p (click)="closeDropdown($event, form, 1)">Next</p>
   </div>
-  <div class="form-input__cover" (click)="dropdown(form, 1)">
+  <div class="form-input__cover">
     <label for="session"
       ><div>2</div>
       Enter Programme</label
     >
     <input
-      class="form-input"
       type="text"
       name="programme"
+      [ngClass]="{
+        'form-input': true,
+        'ng-valid': !error,
+        'ng-invalid ng-touched': error
+      }"
       placeholder="e.g ND1 or Level-100"
-      ngModel
+      [ngModel]="progTitle"
       required
       #programme="ngModel"
+      minlength="1"
+      [readonly]="!!progTitle"
     />
 
     <span class="help-block" *ngIf="!programme.valid && programme.touched"
       >Please enter a valid programme</span
     >
-    <p (click)="closeDropdown($event, form, 2)">Next</p>
   </div>
-  <div class="form-input__cover" (click)="dropdown(form, 2)">
+  <div class="form-input__cover">
     <label for="session"
       ><div>3</div>
       Enter First Course</label
     >
     <input
-      class="form-input"
       type="text"
       name="course"
+      [ngClass]="{
+        'form-input': true,
+        'ng-valid': !error,
+        'ng-invalid ng-touched': error
+      }"
       placeholder="eg. COM121"
       ngModel
       required
       #course="ngModel"
+      minlength="1"
     />
 
     <span class="help-block" *ngIf="!course.valid && course.touched"
       >Course is required!</span
     >
-    <p (click)="closeDropdown($event, form, 3)">Next</p>
   </div>
-  <div class="form-input__cover" (click)="dropdown(form, 3)">
+  <div class="form-input__cover">
     <label for="session"
       ><div>4</div>
       Enter First Matric Number</label
@@ -70,15 +91,18 @@
       <input
         class="form-input matric-input"
         type="text"
+
         name="matricNumber"
         placeholder="F/ND/19/"
         ngModel
         required
         #matricNumber="ngModel"
+        minlength="1"
       />
       <input
         class="form-input matric-input"
         type="number"
+
         name="indexNumber"
         placeholder="3210001"
         ngModel
@@ -95,40 +119,44 @@
       "
       >Enter matric Number</span
     >
-    <p (click)="closeDropdown($event, form, 4)">Next</p>
   </div>
-  <div class="form-input__cover" (click)="dropdown(form, 4)">
+  <div class="form-input__cover">
     <label for="session"
       ><div>5</div>
       Number of {{ course.value }} Students</label
     >
     <input
-      class="form-input"
       type="number"
       name="totalNumber"
+      [ngClass]="{
+        'form-input': true,
+        'ng-valid': !error,
+        'ng-invalid ng-touched': error
+      }"
       placeholder="e.g 50"
       ngModel
       required
       #totalNumber="ngModel"
+      min="1"
+      max="500"
     />
 
     <span class="help-block" *ngIf="!totalNumber.valid && totalNumber.touched"
-      >Please enter a valid number</span
+      >Please enter a valid number with 500 max</span
     >
   </div>
-  <button type="submit" class="form-btn create" [disabled]="!createForm.valid">
+  <button
+    *ngIf="!isLoading"
+    type="submit"
+    class="form-btn create"
+    [disabled]="!createForm.valid"
+  >
     create
   </button>
-  <!-- <div *ngIf="isLoading" class="lds-ellipsis loader">
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-</div> -->
+  <div *ngIf="isLoading" class="lds-ellipsis loader">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </form>
-
-<!-- [ngClass]="{
-  'form-input': true,
-  'ng-valid': !error,
-  'ng-invalid ng-touched': error
-}" -->

@@ -22,8 +22,10 @@ export class AuthInterceptor implements HttpInterceptor {
       take(1),
       exhaustMap((user) => {
         if (
-          user &&
-          req.url.includes(environment.restApiAddress + '/create-record')
+          (user &&
+            req.url.includes(environment.restApiAddress + '/create-record')) ||
+          req.url.includes(environment.restApiAddress + '/modify-record') ||
+          req.url.includes(environment.restApiAddress + '/sessions')
         ) {
           const modifiedReq = req.clone({
             setHeaders: {

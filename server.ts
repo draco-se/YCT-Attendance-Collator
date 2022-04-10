@@ -1,3 +1,4 @@
+import { environment } from './src/environments/environment';
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
@@ -45,6 +46,11 @@ export function app(): express.Express {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
+    // if (!req.url.includes('https') && environment.production) {
+    //   res.redirect('https://yct-attendance-collator.herokuapp.com');
+    //   return;
+    // }
+
     res.render(indexHtml, {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],

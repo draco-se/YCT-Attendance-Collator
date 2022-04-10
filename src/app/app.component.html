@@ -1,4 +1,4 @@
-<app-header></app-header>
-<router-outlet>
+<app-header *ngIf="loaded"></app-header>
+<router-outlet *ngIf="loaded">
 </router-outlet>
 

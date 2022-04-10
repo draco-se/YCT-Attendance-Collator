@@ -45,13 +45,13 @@ import { ProfileComponent } from './profile/profile.component';
 
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     ValidateEqualModule,
     SocialLoginModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
     HttpClientModule,
+    AppRoutingModule,
   ],
 
   providers: [

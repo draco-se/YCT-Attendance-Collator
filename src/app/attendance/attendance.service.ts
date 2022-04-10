@@ -1,29 +1,35 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-export interface Sessions {
+export interface Session {
+  _id: string;
   title: string;
   programmes: Programme[];
 }
 
 export interface Programme {
+  _id: string;
   title: string;
   courses: Course[];
 }
 
 export interface Course {
+  _id: string;
   title: string;
   attendanceRecords?: AttendanceRecord[];
   aggregateAttendance?: AggregateAttendance[];
 }
 
 export interface AttendanceRecord {
+  _id: string;
   date: any;
   attendance: AttendanceLine[];
 }
 
 export interface AttendanceLine {
+  _id: string;
   name: string;
   matricNumber: string;
   status: string;
@@ -44,280 +50,32 @@ export interface AggregateAttendanceLine {
   providedIn: 'root',
 })
 export class AttendanceService {
-  sessions: Sessions[] = [
-    {
-      title: '2021/2022',
-      programmes: [
-        {
-          title: 'ND1',
-          courses: [
-            {
-              title: 'COM 121',
-              attendanceRecords: [
-                {
-                  date: new Date().toLocaleString(),
-                  attendance: [
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Present',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Absent',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Present',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Present',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Absent',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Present',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Absent',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Present',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Absent',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Present',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Absent',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Present',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Absent',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Present',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Absent',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Absent',
-                    },
-                    {
-                      name: 'Yusuf Abdulraheem',
-                      matricNumber: 'F/ND/19/3210089',
-                      status: 'Present',
-                    },
-                  ],
-                },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-                { date: new Date().toLocaleString(), attendance: [] },
-              ],
-            },
-            {
-              title: 'COM 122',
-              attendanceRecords: [
-                { date: new Date().toLocaleString(), attendance: [] },
-              ],
-            },
-            {
-              title: 'COM 123',
-              attendanceRecords: [
-                { date: new Date().toLocaleString(), attendance: [] },
-              ],
-            },
-            {
-              title: 'COM 124',
-              attendanceRecords: [
-                { date: new Date().toLocaleString(), attendance: [] },
-              ],
-            },
-            {
-              title: 'COM 125',
-              attendanceRecords: [
-                { date: new Date().toLocaleString(), attendance: [] },
-              ],
-            },
-          ],
-        },
-        {
-          title: 'ND2',
-          courses: [
-            { title: 'COM 221' },
-            { title: 'COM 222' },
-            { title: 'COM 223' },
-            { title: 'COM 224' },
-            { title: 'COM 225' },
-          ],
-        },
-        {
-          title: 'ND3',
-          courses: [
-            { title: 'COM 221' },
-            { title: 'COM 222' },
-            { title: 'COM 223' },
-            { title: 'COM 224' },
-            { title: 'COM 225' },
-          ],
-        },
-        {
-          title: 'HND1',
-          courses: [
-            { title: 'COM 311' },
-            { title: 'COM 312' },
-            { title: 'COM 313' },
-            { title: 'COM 314' },
-            { title: 'COM 315' },
-          ],
-        },
-        {
-          title: 'HND2',
-          courses: [
-            { title: 'COM 321' },
-            { title: 'COM 322' },
-            { title: 'COM 323' },
-            { title: 'COM 324' },
-            { title: 'COM 325' },
-          ],
-        },
-        {
-          title: 'HND3',
-          courses: [
-            { title: 'COM 331' },
-            { title: 'COM 332' },
-            { title: 'COM 333' },
-            { title: 'COM 334' },
-            { title: 'COM 335' },
-          ],
-        },
-      ],
-    },
-    {
-      title: '2020/2021',
-      programmes: [
-        {
-          title: 'ND1',
-          courses: [
-            { title: 'COM 121' },
-            { title: 'COM 122' },
-            { title: 'COM 123' },
-          ],
-        },
-        {
-          title: 'ND2',
-          courses: [
-            { title: 'COM 221' },
-            { title: 'COM 222' },
-            { title: 'COM 223' },
-          ],
-        },
-        {
-          title: 'HND1',
-          courses: [
-            { title: 'COM 311' },
-            { title: 'COM 312' },
-            { title: 'COM 313' },
-          ],
-        },
-        {
-          title: 'HND2',
-          courses: [
-            { title: 'COM 321' },
-            { title: 'COM 322' },
-            { title: 'COM 323' },
-          ],
-        },
-      ],
-    },
-    {
-      title: '2019/2020',
-      programmes: [],
-    },
-    {
-      title: '2018/2019',
-      programmes: [],
-    },
-    {
-      title: '2017/2018',
-      programmes: [],
-    },
-  ];
+  sessions: Session[] = [];
+
+  sessionsChanged = new Subject<Session[]>();
 
   constructor(private http: HttpClient) {}
 
-  getSessions() {
-    return this.sessions.map((session) => session.title);
+  setSessions(sessions: Session[]) {
+    this.sessions = sessions;
+    this.sessionsChanged.next(this.sessions);
   }
 
-  getProgrammes(title: string) {
-    const session = this.sessions.find((session) => session.title == title);
+  getSessions() {
+    return this.sessions;
+  }
+
+  getProgrammes(id: string) {
+    const session = this.sessions.find((session) => session._id == id) || {
+      programmes: [],
+    };
     return session.programmes;
   }
 
-  getRecords(title: string, progId: number, courseId: number) {
-    const records = this.getProgrammes(title.replace('-', '/'))[progId].courses[
-      courseId
-    ].attendanceRecords;
+  getRecords(id: string, progId: string, courseId: string) {
+    const records = this.getProgrammes(id)
+      .find((programme) => programme._id == progId)
+      .courses.find((course) => course._id == courseId).attendanceRecords;
 
     return records;
   }
@@ -329,15 +87,57 @@ export class AttendanceService {
     firstMatric: string,
     indexNumber: number,
     totalStudent: number,
+    edit: boolean,
   ) {
-    console.log('gone')
-    return this.http.post(environment.restApiAddress + '/create-record', {
-      session,
-      programme,
-      course,
-      firstMatric,
-      indexNumber,
-      totalStudent
-    });
+    if (edit) {
+      return this.http
+        .post(environment.restApiAddress + '/modify-record', {
+          session,
+          programme,
+          course,
+          firstMatric,
+          indexNumber,
+          totalStudent,
+        })
+        .pipe(
+          map((resData: any) => {
+            return resData.sessions;
+          }),
+          tap((sessions) => {
+            this.setSessions(sessions);
+          }),
+        );
+    } else {
+      return this.http
+        .post(environment.restApiAddress + '/create-record', {
+          session,
+          programme,
+          course,
+          firstMatric,
+          indexNumber,
+          totalStudent,
+        })
+        .pipe(
+          map((resData: any) => {
+            return resData.sessions;
+          }),
+          tap((sessions) => {
+            this.setSessions(sessions);
+          }),
+        );
+    }
+  }
+
+  fetchSessions() {
+    return this.http
+      .get<Session[]>(environment.restApiAddress + '/sessions')
+      .pipe(
+        map((resData: any) => {
+          return resData.sessions;
+        }),
+        tap((sessions) => {
+          this.setSessions(sessions);
+        }),
+      );
   }
 }
