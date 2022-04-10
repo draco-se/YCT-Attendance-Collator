@@ -13,7 +13,7 @@ export class CreateRecordComponent implements OnInit {
   min: number = new Date().getFullYear() - 1;
   max: number = new Date().getFullYear() + 1;
   error: any;
-  isLoading: boolean = true;
+  isLoading: boolean = false;
   sessionTitle: string = '';
   progTitle: string = '';
   sessionId: string = ''
