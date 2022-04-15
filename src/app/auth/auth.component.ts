@@ -30,6 +30,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   isBio: boolean = false;
   userSub: Subscription;
   isAuthenticated: boolean = false;
+  signupTimeout: any;
+  loginTimeout: any;
 
   constructor(
     private authService: AuthService,
@@ -167,6 +169,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   signupControl() {
+    if (this.loginTimeout) clearTimeout(this.loginTimeout);
     setTimeout(() => {
       this.underline.nativeElement.style.transform = 'translateX(100%)';
       this.formContainer.nativeElement.style.transform = 'translateX(-50%)';
@@ -177,11 +180,12 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   loginControl() {
+    if (this.signupTimeout) clearTimeout(this.signupTimeout);
     this.loginTitle.nativeElement.classList.add('active');
     this.signupTitle.nativeElement.classList.remove('active');
     this.underline.nativeElement.style.transform = 'translateX(0)';
     this.formContainer.nativeElement.style.transform = 'translateX(0)';
-    setTimeout(() => {
+    this.loginTimeout = setTimeout(() => {
       this.router.navigate(['login']);
     }, 500);
   }
