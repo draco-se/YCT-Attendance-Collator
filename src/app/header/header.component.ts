@@ -14,6 +14,7 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
+
 export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('nav') navBar: ElementRef<HTMLElement>;
   @ViewChild('backdrop') backdrop: ElementRef<HTMLElement>;

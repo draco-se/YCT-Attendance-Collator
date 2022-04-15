@@ -10,7 +10,8 @@ export class AttendanceResolver implements Resolve<Session[]> {
   constructor(private attendanceService: AttendanceService) {}
 
   resolve(): Session[] |  Observable<Session[]> | Promise<Session[]> {
-    const sessions = this.attendanceService.getSessions();
+    const sessions: Session[] = this.attendanceService.getSessions();
+
     if (sessions.length == 0) {
       return this.attendanceService.fetchSessions();
     } else {

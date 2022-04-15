@@ -12,6 +12,7 @@ import { AttendanceService } from './../attendance.service';
 export class CreateRecordComponent implements OnInit {
   min: number = new Date().getFullYear() - 1;
   max: number = new Date().getFullYear() + 1;
+
   error: any;
   isLoading: boolean = false;
   sessionTitle: string = '';
@@ -57,13 +58,12 @@ export class CreateRecordComponent implements OnInit {
         !!this.sessionTitle,
       )
       .subscribe({
-        next: (res) => {
-          console.log(res);
+        next: () => {
           this.isLoading = false;
           if (!!this.sessionTitle) {
             this.router.navigate(['/programmes/' + this.sessionId]);
           } else {
-            this.router.navigate(['/sessions/']);
+            this.router.navigate(['/sessions']);
           }
         },
         error: async (err: HttpErrorResponse) => {
