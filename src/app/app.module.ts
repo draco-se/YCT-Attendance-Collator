@@ -25,6 +25,9 @@ import { CreateRecordComponent } from './attendance/create-record/create-record.
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
+import { MarkAttendanceComponent } from './attendance/mark-attendance/mark-attendance.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,7 @@ import { ProfileComponent } from './profile/profile.component';
     RecordComponent,
     AggregateComponent,
     CreateRecordComponent,
+    MarkAttendanceComponent,
   ],
 
   imports: [
@@ -51,6 +55,8 @@ import { ProfileComponent } from './profile/profile.component';
     ValidateEqualModule,
     SocialLoginModule,
     HttpClientModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
     AppRoutingModule,
   ],
 

@@ -24,6 +24,16 @@ h1 {
   }
 }
 
+.backdrop {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  // pointer-events: none;
+}
+
 h2 {
   font-size: 1.2rem;
   font-weight: normal;
@@ -98,7 +108,7 @@ h2 {
       }
 
       ul {
-        z-index: 2;
+        z-index: 3;
         padding: 0;
         list-style: none;
         position: absolute;

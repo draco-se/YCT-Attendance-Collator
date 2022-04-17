@@ -11,6 +11,7 @@ export class ProgrammesComponent implements OnInit {
   programmes: Programme[] = [];
   sessionId: string;
   timeout: any;
+  backdrop: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,12 +25,6 @@ export class ProgrammesComponent implements OnInit {
 
       this.sessionId = id;
     });
-  }
-
-  autoCloseDetails(detail: HTMLDetailsElement) {
-    this.timeout = setTimeout(() => {
-      this.closeDetails(detail);
-    }, 5000);
   }
 
   closeDetails(detail: HTMLDetailsElement) {

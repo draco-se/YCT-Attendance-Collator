@@ -1,0 +1,126 @@
+<h1>Select Course!</h1>
+
+<p *ngIf="error && !isLoading" class="error-box">{{ error }}</p>
+
+<form
+  class="form-control"
+  #attendanceForm="ngForm"
+  (submit)="onSubmit(attendanceForm)"
+>
+  <div class="form-input__cover">
+    <label class="display-input" for="session">
+      <div>1</div>
+      Enter Session</label
+    >
+    <input
+      [ngClass]="{
+        'form-input': true,
+        'ng-valid': !error,
+        'ng-invalid ng-touched': error
+      }"
+      type="text"
+      name="session"
+      placeholder="e.g 2021/2022 or 2021"
+      [(ngModel)]="sessionTitle"
+      required
+      #session="ngModel"
+      minlength="1"
+      matInput
+      [matAutocomplete]="auto"
+      (input)="autoFilter(session)"
+    />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let sess of sessions; let idx = index"
+        [value]="sess.title"
+        >{{ sess.title }}</mat-option
+      >
+    </mat-autocomplete>
+    <span class="help-block" *ngIf="!session.valid && session.touched"
+      >Already existing session required</span
+    >
+  </div>
+  <div class="form-input__cover">
+    <label for="session"
+      ><div>2</div>
+      Enter Programme</label
+    >
+    <input
+      [ngClass]="{
+        'form-input': true,
+        'ng-valid': !error,
+        'ng-invalid ng-touched': error
+      }"
+      type="text"
+      name="programme"
+      placeholder="e.g ND1 or Level-100"
+      [(ngModel)]="programmeTitle"
+      required
+      #programme="ngModel"
+      minlength="1"
+      matInput
+      [matAutocomplete]="progAuto"
+      (input)="autoFilterProg(programme)"
+      (focus)="autoFilterProg(programme)"
+    />
+    <mat-autocomplete #progAuto="matAutocomplete">
+      <mat-option
+        *ngFor="let prod of programmes; let idx = index"
+        [value]="prod.title"
+        >{{ prod.title }}</mat-option
+      >
+    </mat-autocomplete>
+    <span class="help-block" *ngIf="!programme.valid && programme.touched"
+      >Already existing programme required</span
+    >
+  </div>
+  <div class="form-input__cover">
+    <label for="session"
+      ><div>3</div>
+      Enter First Course</label
+    >
+    <input
+      [ngClass]="{
+        'form-input': true,
+        'ng-valid': !error,
+        'ng-invalid ng-touched': error
+      }"
+      type="text"
+      name="course"
+      placeholder="eg. COM121"
+      [(ngModel)]="courseTitle"
+      required
+      #course="ngModel"
+      minlength="1"
+      matInput
+      [matAutocomplete]="courseAuto"
+      (input)="autoFilterCourse(course)"
+      (focus)="autoFilterCourse(course)"
+    />
+    <mat-autocomplete #courseAuto="matAutocomplete">
+      <mat-option
+        *ngFor="let filteredCourse of courses; let idx = index"
+        [value]="filteredCourse.title"
+        >{{ filteredCourse.title }}</mat-option
+      >
+    </mat-autocomplete>
+
+    <span class="help-block" *ngIf="!course.valid && course.touched"
+      >Already existing Course is required!</span
+    >
+  </div>
+  <button
+    *ngIf="!isLoading"
+    type="submit"
+    class="form-btn create"
+    [disabled]="!attendanceForm.valid"
+  >
+    create
+  </button>
+  <div *ngIf="isLoading" class="lds-ellipsis loader">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</form>

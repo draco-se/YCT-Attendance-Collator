@@ -2,9 +2,7 @@
 
 <h2 *ngIf="programmes.length == 0">
   You haven't added Programmes to this session.
-  <a routerLink="/create-record"
-    >Click here!</a
-  >
+  <a routerLink="/create-record">Click here!</a>
   to do so
 </h2>
 <ul *ngIf="programmes.length > 0" class="programmes" #prog>
@@ -16,7 +14,7 @@
   >
     <h1>{{ programme.title }}</h1>
     <div class="course-cover">
-      <details #detail (click)="autoCloseDetails(detail)">
+      <details #detail>
         <summary>
           <svg
             x="0"
@@ -37,6 +35,7 @@
             </g>
           </svg>
         </summary>
+        <div (click)="closeDetails(detail)" class="backdrop"></div>
         <ul>
           <li
             style="font-size: 2rem; padding: 0 0.5rem"
@@ -44,8 +43,18 @@
           >
             &times;
           </li>
-          <li routerLink="/create-record" [queryParams]="{ session: sessionId, programme: programme._id }">Add Course</li>
-          <li routerLink="/create-record" [queryParams]="{ session: sessionId }">Add Programme</li>
+          <li
+            routerLink="/create-record"
+            [queryParams]="{ session: sessionId, programme: programme._id }"
+          >
+            Add Course
+          </li>
+          <li
+            routerLink="/create-record"
+            [queryParams]="{ session: sessionId }"
+          >
+            Add Programme
+          </li>
           <li>Edit course name</li>
           <li>Edit programme name</li>
           <li>Delete Course</li>

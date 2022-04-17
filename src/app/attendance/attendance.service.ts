@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Subject, tap } from 'rxjs';
+import { catchError, map, Subject, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface Session {
@@ -138,6 +138,7 @@ export class AttendanceService {
         tap((sessions) => {
           this.setSessions(sessions);
         }),
+        catchError((err: HttpErrorResponse) => throwError(err)),
       );
   }
 }

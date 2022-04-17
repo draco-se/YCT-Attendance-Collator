@@ -1,3 +1,4 @@
+import { MarkAttendanceComponent } from './attendance/mark-attendance/mark-attendance.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { AttendanceRecordsComponent } from './attendance/attendance-records/attendance-records.component';
@@ -32,6 +33,12 @@ const routes: Routes = [
   {
     path: 'sessions',
     component: SessionComponent,
+    resolve: [AttendanceResolver],
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'mark-attendance',
+    component: MarkAttendanceComponent,
     resolve: [AttendanceResolver],
     canActivate: [AuthGuard],
   },

@@ -50,6 +50,10 @@ app-create-record {
   @include general-flex();
 }
 
+app-mark-attendance {
+  @include general-flex();
+}
+
 app-attendance-records {
   @include general-flex();
 }
@@ -124,3 +128,6 @@ app-session {
     transform: translate(24px, 0);
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

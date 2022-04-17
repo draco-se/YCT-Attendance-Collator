@@ -109,7 +109,14 @@
       Features
     </li>
     <li class="nav-list__item">Contact</li>
-    <li *ngIf="isAuthenticated" class="nav-list__item">Record Attendance</li>
+    <li
+      *ngIf="isAuthenticated"
+      class="nav-list__item"
+      (click)="closeNav()"
+      routerLink="/mark-attendance"
+    >
+      Mark Attendance
+    </li>
     <li
       *ngIf="isAuthenticated"
       class="nav-list__item"

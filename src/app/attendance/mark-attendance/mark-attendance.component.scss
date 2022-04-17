@@ -1,0 +1,20 @@
+mat-option {
+  // border-top: 1px solid #ff66cc41;
+  background-color: #003200;
+  font-family: 'Montserrat', sans-serif;
+
+  &:hover:not(.mat-option-disabled),
+  &:focus:not(.mat-option-disabled) {
+    background: #125f12;
+  }
+}
+
+.mat-option.mat-selected:not(.mat-active):not(:hover) {
+  background: #125f12;
+}
+
+.form-control .form-input__cover {
+  &:nth-child(3) {
+    border: none;
+  }
+}
