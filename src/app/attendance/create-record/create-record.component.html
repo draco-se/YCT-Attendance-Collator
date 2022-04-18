@@ -2,17 +2,14 @@
 
 <p *ngIf="error && !isLoading" class="error-box">{{ error }}</p>
 
-<form
-  class="form-control"
-  #createForm="ngForm"
-  (ngSubmit)="submit(createForm)"
->
+<form class="form-control" #createForm="ngForm" (ngSubmit)="submit(createForm)">
   <div class="form-input__cover">
     <label class="display-input" for="session">
       <div>1</div>
       Enter Session</label
     >
     <input
+      autocomplete="off"
       type="text"
       name="session"
       [ngClass]="{
@@ -38,6 +35,7 @@
       Enter Programme</label
     >
     <input
+      autocomplete="off"
       type="text"
       name="programme"
       [ngClass]="{
@@ -63,6 +61,7 @@
       Enter First Course</label
     >
     <input
+      autocomplete="off"
       type="text"
       name="course"
       [ngClass]="{
@@ -88,9 +87,9 @@
     >
     <div class="matric-cover">
       <input
+        autocomplete="off"
         class="form-input matric-input"
         type="text"
-
         name="matricNumber"
         placeholder="F/ND/19/"
         ngModel
@@ -99,9 +98,9 @@
         minlength="1"
       />
       <input
+        autocomplete="off"
         class="form-input matric-input"
         type="number"
-
         name="indexNumber"
         placeholder="3210001"
         ngModel
@@ -125,6 +124,7 @@
       Number of {{ course.value }} Students</label
     >
     <input
+      autocomplete="off"
       type="number"
       name="totalNumber"
       [ngClass]="{

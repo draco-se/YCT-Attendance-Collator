@@ -41,7 +41,7 @@
     >
   </div>
   <div class="form-input__cover">
-    <label for="session"
+    <label for="programme"
       ><div>2</div>
       Enter Programme</label
     >
@@ -75,7 +75,7 @@
     >
   </div>
   <div class="form-input__cover">
-    <label for="session"
+    <label for="course"
       ><div>3</div>
       Enter First Course</label
     >
@@ -107,6 +107,45 @@
 
     <span class="help-block" *ngIf="!course.valid && course.touched"
       >Already existing Course is required!</span
+    >
+  </div>
+  <div class="form-input__cover">
+    <label for="time"
+      ><div>4</div>
+      Enter Time Limit [ hours: minutes ] </label
+    >
+    <div class="matric-cover">
+      <input
+        class="form-input matric-input"
+        type="number"
+        name="hours"
+        placeholder="e.g 1"
+        ngModel="00"
+        required
+        #hours="ngModel"
+        min="0"
+        max="12"
+      />
+      :
+      <input
+        class="form-input matric-input"
+        type="number"
+        name="minutes"
+        placeholder="e.g 30"
+        ngModel="30"
+        required
+        #minutes="ngModel"
+        min="0"
+        max="60"
+      />
+    </div>
+
+    <span
+      class="help-block"
+      *ngIf="
+        (!hours.valid && hours.touched) || (!minutes.valid && minutes.touched)
+      "
+      >Enter matric Number</span
     >
   </div>
   <button

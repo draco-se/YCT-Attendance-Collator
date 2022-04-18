@@ -1,3 +1,5 @@
+import { MapService } from './../../map/map.service';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   Session,
   AttendanceService,
@@ -19,18 +21,20 @@ export class MarkAttendanceComponent implements OnInit {
   isLoading: boolean = false;
   error: any;
   sessions: Session[] = [];
-  sessionTitle: string;
+  sessionTitle: string = '';
   programmes: Programme[] = [];
   programmeTitle: string = '';
   courses: Course[] = [];
   courseTitle: string = '';
 
-  constructor(private attendanceService: AttendanceService) {}
+  constructor(private attendanceService: AttendanceService, private mapService: MapService) {}
 
   ngOnInit(): void {
     this.sessions = [...this.attendanceService.getSessions()].reverse();
-    this.sessionTitle = this.sessions[0].title;
-    this.programmes = [...this.sessions[0].programmes];
+    if (this.sessions.length > 0) {
+      this.sessionTitle = this.sessions[0].title;
+      this.programmes = [...this.sessions[0].programmes];
+    }
   }
 
   autoFilter(input: NgModel) {
@@ -69,19 +73,41 @@ export class MarkAttendanceComponent implements OnInit {
     } else {
       this.courses = [];
     }
+  }
+
+  getLocation() {
 
   }
 
   onSubmit(form: NgForm) {
-    if (
-      this.sessions.length == 0 ||
-      this.programmes.length == 0 ||
-      this.courses.length == 0
-      ) {
-        this.error = 'All field must already exist in record';
-        this.isLoading = false;
-        return;
-      }
-      console.log(form.value)
-    }
+    this.isLoading = true;
+
+    this.attendanceService
+      .createAttendance(
+        form.value.session,
+        form.value.programme,
+        form.value.course,
+        form.value.hours,
+        form.value.minutes,
+      )
+      .subscribe({
+        next: (res) => {
+          this.isLoading = false;
+
+          this.mapService.locateUserHandler()
+          // if (!!this.sessionTitle) {
+          //   this.router.navigate(['/programmes/' + this.sessionId]);
+
+          // } else {
+          //   this.router.navigate(['/sessions']);
+          // }
+        },
+        error: (err) => {
+          this.error = err.error.message;
+
+          this.isLoading = false;
+        },
+        // complete: () => console.info('Created Successfully'),
+      });
+  }
 }

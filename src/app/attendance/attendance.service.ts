@@ -104,6 +104,7 @@ export class AttendanceService {
             return resData.sessions;
           }),
           tap((sessions) => {
+            console.log(sessions);
             this.setSessions(sessions);
           }),
         );
@@ -124,8 +125,34 @@ export class AttendanceService {
           tap((sessions) => {
             this.setSessions(sessions);
           }),
+          catchError((err) => throwError(err)),
         );
     }
+  }
+
+  createAttendance(
+    session: string,
+    programme: string,
+    course: string,
+    hours: number,
+    minutes: number,
+  ) {
+    return this.http
+      .post<{ message: string }>(
+        environment.restApiAddress + '/create-attandance',
+        {
+          session,
+          programme,
+          course,
+          hours,
+          minutes,
+        },
+      )
+      .pipe(
+        tap((res) => {
+          console.log(res);
+        }),
+      );
   }
 
   fetchSessions() {

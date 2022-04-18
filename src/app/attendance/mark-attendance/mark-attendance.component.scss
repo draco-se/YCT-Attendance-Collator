@@ -9,12 +9,15 @@ mat-option {
   }
 }
 
-.mat-option.mat-selected:not(.mat-active):not(:hover) {
-  background: #125f12;
+.mat-option.mat-selected {
+  &:not(.mat-active):not(:hover),
+  &:not(.mat-option-multiple):not(.mat-option-disabled) {
+    background: #125f12;
+  }
 }
 
-.form-control .form-input__cover {
-  &:nth-child(3) {
-    border: none;
-  }
+.form-control .form-input__cover .matric-cover {
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.5rem;
 }

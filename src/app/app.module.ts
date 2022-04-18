@@ -1,13 +1,14 @@
-import { AuthInterceptor } from './auth/auth.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
-  SocialLoginModule,
+  SocialLoginModule
 } from 'angularx-social-login';
 import { ValidateEqualModule } from 'ng-validate-equal';
 import { environment } from 'src/environments/environment';
@@ -15,19 +16,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AggregateComponent } from './attendance/aggregate/aggregate.component';
 import { AttendanceRecordsComponent } from './attendance/attendance-records/attendance-records.component';
+import { CreateRecordComponent } from './attendance/create-record/create-record.component';
+import { MarkAttendanceComponent } from './attendance/mark-attendance/mark-attendance.component';
 import { ProgrammesComponent } from './attendance/programmes/programmes.component';
 import { RecordAttendanceComponent } from './attendance/record-attendance/record-attendance.component';
 import { RecordComponent } from './attendance/record/record.component';
 import { SessionComponent } from './attendance/session/session.component';
 import { AuthComponent } from './auth/auth.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
 import { CredComponent } from './auth/cred/cred.component';
-import { CreateRecordComponent } from './attendance/create-record/create-record.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
+import { MapComponent } from './map/map.component';
 import { ProfileComponent } from './profile/profile.component';
-import { MarkAttendanceComponent } from './attendance/mark-attendance/mark-attendance.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
+
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     AggregateComponent,
     CreateRecordComponent,
     MarkAttendanceComponent,
+    MapComponent,
   ],
 
   imports: [
