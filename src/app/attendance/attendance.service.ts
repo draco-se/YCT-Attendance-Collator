@@ -61,23 +61,36 @@ export class AttendanceService {
     this.sessionsChanged.next(this.sessions);
   }
 
-  getSessions() {
+  getSessions(): Session[] {
     return this.sessions;
   }
 
-  getProgrammes(id: string) {
+  getProgrammes(id: string): Programme[] {
     const session = this.sessions.find((session) => session._id == id) || {
       programmes: [],
     };
     return session.programmes;
   }
 
-  getRecords(id: string, progId: string, courseId: string) {
+  getRecords(id: string, progId: string, courseId: string): AttendanceRecord[] {
     const records = this.getProgrammes(id)
       .find((programme) => programme._id == progId)
       .courses.find((course) => course._id == courseId).attendanceRecords;
 
     return records;
+  }
+
+  getRecord(
+    id: string,
+    progId: string,
+    courseId: string,
+    recordId: string,
+  ): AttendanceRecord {
+    const attendance = this.getRecords(id, progId, courseId).find(
+      (attendance) => attendance._id == recordId,
+    );
+
+    return attendance;
   }
 
   createSession(
@@ -149,8 +162,9 @@ export class AttendanceService {
         },
       )
       .pipe(
-        tap((res) => {
-          console.log(res);
+        map((res: any) => {
+          this.setSessions(res.sessions);
+          return res.res;
         }),
       );
   }

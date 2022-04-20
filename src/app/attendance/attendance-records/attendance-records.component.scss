@@ -73,7 +73,6 @@ h1 {
       }
 
       .plus {
-        display: none;
         position: absolute;
         transform: rotateZ(90deg);
       }
@@ -88,7 +87,6 @@ h1 {
   }
 
   .daily-records {
-    display: none;
     padding: 0;
     margin: 0;
     width: 100%;
@@ -122,10 +120,18 @@ h1 {
         // justify-content: center;
         align-items: center;
 
+        @media (min-width: 48rem) {
+          width: 6rem;
+        }
+
         .within {
           width: 2rem;
           border-bottom: 3px dotted rgba(0, 90, 0, 0.5);
           margin-left: 2px;
+
+          @media (min-width: 48rem) {
+            width: 4rem;
+          }
         }
 
         .circle {

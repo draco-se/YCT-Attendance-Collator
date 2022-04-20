@@ -2,7 +2,9 @@
 
 <h2 *ngIf="programmes.length == 0">
   You haven't added Programmes to this session.
-  <a routerLink="/create-record">Click here!</a>
+  <a routerLink="/create-record" [queryParams]="{ session: sessionId }"
+    >Click here!</a
+  >
   to do so
 </h2>
 <ul *ngIf="programmes.length > 0" class="programmes" #prog>

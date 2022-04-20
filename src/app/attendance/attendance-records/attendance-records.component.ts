@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import {
-  AttendanceRecord,
-  AttendanceService,
-  Programme,
-} from '../attendance.service';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AttendanceRecord, AttendanceService } from '../attendance.service';
 
 @Component({
   selector: 'app-attendance-records',
@@ -13,12 +9,13 @@ import {
 })
 export class AttendanceRecordsComponent implements OnInit {
   clicked: boolean = false;
+  title: string;
 
   dailyRecords: AttendanceRecord[];
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    // private router: Router,
     private attendanceService: AttendanceService,
   ) {}
 
@@ -28,6 +25,11 @@ export class AttendanceRecordsComponent implements OnInit {
       const progId = params['progId'].toLowerCase();
       const courseId = params['courseId'].toLowerCase();
 
+      this.title = this.attendanceService
+        .getProgrammes(title)
+        .find((programme) => programme._id == progId)
+        .courses.find((course) => course._id == courseId).title;
+
       this.dailyRecords = this.attendanceService.getRecords(
         title,
         progId,
@@ -36,26 +38,26 @@ export class AttendanceRecordsComponent implements OnInit {
     });
   }
 
-  dropDownRec(opt: HTMLLIElement) {
-    const plus: HTMLElement = opt.querySelector('.plus');
-    const records = opt.nextElementSibling;
-    if (this.clicked == false) {
-      plus.style.display = 'block';
-      records.setAttribute('style', 'display: block;');
-      this.clicked = true;
-    } else {
-      this.closeDropDown(opt);
-    }
-  }
+  // dropDownRec(opt: HTMLLIElement) {
+  //   const plus: HTMLElement = opt.querySelector('.plus');
+  //   const records = opt.nextElementSibling;
+  //   if (this.clicked == false) {
+  //     plus.style.display = 'block';
+  //     records.setAttribute('style', 'display: block;');
+  //     this.clicked = true;
+  //   } else {
+  //     this.closeDropDown(opt);
+  //   }
+  // }
 
-  closeDropDown(opt: HTMLLIElement) {
-    const plus: HTMLElement = opt.querySelector('.plus');
-    const records = opt.nextElementSibling;
+  // closeDropDown(opt: HTMLLIElement) {
+  //   const plus: HTMLElement = opt.querySelector('.plus');
+  //   const records = opt.nextElementSibling;
 
-    plus.removeAttribute('style');
-    records.removeAttribute('style');
-    this.clicked = false;
-  }
+  //   plus.removeAttribute('style');
+  //   records.removeAttribute('style');
+  //   this.clicked = false;
+  // }
 
   // recordPage(idx) {
   //   setTimeout(

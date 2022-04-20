@@ -22,16 +22,16 @@ export class RecordComponent implements OnInit {
       const progId = params['progId'].toLowerCase();
       const courseId = params['courseId'].toLowerCase();
       const recordId = params['recordId'].toLowerCase();
-      this.attendance = this.attendanceService.getRecords(
+      const details = this.attendanceService.getRecord(
         sessionId,
         progId,
         courseId,
-      )[recordId].attendance;
+        recordId,
+      );
 
-      this.date = this.attendanceService
-        .getRecords(sessionId, progId, courseId)
-        [recordId].date.replaceAll('/', '-')
-        .split(',')[0];
+      this.attendance = [...details.attendance];
+
+      this.date = details.date.replaceAll('/', '-');
     });
   }
 

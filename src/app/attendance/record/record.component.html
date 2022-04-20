@@ -14,10 +14,8 @@
     <div class="matric-number">{{ attendanceLine.matricNumber }}</div>
     <div class="status">
       <div
-        style="
-          {{
+        [style]="
           attendanceLine.status == 'Present' ? '' : 'background-color: #d3ce47'
-        }}
         "
         #drop
         class="current"

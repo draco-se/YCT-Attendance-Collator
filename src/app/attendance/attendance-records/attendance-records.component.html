@@ -1,11 +1,11 @@
-<h1>COM 221 Records</h1>
+<h1>{{ title }} Records</h1>
 
 <ul class="attendance-options">
-  <li class="attendance-option" (click)="closeDropDown(rec)">
+  <li class="attendance-option">
     <div class="drop-down__btn"></div>
     <h1>Aggregate Score</h1>
   </li>
-  <li #rec class="attendance-option daily" (click)="dropDownRec(rec)">
+  <li #rec class="attendance-option daily">
     <div class="drop-down__btn">
       <div class="dash minus"></div>
       <div class="dash plus"></div>
@@ -21,7 +21,7 @@
         <div class="within"></div>
         <div class="circle"></div>
       </div>
-      <p routerLink="{{ i }}">
+      <p id="{{ dailyRecord._id }}" routerLink="{{ dailyRecord._id }}">
         Day {{ i + 1 }} [{{ dailyRecord.date.replaceAll('/', '-') }}]
       </p>
     </li>

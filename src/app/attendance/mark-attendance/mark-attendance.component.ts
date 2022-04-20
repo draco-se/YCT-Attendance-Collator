@@ -1,13 +1,12 @@
-import { MapService } from './../../map/map.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { NgForm, NgModel } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
-  Session,
   AttendanceService,
-  Programme,
   Course,
+  Programme,
+  Session,
 } from './../attendance.service';
-import { Component, Input, OnInit } from '@angular/core';
-import { NgModel, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-mark-attendance',
@@ -27,7 +26,10 @@ export class MarkAttendanceComponent implements OnInit {
   courses: Course[] = [];
   courseTitle: string = '';
 
-  constructor(private attendanceService: AttendanceService, private mapService: MapService) {}
+  constructor(
+    private attendanceService: AttendanceService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.sessions = [...this.attendanceService.getSessions()].reverse();
@@ -75,9 +77,7 @@ export class MarkAttendanceComponent implements OnInit {
     }
   }
 
-  getLocation() {
-
-  }
+  getLocation() {}
 
   onSubmit(form: NgForm) {
     this.isLoading = true;
@@ -91,16 +91,21 @@ export class MarkAttendanceComponent implements OnInit {
         form.value.minutes,
       )
       .subscribe({
-        next: (res) => {
+        next: (res: {
+          attendanceRecordId: string;
+          courseId: string;
+          programmeId: string;
+          sessionId: string;
+        }) => {
           this.isLoading = false;
 
-          this.mapService.locateUserHandler()
-          // if (!!this.sessionTitle) {
-          //   this.router.navigate(['/programmes/' + this.sessionId]);
-
-          // } else {
-          //   this.router.navigate(['/sessions']);
-          // }
+          this.router.navigate([
+            '/programmes',
+            res.sessionId,
+            res.programmeId,
+            res.courseId,
+            res.attendanceRecordId,
+          ]);
         },
         error: (err) => {
           this.error = err.error.message;

@@ -112,11 +112,16 @@
   <div class="form-input__cover">
     <label for="time"
       ><div>4</div>
-      Enter Time Limit [ hours: minutes ] </label
-    >
+      Enter Time Limit [ hours: minutes ]
+    </label>
     <div class="matric-cover">
       <input
-        class="form-input matric-input"
+        [ngClass]="{
+          'form-input': true,
+          'matric-input': true,
+          'ng-valid': !error,
+          'ng-invalid ng-touched': error
+        }"
         type="number"
         name="hours"
         placeholder="e.g 1"
@@ -128,7 +133,12 @@
       />
       :
       <input
-        class="form-input matric-input"
+        [ngClass]="{
+          'form-input': true,
+          'matric-input': true,
+          'ng-valid': !error,
+          'ng-invalid ng-touched': error
+        }"
         type="number"
         name="minutes"
         placeholder="e.g 30"
