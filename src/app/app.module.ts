@@ -29,6 +29,9 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { MapComponent } from './map/map.component';
 import { ProfileComponent } from './profile/profile.component';
+import { StudentAttendanceComponent } from './attendance/student-attendance/student-attendance.component';
+import { StudentComponent } from './attendance/student/student.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -48,6 +51,9 @@ import { ProfileComponent } from './profile/profile.component';
     CreateRecordComponent,
     MarkAttendanceComponent,
     MapComponent,
+    StudentAttendanceComponent,
+    StudentComponent,
+    PageNotFoundComponent,
   ],
 
   imports: [

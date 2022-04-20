@@ -26,6 +26,47 @@ h1 {
   }
 }
 
+.link-cover {
+  width: 80%;
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  @include display-flex();
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border: 2px solid #005500;
+  border-radius: 5px;
+
+  @media (min-width: 48rem) {
+    width: 60%;
+    margin-bottom: 2rem;
+  }
+
+  input {
+    background-color: #25632530;
+    padding: 0.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    // font-weight: bold;
+    color: #256325;
+    -webkit-text-fill-color: #256325;
+    height: 2.5rem;
+    width: 100%;
+    border: none;
+  }
+
+  .link-action {
+    width: 2.5rem;
+    padding: 0.3rem;
+    background-color: #005500;
+
+    svg {
+      width: 100%;
+    }
+  }
+}
+
 h2 {
   @include display-flex();
   background-color: #005500;
@@ -98,7 +139,6 @@ h2 {
         border-radius: 5px;
         padding: 0.5rem 1rem;
         background-color: #00bd0070;
-
 
         .dropdown-arrow {
           width: 0;

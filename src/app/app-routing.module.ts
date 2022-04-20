@@ -1,3 +1,4 @@
+import { StudentAttendanceComponent } from './attendance/student-attendance/student-attendance.component';
 import { MarkAttendanceComponent } from './attendance/mark-attendance/mark-attendance.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
@@ -61,11 +62,17 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'attendance/:userId/:year/:progId/:courseId/:recordId',
+    component: StudentAttendanceComponent,
+    resolve: [AttendanceResolver],
+  },
+  {
     path: 'create-record',
     component: CreateRecordComponent,
     resolve: [AttendanceResolver],
     canActivate: [AuthGuard],
   },
+  { path: '**', redirectTo: '/not-found' },
 ];
 
 @NgModule({

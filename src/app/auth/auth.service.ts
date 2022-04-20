@@ -63,6 +63,7 @@ const base64URLStringToBuffer = (base64URLString: string): ArrayBuffer => {
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthService {
   user = new BehaviorSubject<User>(null);
   signedUSer: string;

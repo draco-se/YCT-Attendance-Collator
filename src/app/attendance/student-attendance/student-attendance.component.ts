@@ -1,19 +1,21 @@
-import { environment } from './../../../environments/environment';
-import { AuthService } from './../../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AttendanceLine, AttendanceService } from '../attendance.service';
+import { AuthService } from './../../auth/auth.service';
+import { AttendanceLine, AttendanceService } from './../attendance.service';
 
 @Component({
-  selector: 'app-record',
-  templateUrl: './record.component.html',
-  styleUrls: ['./record.component.scss'],
+  selector: 'app-student-attendance',
+  templateUrl: './student-attendance.component.html',
+  styleUrls: [
+    './../record/record.component.scss',
+    './student-attendance.component.scss',
+  ],
 })
-export class RecordComponent implements OnInit {
-  attendance: AttendanceLine[];
+export class StudentAttendanceComponent implements OnInit {
+  attendance: AttendanceLine[] = [];
   date: string;
   clicked: boolean = false;
-  link: string = '';
+  expired: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,42 +36,11 @@ export class RecordComponent implements OnInit {
         recordId,
       );
 
+      if (new Date(details.tokenResetExpiration) < new Date()) return;
+
       this.attendance = [...details.attendance];
 
-      this.authService.user.subscribe((user) => {
-        if (new Date(details.tokenResetExpiration) > new Date() && !!user) {
-          this.link = `${environment.frontEndAddress}/attendance/${user.id}/${sessionId}/${progId}/${courseId}/${recordId}`;
-        }
-      });
-
       this.date = details.date.replaceAll('/', '-');
-    });
-  }
-
-  copy(el: HTMLInputElement) {
-    if (!navigator.clipboard) {
-      el.select();
-      return;
-    }
-
-    navigator.clipboard
-      .writeText(el.value)
-      .then(() => alert('Copied to clipboard'))
-      .catch((err) => {
-        console.log(err);
-        alert('Error copying text! Try again or copy manually');
-      });
-  }
-
-  share(el: HTMLInputElement) {
-    if (!navigator.share) {
-      el.select();
-      return;
-    }
-
-    navigator.share({ url: el.value }).catch((err) => {
-      console.log(err);
-      alert('Error copying text! Try again or copy manually');
     });
   }
 

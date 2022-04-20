@@ -1,6 +1,13 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Subject, tap, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  Subject,
+  tap,
+  throwError,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface Session {
@@ -25,6 +32,8 @@ export interface Course {
 export interface AttendanceRecord {
   _id: string;
   date: any;
+  token: string;
+  tokenResetExpiration: string;
   attendance: AttendanceLine[];
 }
 
@@ -36,11 +45,13 @@ export interface AttendanceLine {
 }
 
 export interface AggregateAttendance {
+  _id: string;
   date: Date;
   attendance: AggregateAttendanceLine[];
 }
 
 export interface AggregateAttendanceLine {
+  _id: string;
   name: string;
   matricNumber: string;
   score: number;
@@ -53,6 +64,9 @@ export class AttendanceService {
   sessions: Session[] = [];
 
   sessionsChanged = new Subject<Session[]>();
+  link = new BehaviorSubject<{ token: string; tokenResetExpiration: string }>(
+    null,
+  );
 
   constructor(private http: HttpClient) {}
 
@@ -164,6 +178,9 @@ export class AttendanceService {
       .pipe(
         map((res: any) => {
           this.setSessions(res.sessions);
+
+
+
           return res.res;
         }),
       );

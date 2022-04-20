@@ -1,10 +1,9 @@
-export class User {
+export class Student {
   constructor(
-    public email: string,
     public id: string,
-    public name: string,
+    public matricNumber: string,
     private _token: string,
-    private _tokenExpirationDate: Date
+    private _tokenExpirationDate: Date,
   ) {}
 
   get token() {

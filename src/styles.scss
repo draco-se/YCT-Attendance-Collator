@@ -46,6 +46,10 @@ app-record {
   @include general-flex();
 }
 
+app-student-attendance {
+  @include general-flex();
+}
+
 app-create-record {
   @include general-flex();
 }
