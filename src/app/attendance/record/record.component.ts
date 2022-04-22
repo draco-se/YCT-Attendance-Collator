@@ -1,6 +1,6 @@
 import { environment } from './../../../environments/environment';
 import { AuthService } from './../../auth/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AttendanceLine, AttendanceService } from '../attendance.service';
 
@@ -9,11 +9,19 @@ import { AttendanceLine, AttendanceService } from '../attendance.service';
   templateUrl: './record.component.html',
   styleUrls: ['./record.component.scss'],
 })
-export class RecordComponent implements OnInit {
-  attendance: AttendanceLine[];
+export class RecordComponent implements OnInit, OnDestroy {
+  attendance: AttendanceLine[] = [];
   date: string;
+  isLoading: boolean = true;
   clicked: boolean = false;
   link: string = '';
+  minutes: number = 0;
+  hours: number = 0;
+  clearTimeout: any;
+  sessionId: string;
+  progId: string;
+  courseId: string;
+  recordId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,26 +31,27 @@ export class RecordComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      const sessionId = params['year'].toLowerCase();
-      const progId = params['progId'].toLowerCase();
-      const courseId = params['courseId'].toLowerCase();
-      const recordId = params['recordId'].toLowerCase();
+      this.sessionId = params['year'].toLowerCase();
+      this.progId = params['progId'].toLowerCase();
+      this.courseId = params['courseId'].toLowerCase();
+      this.recordId = params['recordId'].toLowerCase();
       const details = this.attendanceService.getRecord(
-        sessionId,
-        progId,
-        courseId,
-        recordId,
+        this.sessionId,
+        this.progId,
+        this.courseId,
+        this.recordId,
       );
+      this.setAttendance(details);
 
-      this.attendance = [...details.attendance];
-
-      this.authService.user.subscribe((user) => {
-        if (new Date(details.tokenResetExpiration) > new Date() && !!user) {
-          this.link = `${environment.frontEndAddress}/attendance/${user.id}/${sessionId}/${progId}/${courseId}/${recordId}`;
-        }
+      this.attendanceService.sessionsChanged.subscribe(() => {
+        const details = this.attendanceService.getRecord(
+          this.sessionId,
+          this.progId,
+          this.courseId,
+          this.recordId,
+        );
+        this.setAttendance(details);
       });
-
-      this.date = details.date.replaceAll('/', '-');
     });
   }
 
@@ -69,8 +78,59 @@ export class RecordComponent implements OnInit {
 
     navigator.share({ url: el.value }).catch((err) => {
       console.log(err);
-      alert('Error copying text! Try again or copy manually');
+      alert('Error sharing text! Try again or copy manually');
     });
+  }
+
+  setAttendance(details) {
+    this.isLoading = false;
+
+    this.attendance = [...details.attendance];
+
+    this.date = details.date.split(',')[0].replaceAll('/', '-');
+
+    details.tokenResetExpiration;
+
+    this.authService.user.subscribe((user) => {
+      if (new Date(details.tokenResetExpiration) > new Date() && !!user) {
+        this.link = `${environment.frontEndAddress}/attendance/${user.id}/${this.sessionId}/${this.progId}/${this.courseId}/${this.recordId}/${details.token}`;
+        const time = new Date(
+          new Date(details.tokenResetExpiration).getTime() - Date.now(),
+        );
+
+        this.hours = time.getUTCHours();
+        this.minutes = time.getUTCMinutes();
+
+        this.clearTimeout = setInterval(() => {
+          if (this.minutes == 0) {
+            this.hours--;
+            this.minutes = 60;
+          }
+          this.minutes--;
+        }, 60000);
+      }
+    });
+  }
+
+  changeStatus(status: boolean, id: string) {
+    this.attendanceService
+      .markAttendance(
+        this.sessionId,
+        this.progId,
+        this.courseId,
+        this.recordId,
+        id,
+        status,
+      )
+      .subscribe({
+        next: (res) => {
+          this.clicked = false;
+        },
+        error: (err) => {
+          console.error(err.error.message);
+          this.isLoading = false;
+        },
+      });
   }
 
   dropdown(el: HTMLDivElement, list: HTMLUListElement) {
@@ -93,5 +153,9 @@ export class RecordComponent implements OnInit {
       el.style.display = 'none';
     });
     this.clicked = false;
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.clearTimeout);
   }
 }

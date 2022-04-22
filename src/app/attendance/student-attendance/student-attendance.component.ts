@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from './../../auth/auth.service';
 import { AttendanceLine, AttendanceService } from './../attendance.service';
@@ -11,11 +11,20 @@ import { AttendanceLine, AttendanceService } from './../attendance.service';
     './student-attendance.component.scss',
   ],
 })
-export class StudentAttendanceComponent implements OnInit {
+export class StudentAttendanceComponent implements OnInit, OnDestroy {
   attendance: AttendanceLine[] = [];
   date: string;
+  isLoading: boolean = true;
+  minutes: number = 0;
+  hours: number = 0;
+  clearTimeout: any;
   clicked: boolean = false;
-  expired: boolean = false;
+  userId: string;
+  sessionId: string;
+  progId: string;
+  courseId: string;
+  recordId: string;
+  token: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,23 +34,84 @@ export class StudentAttendanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      const sessionId = params['year'].toLowerCase();
-      const progId = params['progId'].toLowerCase();
-      const courseId = params['courseId'].toLowerCase();
-      const recordId = params['recordId'].toLowerCase();
-      const details = this.attendanceService.getRecord(
-        sessionId,
-        progId,
-        courseId,
-        recordId,
-      );
+      this.userId = params['userId'];
+      this.sessionId = params['year'];
+      this.progId = params['progId'];
+      this.courseId = params['courseId'];
+      this.recordId = params['recordId'];
+      this.token = params['token'];
 
-      if (new Date(details.tokenResetExpiration) < new Date()) return;
+      this.attendanceService
+        .fetchRecord(
+          this.userId,
+          this.sessionId,
+          this.progId,
+          this.courseId,
+          this.recordId,
+          this.token,
+        )
+        .subscribe({
+          next: (details) => {
+            this.setAttendance(details);
+          },
+          error: (err) => {
+            console.error(err.error.message);
+            this.isLoading = false;
+          },
+        });
 
-      this.attendance = [...details.attendance];
-
-      this.date = details.date.replaceAll('/', '-');
+      this.attendanceService.studentRecordChanged.subscribe((details) => {
+        this.setAttendance(details);
+      });
     });
+  }
+
+  setAttendance(details) {
+    this.isLoading = false;
+    if (new Date(details.tokenResetExpiration) < new Date()) return;
+
+    this.attendance = [...details.attendance];
+
+    const time = new Date(
+      new Date(details.tokenResetExpiration).getTime() - Date.now(),
+    );
+
+
+    this.hours = time.getUTCHours();
+    this.minutes = time.getUTCMinutes();
+
+    this.clearTimeout = setInterval(() => {
+      if (this.minutes == 0 && this.hours > 0) {
+        this.hours--;
+        this.minutes = 60;
+      }
+      if (this.minutes == 0 && this.hours == 0) {
+        this.attendance = [];
+        this.date = '';
+        return;
+      }
+      this.minutes--;
+    }, 60000);
+
+    this.date = details.date.split(',')[0].replaceAll('/', '-');
+  }
+
+  changeStatus(status: boolean, id: string) {
+    this.attendanceService
+      .markAttendance(
+        this.sessionId,
+        this.progId,
+        this.courseId,
+        this.recordId,
+        id,
+        status,
+        this.userId,
+        this.token,
+      )
+      .subscribe((res) => {
+        console.log(res);
+        this.clicked = false;
+      });
   }
 
   dropdown(el: HTMLDivElement, list: HTMLUListElement) {
@@ -64,5 +134,9 @@ export class StudentAttendanceComponent implements OnInit {
       el.style.display = 'none';
     });
     this.clicked = false;
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.clearTimeout);
   }
 }

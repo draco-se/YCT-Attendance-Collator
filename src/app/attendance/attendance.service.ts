@@ -62,6 +62,9 @@ export interface AggregateAttendanceLine {
 })
 export class AttendanceService {
   sessions: Session[] = [];
+  studentRecord: AttendanceRecord;
+
+  studentRecordChanged = new Subject<AttendanceRecord>();
 
   sessionsChanged = new Subject<Session[]>();
   link = new BehaviorSubject<{ token: string; tokenResetExpiration: string }>(
@@ -179,8 +182,6 @@ export class AttendanceService {
         map((res: any) => {
           this.setSessions(res.sessions);
 
-
-
           return res.res;
         }),
       );
@@ -198,5 +199,92 @@ export class AttendanceService {
         }),
         catchError((err: HttpErrorResponse) => throwError(err)),
       );
+  }
+
+  fetchRecord(
+    userId: string,
+    sessionId: string,
+    progId: string,
+    courseId: string,
+    recordId: string,
+    token: string,
+  ) {
+    return this.http
+      .post<{ attendanceRecord: AttendanceRecord }>(
+        environment.restApiAddress + '/student-attendance',
+        {
+          userId,
+          sessionId,
+          progId,
+          courseId,
+          recordId,
+          token,
+        },
+      )
+      .pipe(
+        map((resData) => {
+          return resData.attendanceRecord;
+        }),
+        tap((attendanceRecord) => {
+          this.studentRecordChanged.next(attendanceRecord);
+        }),
+      );
+  }
+
+  markAttendance(
+    sessionId: string,
+    progId: string,
+    courseId: string,
+    recordId: string,
+    id: string,
+    status: boolean,
+    userId?: string,
+    token?: string,
+  ) {
+   if (!!userId) {
+    return this.http
+    .post<{ attendanceRecord: AttendanceRecord }>(
+      environment.restApiAddress + '/student-mark-attendance',
+      {
+        userId,
+        sessionId,
+        progId,
+        courseId,
+        recordId,
+        token,
+        id,
+        status,
+      },
+    )
+    .pipe(
+      map((resData) => {
+        return resData.attendanceRecord;
+      }),
+      tap((attendanceRecord) => {
+        this.studentRecordChanged.next(attendanceRecord);
+      }),
+    );
+   } else {
+    return this.http
+    .post<{ attendanceRecord: AttendanceRecord }>(
+      environment.restApiAddress + '/mark-attendance',
+      {
+        sessionId,
+        progId,
+        courseId,
+        recordId,
+        id,
+        status,
+      },
+    )
+    .pipe(
+      map((resData: any) => {
+        return resData.sessions;
+      }),
+      tap((sessions) => {
+        this.setSessions(sessions);
+      }),
+    );
+   }
   }
 }

@@ -1,8 +1,15 @@
-<h1>
+<div *ngIf="isLoading" class="lds-ellipsis loader">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<h1 *ngIf="attendance.length > 0 && !isLoading">
   Attendance <span>[{{ date }}]</span>
 </h1>
 
-<div class="link-cover" *ngIf="link">
+<div class="link-cover" *ngIf="link && attendance.length > 0 && !isLoading">
   <input [value]="link" type="text" #input readonly />
   <div class="link-action" (click)="copy(input)">
     <svg x="0" y="0" viewBox="0 0 32 32" xml:space="preserve">
@@ -18,13 +25,8 @@
       </g>
     </svg>
   </div>
-  <div class="link-action"(click)="share(input)">
-    <svg
-      x="0"
-      y="0"
-      viewBox="0 0 512 512"
-      xml:space="preserve"
-    >
+  <div class="link-action" (click)="share(input)">
+    <svg x="0" y="0" viewBox="0 0 512 512" xml:space="preserve">
       <g>
         <g xmlns="http://www.w3.org/2000/svg">
           <g>
@@ -56,13 +58,13 @@
   </div>
 </div>
 
-<h2>
+<h2 *ngIf="attendance.length > 0 && !isLoading">
   <span class="number-title">S/N</span>
   <span class="matric-title">Matric Number</span>
   <span class="status-title">Status</span>
 </h2>
 
-<ul class="records" #list>
+<ul *ngIf="attendance.length > 0 && !isLoading" class="records" #list>
   <li *ngFor="let attendanceLine of attendance; let i = index" class="record">
     <div class="number">{{ i + 1 }}.</div>
     <div class="matric-number">{{ attendanceLine.matricNumber }}</div>
@@ -78,10 +80,12 @@
         {{ attendanceLine.status }}
         <div class="dropdown-arrow"></div>
       </div>
-      <div id="{{ attendanceLine._id }}" class="status-opt">
-        <div class="present">Present</div>
-        <div class="absent">Absent</div>
+      <div class="status-opt">
+        <div class="present" (click)="changeStatus(true, attendanceLine._id)">Present</div>
+        <div class="absent" (click)="changeStatus(false, attendanceLine._id)">Absent</div>
       </div>
     </div>
   </li>
 </ul>
+
+<span *ngIf="attendance.length > 0 && !isLoading" class="timeout">Time Left - {{ hours }} hour : {{ minutes }} mins</span>

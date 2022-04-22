@@ -26,6 +26,14 @@ h1 {
   }
 }
 
+.loader {
+  margin-top: 5rem;
+
+  @media (min-width: 48rem) {
+    margin-top: 7rem;
+  }
+}
+
 .link-cover {
   width: 80%;
   height: 2.5rem;
@@ -95,6 +103,13 @@ h2 {
   }
 }
 
+.timeout {
+  font-size: 1.3rem;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+  margin: 2rem 0;
+}
+
 .records {
   list-style: none;
   padding: 0;
@@ -139,6 +154,7 @@ h2 {
         border-radius: 5px;
         padding: 0.5rem 1rem;
         background-color: #00bd0070;
+        cursor: pointer;
 
         .dropdown-arrow {
           width: 0;
@@ -162,6 +178,7 @@ h2 {
 
         div {
           @include centered();
+          cursor: pointer;
           width: 100%;
           padding: 0.5rem 1rem;
           border-top: 1px solid #f5f5f55b;
