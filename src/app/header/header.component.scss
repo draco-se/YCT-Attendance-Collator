@@ -13,7 +13,7 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 50, 0, 0.5);
-  z-index: 2;
+  z-index: 15;
 }
 
 .active {
@@ -23,7 +23,7 @@
 
 .main-header {
   background-color: rgba(245, 245, 245, 0.3);
-  z-index: 1;
+  z-index: 10;
   position: fixed;
   left: 0;
   right: 0;
@@ -136,7 +136,7 @@
   display: none;
   right: -60vw;
   bottom: 0;
-  z-index: 3;
+  z-index: 20;
   overflow-y: scroll;
 
   .close-nav {

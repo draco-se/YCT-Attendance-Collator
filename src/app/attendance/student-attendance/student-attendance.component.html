@@ -1,3 +1,5 @@
+<app-student *ngIf="authenticate"></app-student>
+
 <div *ngIf="isLoading" class="lds-ellipsis loader">
   <div></div>
   <div></div>
@@ -104,13 +106,13 @@
       <div class="status-opt">
         <div
           class="present"
-          (click)="changeStatus(true, attendanceLine._id)"
+          (click)="changeStatus(i)"
         >
           Present
         </div>
         <div
           class="absent"
-          (click)="changeStatus(false, attendanceLine._id)"
+          (click)="changeStatus(i)"
         >
           Absent
         </div>

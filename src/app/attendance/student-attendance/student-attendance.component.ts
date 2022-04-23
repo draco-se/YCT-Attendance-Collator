@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AuthService } from './../../auth/auth.service';
+import { StudentService } from '../student.service';
 import { AttendanceLine, AttendanceService } from './../attendance.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
   attendance: AttendanceLine[] = [];
   date: string;
   isLoading: boolean = true;
+  authenticate: boolean;
   minutes: number = 0;
   hours: number = 0;
   clearTimeout: any;
@@ -28,8 +29,7 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private attendanceService: AttendanceService,
-    private authService: AuthService,
+    private studentService: StudentService,
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +41,7 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
       this.recordId = params['recordId'];
       this.token = params['token'];
 
-      this.attendanceService
+      this.studentService
         .fetchRecord(
           this.userId,
           this.sessionId,
@@ -60,7 +60,10 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
           },
         });
 
-      this.attendanceService.studentRecordChanged.subscribe((details) => {
+      this.studentService.studentClose.subscribe((data) => {
+        this.authenticate = data;
+      });
+      this.studentService.studentRecordChanged.subscribe((details) => {
         this.setAttendance(details);
       });
     });
@@ -75,7 +78,6 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
     const time = new Date(
       new Date(details.tokenResetExpiration).getTime() - Date.now(),
     );
-
 
     this.hours = time.getUTCHours();
     this.minutes = time.getUTCMinutes();
@@ -96,22 +98,28 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
     this.date = details.date.split(',')[0].replaceAll('/', '-');
   }
 
-  changeStatus(status: boolean, id: string) {
-    this.attendanceService
-      .markAttendance(
-        this.sessionId,
-        this.progId,
-        this.courseId,
-        this.recordId,
-        id,
-        status,
-        this.userId,
-        this.token,
-      )
-      .subscribe((res) => {
-        console.log(res);
-        this.clicked = false;
-      });
+  changeStatus(idx: number) {
+    this.authenticate = true;
+    this.studentService.studentAuthDetails = {
+      matricNumber: this.attendance[idx].matricNumber,
+      isRegistered: true,
+    };
+
+    // this.attendanceService
+    //   .markAttendance(
+    //     this.sessionId,
+    //     this.progId,
+    //     this.courseId,
+    //     this.recordId,
+    //     id,
+    //     status,
+    //     this.userId,
+    //     this.token,
+    //   )
+    //   .subscribe((res) => {
+    //     console.log(res);
+    //     this.clicked = false;
+    //   });
   }
 
   dropdown(el: HTMLDivElement, list: HTMLUListElement) {
