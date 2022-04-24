@@ -83,8 +83,13 @@
 
   .toggle-btn {
     width: 2.5rem;
+    padding: 0.2rem;
     position: absolute;
     right: 0.5rem;
+
+    svg {
+      width: 100%;
+    }
 
     @media (min-width: 48rem) {
       display: none;

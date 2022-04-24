@@ -15,7 +15,9 @@
     </li>
     <li *ngIf="isAuthenticated" class="header-list__item">
       <details #detail>
-        <summary (click)="toggleDetails(detail)"><a>Manage Attendance</a></summary>
+        <summary (click)="toggleDetails(detail)">
+          <a>Manage Attendance</a>
+        </summary>
         <ul class="attendance-actions">
           <li
             class="attendance-action"
@@ -56,27 +58,31 @@
       <a>Signup</a>
     </li>
   </ul>
-  <svg
-    (click)="openNav()"
-    xmlns="http://www.w3.org/2000/svg"
-    version="1.1"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:svgjs="http://svgjs.com/svgjs"
-    viewBox="0 0 32 32"
-    xml:space="preserve"
-    class="toggle-btn"
-  >
-    <g>
-      <g xmlns="http://www.w3.org/2000/svg" id="Layer_13" data-name="Layer 13">
-        <path
-          d="m30 7a1 1 0 0 1 -1 1h-26a1 1 0 0 1 0-2h26a1 1 0 0 1 1 1zm-5 8h-22a1 1 0 0 0 0 2h22a1 1 0 0 0 0-2zm-9 9h-13a1 1 0 0 0 0 2h13a1 1 0 0 0 0-2z"
-          fill="#125212"
-          data-original="#000000"
-          class=""
-        ></path>
+  <div class="toggle-btn" (click)="openNav()">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:svgjs="http://svgjs.com/svgjs"
+      viewBox="0 0 32 32"
+      xml:space="preserve"
+    >
+      <g>
+        <g
+          xmlns="http://www.w3.org/2000/svg"
+          id="Layer_13"
+          data-name="Layer 13"
+        >
+          <path
+            d="m30 7a1 1 0 0 1 -1 1h-26a1 1 0 0 1 0-2h26a1 1 0 0 1 1 1zm-5 8h-22a1 1 0 0 0 0 2h22a1 1 0 0 0 0-2zm-9 9h-13a1 1 0 0 0 0 2h13a1 1 0 0 0 0-2z"
+            fill="#125212"
+            data-original="#000000"
+            class=""
+          ></path>
+        </g>
       </g>
-    </g>
-  </svg>
+    </svg>
+  </div>
 </header>
 <nav class="nav-bar" #nav>
   <svg
