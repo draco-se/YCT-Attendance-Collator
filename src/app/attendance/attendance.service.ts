@@ -26,7 +26,7 @@ export interface Course {
   _id: string;
   title: string;
   attendanceRecords?: AttendanceRecord[];
-  aggregateAttendance?: AggregateAttendance[];
+  aggregateAttendance?: AggregateAttendanceLine[];
 }
 
 export interface AttendanceRecord {
@@ -41,21 +41,20 @@ export interface AttendanceLine {
   _id: string;
   name: string;
   matricNumber: string;
-  isRegistered: boolean
+  isRegistered: boolean;
   status: string;
 }
 
-export interface AggregateAttendance {
-  _id: string;
-  date: Date;
-  attendance: AggregateAttendanceLine[];
-}
+// export interface AggregateAttendance {
+//   _id: string;
+//   attendance: AggregateAttendanceLine[];
+// }
 
 export interface AggregateAttendanceLine {
   _id: string;
   name: string;
   matricNumber: string;
-  score: number;
+  timesPresent: number;
 }
 
 @Injectable({
@@ -84,6 +83,18 @@ export class AttendanceService {
       programmes: [],
     };
     return session.programmes;
+  }
+
+  getAggregateRecord(
+    id: string,
+    progId: string,
+    courseId: string,
+  ): AggregateAttendanceLine[] {
+    const records = this.getProgrammes(id)
+      .find((programme) => programme._id == progId)
+      .courses.find((course) => course._id == courseId).aggregateAttendance;
+
+    return records;
   }
 
   getRecords(id: string, progId: string, courseId: string): AttendanceRecord[] {
@@ -197,7 +208,6 @@ export class AttendanceService {
         catchError((err: HttpErrorResponse) => throwError(err)),
       );
   }
-
 
   markAttendance(
     sessionId: string,

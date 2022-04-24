@@ -54,6 +54,10 @@ app-student {
   z-index: 15;
 }
 
+app-aggregate {
+  @include general-flex();
+}
+
 app-record {
   @include general-flex();
 }

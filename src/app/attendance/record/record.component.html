@@ -4,7 +4,17 @@
   <div></div>
   <div></div>
 </div>
-<div class="load-box"></div>
+
+<div *ngIf="statusProcessing" class="loadbox">
+  <div class="loader-container">
+    <div class="lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
 
 <h1 *ngIf="attendance.length > 0 && !isLoading">
   Attendance <span>[{{ date }}]</span>
@@ -12,6 +22,7 @@
 
 <div class="link-cover" *ngIf="link && attendance.length > 0 && !isLoading">
   <input [value]="link" type="text" #input readonly />
+<div class="link-action__cover">
   <div class="link-action" (click)="copy(input)">
     <svg x="0" y="0" viewBox="0 0 32 32" xml:space="preserve">
       <g>
@@ -57,6 +68,7 @@
       </g>
     </svg>
   </div>
+</div>
 </div>
 
 <h2 *ngIf="attendance.length > 0 && !isLoading">

@@ -1,3 +1,4 @@
+import { AggregateComponent } from './attendance/aggregate/aggregate.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { StudentAttendanceComponent } from './attendance/student-attendance/student-attendance.component';
 import { MarkAttendanceComponent } from './attendance/mark-attendance/mark-attendance.component';
@@ -53,6 +54,12 @@ const routes: Routes = [
   {
     path: 'programmes/:year/:progId/:courseId',
     component: AttendanceRecordsComponent,
+    resolve: [AttendanceResolver],
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'aggregate/:sessionId/:progId/:courseId',
+    component: AggregateComponent,
     resolve: [AttendanceResolver],
     canActivate: [AuthGuard],
   },

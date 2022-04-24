@@ -6,7 +6,7 @@
 }
 
 .cred-main__container {
-  display: flex;
+  @include display-flex();
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -16,7 +16,7 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 51, 0, 0.5);
-  z-index: 3;
+  z-index: 15;
 
   .cred-box {
     @include display-flex();

@@ -2,7 +2,13 @@
 
 <p *ngIf="error && !isLoading" class="error-box">{{ error }}</p>
 
+<p *ngIf="sessions.length == 0">
+  You haven't created a session for attendance.
+  <a routerLink="/create-record">Click here!</a> to do so
+</p>
+
 <form
+  *ngIf="sessions.length > 0"
   class="form-control"
   #attendanceForm="ngForm"
   (submit)="onSubmit(attendanceForm)"

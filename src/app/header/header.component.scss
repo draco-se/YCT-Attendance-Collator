@@ -43,6 +43,44 @@
     padding: 1rem 5vw;
   }
 
+  details {
+    @include display-flex();
+    summary {
+      list-style: none;
+
+      width: 100%;
+
+      &:focus {
+        a {
+          font-weight: 700;
+        }
+      }
+
+      &::marker,
+      &::-webkit-details-marker {
+        display: none;
+      }
+    }
+
+    ul {
+      z-index: 3;
+      padding: 0;
+      list-style: none;
+      position: absolute;
+      background-color: #006400;
+      color: #f5f5f5;
+      box-shadow: 2px 2px 7px #c0c0c0;
+      font-size: 0.9rem;
+      font-weight: normal;
+      font-family: 'Montserrat', sans-serif;
+      border-radius: 0 0 5px 5px;
+
+      li {
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+
   .toggle-btn {
     width: 2.5rem;
     position: absolute;

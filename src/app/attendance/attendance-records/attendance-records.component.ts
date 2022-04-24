@@ -10,6 +10,9 @@ import { AttendanceRecord, AttendanceService } from '../attendance.service';
 export class AttendanceRecordsComponent implements OnInit {
   clicked: boolean = false;
   title: string;
+  sessionId: string;
+  progId: string;
+  courseId: string;
 
   dailyRecords: AttendanceRecord[];
 
@@ -22,18 +25,19 @@ export class AttendanceRecordsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       const title = params['year'].toLowerCase();
-      const progId = params['progId'].toLowerCase();
-      const courseId = params['courseId'].toLowerCase();
+      this.progId = params['progId'].toLowerCase();
+      this.courseId = params['courseId'].toLowerCase();
+      this.sessionId = title;
 
       this.title = this.attendanceService
         .getProgrammes(title)
-        .find((programme) => programme._id == progId)
-        .courses.find((course) => course._id == courseId).title;
+        .find((programme) => programme._id == this.progId)
+        .courses.find((course) => course._id == this.courseId).title;
 
       this.dailyRecords = this.attendanceService.getRecords(
         title,
-        progId,
-        courseId,
+        this.progId,
+        this.courseId,
       );
     });
   }

@@ -1,7 +1,10 @@
 <h1>{{ title }} Records</h1>
 
 <ul class="attendance-options">
-  <li class="attendance-option">
+  <li
+    class="attendance-option"
+    routerLink="/aggregate/{{ sessionId }}/{{ progId }}/{{ courseId }}"
+  >
     <div class="drop-down__btn"></div>
     <h1>Aggregate Score</h1>
   </li>

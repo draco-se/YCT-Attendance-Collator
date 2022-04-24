@@ -13,6 +13,7 @@ export class RecordComponent implements OnInit, OnDestroy {
   attendance: AttendanceLine[] = [];
   date: string;
   isLoading: boolean = true;
+  statusProcessing: boolean = false;
   clicked: boolean = false;
   link: string = '';
   minutes: number = 0;
@@ -113,6 +114,7 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
 
   changeStatus(status: boolean, id: string) {
+    this.statusProcessing = true;
     this.attendanceService
       .markAttendance(
         this.sessionId,
@@ -125,10 +127,11 @@ export class RecordComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.clicked = false;
+          this.statusProcessing = false;
         },
         error: (err) => {
           console.error(err.error.message);
-          this.isLoading = false;
+          this.statusProcessing = false;
         },
       });
   }

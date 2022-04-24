@@ -31,7 +31,6 @@ export class StudentComponent implements OnInit {
         }, 2000);
       }
       if (this.isRegistered) {
-        this.isLoading = false;
         this.close(this.slideEl.nativeElement);
       }
     });
@@ -140,7 +139,7 @@ export class StudentComponent implements OnInit {
 
     // // if moved enough negative then snap to next slide if there is one
     if (movedBy > this.slideEl.nativeElement.clientHeight / 2) {
-      this.slideEl.nativeElement.style.transform = `translateY(${90}%)`;
+      this.slideEl.nativeElement.style.transform = `translateY(${100}%)`;
       this.close(this.slideEl.nativeElement);
     } else {
       this.slideEl.nativeElement.style.transform = `translateY(${0}%)`;

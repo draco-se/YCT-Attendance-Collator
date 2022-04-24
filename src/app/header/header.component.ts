@@ -14,7 +14,6 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-
 export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('nav') navBar: ElementRef<HTMLElement>;
   @ViewChild('backdrop') backdrop: ElementRef<HTMLElement>;
@@ -51,10 +50,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
+  toggleDetails(detail: HTMLDetailsElement) {
+    if (detail.hasAttribute('open')) {
+      detail.removeAttribute('open');
+    } else {
+      detail.setAttribute('open', null);
+    }
+  }
+
   onLogout() {
     this.authService.logout();
     this.router.navigate(['/']);
-    this.closeNav()
+    this.closeNav();
   }
 
   ngOnDestroy(): void {
