@@ -37,32 +37,4 @@ export class AttendanceRecordsComponent implements OnInit {
       );
     });
   }
-
-  // dropDownRec(opt: HTMLLIElement) {
-  //   const plus: HTMLElement = opt.querySelector('.plus');
-  //   const records = opt.nextElementSibling;
-  //   if (this.clicked == false) {
-  //     plus.style.display = 'block';
-  //     records.setAttribute('style', 'display: block;');
-  //     this.clicked = true;
-  //   } else {
-  //     this.closeDropDown(opt);
-  //   }
-  // }
-
-  // closeDropDown(opt: HTMLLIElement) {
-  //   const plus: HTMLElement = opt.querySelector('.plus');
-  //   const records = opt.nextElementSibling;
-
-  //   plus.removeAttribute('style');
-  //   records.removeAttribute('style');
-  //   this.clicked = false;
-  // }
-
-  // recordPage(idx) {
-  //   setTimeout(
-  //     () => this.router.navigate([idx], { relativeTo: this.route }),
-  //     300,
-  //   );
-  // }
 }
