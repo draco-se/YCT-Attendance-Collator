@@ -20,7 +20,7 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
   hours: number = 0;
   clearTimeout: any;
   clicked: boolean = false;
-  userId: string;
+  teacherId: string;
   sessionId: string;
   progId: string;
   courseId: string;
@@ -34,7 +34,7 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.userId = params['userId'];
+      this.teacherId = params['userId'];
       this.sessionId = params['year'];
       this.progId = params['progId'];
       this.courseId = params['courseId'];
@@ -43,7 +43,7 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
 
       this.studentService
         .fetchRecord(
-          this.userId,
+          this.teacherId,
           this.sessionId,
           this.progId,
           this.courseId,
@@ -67,6 +67,7 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
         this.setAttendance(details);
       });
     });
+
   }
 
   setAttendance(details) {
@@ -98,28 +99,20 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
     this.date = details.date.split(',')[0].replaceAll('/', '-');
   }
 
-  changeStatus(idx: number) {
-    this.authenticate = true;
+  changeStatus(stautus: boolean, idx: number) {
     this.studentService.studentAuthDetails = {
+      sessionId: this.sessionId,
+      progId: this.progId,
+      courseId: this.courseId,
+      recordId: this.recordId,
+      attendanceId: this.attendance[idx]._id,
+      teacherId: this.teacherId,
+      linkToken: this.token,
+      stautus,
       matricNumber: this.attendance[idx].matricNumber,
-      isRegistered: true,
+      isRegistered: this.attendance[idx].isRegistered,
     };
-
-    // this.attendanceService
-    //   .markAttendance(
-    //     this.sessionId,
-    //     this.progId,
-    //     this.courseId,
-    //     this.recordId,
-    //     id,
-    //     status,
-    //     this.userId,
-    //     this.token,
-    //   )
-    //   .subscribe((res) => {
-    //     console.log(res);
-    //     this.clicked = false;
-    //   });
+    this.authenticate = true;
   }
 
   dropdown(el: HTMLDivElement, list: HTMLUListElement) {

@@ -74,7 +74,7 @@
       </g>
     </g>
   </svg>
-  <p>This link has expired!</p>
+  <p>This link has expired or bad network!</p>
 </div>
 
 <h1 *ngIf="attendance.length > 0 && !isLoading">
@@ -104,18 +104,8 @@
         <div class="dropdown-arrow"></div>
       </div>
       <div class="status-opt">
-        <div
-          class="present"
-          (click)="changeStatus(i)"
-        >
-          Present
-        </div>
-        <div
-          class="absent"
-          (click)="changeStatus(i)"
-        >
-          Absent
-        </div>
+        <div class="present" (click)="changeStatus(true, i)">Present</div>
+        <div class="absent" (click)="changeStatus(false, i)">Absent</div>
       </div>
     </div>
   </li>

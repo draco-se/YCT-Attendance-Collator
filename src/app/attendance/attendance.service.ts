@@ -41,6 +41,7 @@ export interface AttendanceLine {
   _id: string;
   name: string;
   matricNumber: string;
+  isRegistered: boolean
   status: string;
 }
 

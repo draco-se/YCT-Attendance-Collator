@@ -24,7 +24,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  animation: slideIn 500ms linear;
+  animation: gildeIn 500ms linear;
   z-index: 2;
 
   hr {
@@ -34,10 +34,17 @@
     width: 40%;
     margin: 0.5rem;
   }
+
+  .error-box {
+    padding: 0;
+    margin: 0.5rem;
+    font-family: 'Montserrat', sans-serif;
+    color: red;
+  }
 }
 
 .slide-out {
-  transition: transform 300ms linear;
+  transition: transform 500ms linear;
   transform: translateY(90%);
 }
 
@@ -47,7 +54,13 @@
   justify-content: flex-start;
   align-items: center;
   width: 90%;
-  margin: 3rem 0;
+  margin: 0 0 8rem 0;
+
+  h1 {
+    font-size: 1.8rem;
+    font-family: 'Montserrat', sans-serif;
+    margin: 2rem;
+  }
 
   .form-input__cover {
     width: 95%;
@@ -90,6 +103,31 @@
     }
   }
 
+  input.ng-invalid.ng-touched,
+  input.ng-invalid.ng-touched,
+  textarea.ng-invalid.ng-touched,
+  input:-webkit-autofill.ng-invalid.ng-touched {
+    color: red;
+    background-color: rgba(255, 207, 207, 0.5);
+    border-color: red;
+    -webkit-text-fill-color: red;
+
+    &:hover,
+    &:active,
+    &:focus {
+      border-color: red;
+      font-weight: bold;
+      color: red;
+      &::placeholder {
+        color: red;
+      }
+    }
+
+    &::placeholder {
+      color: red;
+    }
+  }
+
   button {
     border: none;
     border-radius: 5px;
@@ -118,7 +156,7 @@
   }
 }
 
-@keyframes slideIn {
+@keyframes gildeIn {
   from {
     transform: translateY(90%);
   }

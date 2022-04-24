@@ -81,11 +81,17 @@
         <div class="dropdown-arrow"></div>
       </div>
       <div class="status-opt">
-        <div class="present" (click)="changeStatus(true, attendanceLine._id)">Present</div>
-        <div class="absent" (click)="changeStatus(false, attendanceLine._id)">Absent</div>
+        <div class="present" (click)="changeStatus(true, attendanceLine._id)">
+          Present
+        </div>
+        <div class="absent" (click)="changeStatus(false, attendanceLine._id)">
+          Absent
+        </div>
       </div>
     </div>
   </li>
 </ul>
 
-<span *ngIf="attendance.length > 0 && !isLoading" class="timeout">Time Left - {{ hours }} hour : {{ minutes }} mins</span>
+<span *ngIf="attendance.length > 0 && !isLoading" class="timeout"
+  >Time Left - {{ hours }} hour : {{ minutes }} mins</span
+>

@@ -3,17 +3,32 @@
   class="form-cover"
   #cover
   (touchstart)="onTouchStart($event)"
-  (touchmove)="onTouchMove($event, cover)"
-  (touchend)="onTouchEnd(cover)"
+  (touchmove)="onTouchMove($event)"
+  (touchend)="onTouchEnd()"
 >
   <hr />
 
-  <form class="form-control" *ngIf="isRegistered">
+  <form
+    class="form-control"
+    #loginForm="ngForm"
+    (ngSubmit)="onLogin(loginForm)"
+    *ngIf="isRegistered"
+  >
+    <h1>Login!</h1>
+
+    <p *ngIf="error && !isLoading" class="error-box">
+      {{ error }}
+    </p>
+
     <div class="form-input__cover">
       <input
         type="text"
         name="matricNumber"
-        class="form-input"
+        [ngClass]="{
+          'form-input': true,
+          'ng-valid': !error,
+          'ng-invalid ng-touched': error
+        }"
         [(ngModel)]="matricNum"
         required
         #matricNumber="ngModel"
@@ -164,12 +179,27 @@
     </div>
   </form>
 
-  <form class="form-control" *ngIf="!isRegistered">
+  <form
+    class="form-control"
+    #signupForm="ngForm"
+    (ngSubmit)="onSignup(signupForm)"
+    *ngIf="!isRegistered"
+  >
+    <h1>Register Your Biometrics!</h1>
+
+    <p *ngIf="error && !isLoading" class="error-box">
+      {{ error }}
+    </p>
+
     <div class="form-input__cover">
       <input
         type="text"
         name="matricNumber"
-        class="form-input"
+        [ngClass]="{
+          'form-input': true,
+          'ng-valid': !error,
+          'ng-invalid ng-touched': error
+        }"
         [(ngModel)]="matricNum"
         required
         #matricNumber="ngModel"
@@ -320,9 +350,3 @@
     </div>
   </form>
 </div>
-
-<!-- [ngClass]="{
-  'form-input': true,
-  'ng-valid': !error,
-  'ng-invalid ng-touched': error
-}" -->
