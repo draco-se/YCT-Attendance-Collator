@@ -21,10 +21,19 @@ export class ProgrammesComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       const id = params['year'];
-      this.programmes = [...this.attendanceService.getProgrammes(id)].sort();
-
+      this.programmes = this.sort(this.attendanceService.getProgrammes(id));
       this.sessionId = id;
     });
+  }
+
+  sort(array: any[]) {
+    const sortedArray = [...array].sort((a, b) => {
+      if (a.title < b.title) return -1;
+      if (a.title > b.title) return 1;
+      return 0;
+    });
+
+    return sortedArray;
   }
 
   closeDetails(detail: HTMLDetailsElement) {
