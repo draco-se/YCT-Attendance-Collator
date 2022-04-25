@@ -64,7 +64,7 @@
       </details>
       <ul class="courses">
         <li
-          *ngFor="let course of programme.courses"
+          *ngFor="let course of programme.courses.sort()"
           routerLink="{{ programme._id + '/' + course._id }}"
           class="course"
         >

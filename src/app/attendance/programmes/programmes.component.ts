@@ -21,7 +21,7 @@ export class ProgrammesComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       const id = params['year'];
-      this.programmes = this.attendanceService.getProgrammes(id);
+      this.programmes = [...this.attendanceService.getProgrammes(id)].sort();
 
       this.sessionId = id;
     });
