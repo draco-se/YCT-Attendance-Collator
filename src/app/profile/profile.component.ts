@@ -26,4 +26,10 @@ export class ProfileComponent implements OnInit {
     this.firstName = this.user.name.split(' ')[1];
     this.innitials = this.user.name.split(' ')[1][0] + this.user.name[0];
   }
+
+  onLogout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
+
 }
