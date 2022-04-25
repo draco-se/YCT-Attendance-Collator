@@ -1,1 +1,15 @@
+@mixin display-flex() {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
 
+
+.load-container {
+  @include display-flex();
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}

@@ -5,19 +5,23 @@ import { AuthService } from './auth/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   title = 'yct-biometric-auth';
   loaded: boolean = false;
 
-  constructor(private authService: AuthService,
-    @Inject(PLATFORM_ID) private platformId){}
+  constructor(
+    private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId,
+  ) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.authService.autoLogin();
-      this.loaded = true
+      setTimeout(() => {
+        this.loaded = true;
+      }, 2000);
     }
   }
 }

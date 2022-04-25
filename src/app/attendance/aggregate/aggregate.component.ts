@@ -64,7 +64,7 @@ export class AggregateComponent implements OnInit {
       ),
     ].filter(
       (attendanceLine) =>
-        attendanceLine.timesPresent / this.totalRecord > this.filterer / 100,
+        attendanceLine.timesPresent / this.totalRecord >= this.filterer / 100,
     );
   }
 
