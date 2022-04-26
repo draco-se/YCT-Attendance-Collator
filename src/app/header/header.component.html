@@ -8,7 +8,7 @@
       <a routerLinkActive="active">Home</a>
     </li>
     <li class="header-list__item">
-      <a routerLink="/" fragment="about">About</a>
+      <a routerLink="/" routerLinkActive="active" fragment="about">About</a>
     </li>
     <li *ngIf="isAuthenticated" routerLink="/profile" class="header-list__item">
       <a>My Account</a>
