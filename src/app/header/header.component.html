@@ -8,7 +8,7 @@
       <a routerLinkActive="active">Home</a>
     </li>
     <li class="header-list__item">
-      <a >About</a>
+      <a routerLink="/" fragment="about">About</a>
     </li>
     <li *ngIf="isAuthenticated" routerLink="/profile" class="header-list__item">
       <a>My Account</a>
@@ -133,7 +133,7 @@
     >
       My Account
     </li>
-    <li *ngIf="!isAuthenticated" class="nav-list__item" (click)="closeNav()">
+    <li *ngIf="!isAuthenticated" routerLink="/" fragment="about" class="nav-list__item" (click)="closeNav()">
       About
     </li>
     <li *ngIf="!isAuthenticated" class="nav-list__item" (click)="closeNav()">

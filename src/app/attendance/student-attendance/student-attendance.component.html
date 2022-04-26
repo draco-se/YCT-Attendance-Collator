@@ -1,10 +1,12 @@
 <app-student *ngIf="authenticate"></app-student>
 
-<div *ngIf="isLoading" class="lds-ellipsis loader">
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
+<div  *ngIf="isLoading" class="load-box">
+  <div class="lds-ellipsis loader">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </div>
 
 <div *ngIf="attendance.length == 0 && !isLoading" class="expired">

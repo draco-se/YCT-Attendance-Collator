@@ -91,6 +91,9 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       scrollPositionRestoration: 'enabled',
       preloadingStrategy: PreloadAllModules,
+      anchorScrolling: 'enabled',
+      onSameUrlNavigation: 'reload',
+      // scrollOffset: [0, 50],
     }),
   ],
   exports: [RouterModule],

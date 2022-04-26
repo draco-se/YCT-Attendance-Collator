@@ -39,7 +39,7 @@ body {
 
 app-home {
   @include general-flex();
-  flex-direction: row;
+  flex-direction: column;
 }
 
 app-student {

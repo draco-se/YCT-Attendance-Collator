@@ -63,6 +63,7 @@ export interface AggregateAttendanceLine {
 export class AttendanceService {
   sessions: Session[] = [];
   sessionsChanged = new Subject<Session[]>();
+  isLoading = new Subject<boolean>();
   link = new BehaviorSubject<{ token: string; tokenResetExpiration: string }>(
     null,
   );
@@ -72,6 +73,7 @@ export class AttendanceService {
   setSessions(sessions: Session[]) {
     this.sessions = sessions;
     this.sessionsChanged.next(this.sessions);
+    this.isLoading.next(true);
   }
 
   getSessions(): Session[] {
@@ -196,6 +198,7 @@ export class AttendanceService {
   }
 
   fetchSessions() {
+    this.isLoading.next(false);
     return this.http
       .get<Session[]>(environment.restApiAddress + '/sessions')
       .pipe(
