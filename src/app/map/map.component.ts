@@ -7,7 +7,7 @@ import { MapService } from './map.service';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
-  map: any;
+  map: google.maps.Map;
   isLoading: boolean = false;
 
   constructor(private mapService: MapService) {}
