@@ -8,7 +8,7 @@ import { MapService } from './map.service';
 })
 export class MapComponent implements OnInit {
   // @ViewChild('map') mapElement: any;
-  map: google.maps.Map;
+  map: any;
   isLoading: boolean = false;
 
   constructor(private mapService: MapService) {}
