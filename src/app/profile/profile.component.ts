@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
 
   onLogout() {
     this.authService.logout();
-    this.router.navigate(['/']);
+    location.pathname = '/'
   }
 
 }

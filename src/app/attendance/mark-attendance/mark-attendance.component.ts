@@ -25,6 +25,7 @@ export class MarkAttendanceComponent implements OnInit {
   programmeTitle: string = '';
   courses: Course[] = [];
   courseTitle: string = '';
+  mappingTime: boolean = true;
 
   constructor(
     private attendanceService: AttendanceService,
@@ -99,20 +100,20 @@ export class MarkAttendanceComponent implements OnInit {
         }) => {
           this.isLoading = false;
 
-          this.router.navigate([
-            '/programmes',
-            res.sessionId,
-            res.programmeId,
-            res.courseId,
-            res.attendanceRecordId,
-          ]);
+          this.mappingTime = true;
+          // this.router.navigate([
+          //   '/programmes',
+          //   res.sessionId,
+          //   res.programmeId,
+          //   res.courseId,
+          //   res.attendanceRecordId,
+          // ]);
         },
         error: (err) => {
           this.error = err.error.message;
 
           this.isLoading = false;
         },
-        // complete: () => console.info('Created Successfully'),
       });
   }
 }

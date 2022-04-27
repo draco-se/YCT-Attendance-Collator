@@ -1,1 +1,26 @@
-<p>map works!</p>
+<header><h1>Select Your Location!</h1></header>
+
+<main>
+  <div #map id="map">
+    <p *ngIf="!isLoading">
+      You haven't selected any place yet. Please enter an address or locate
+      yourself!
+    </p>
+
+    <div *ngIf="isLoading" class="lds-ellipsis loader">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+
+  <button (click)="autoLocate(map)" id="locate-btn">Auto Locate</button>
+
+  <p>or</p>
+
+  <form>
+    <input type="text" name="address" ngModel="address" placeholder="Enter an Location" />
+    <button type="submit">Find!</button>
+  </form>
+</main>

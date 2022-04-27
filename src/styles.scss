@@ -39,7 +39,17 @@ body {
 
 app-home {
   @include general-flex();
-  flex-direction: column;
+}
+
+app-map {
+  @include general-flex();
+  background-color: #256325;
+  margin-bottom: 5rem;
+  margin-top: 3rem;
+
+  @media (min-width: 48rem) {
+    margin-top: 5rem;
+  }
 }
 
 app-student {

@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
-  SocialLoginModule
+  SocialLoginModule,
 } from 'angularx-social-login';
 import { ValidateEqualModule } from 'ng-validate-equal';
 import { environment } from 'src/environments/environment';
@@ -31,7 +31,6 @@ import { HomeComponent } from './home/home.component';
 import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProfileComponent } from './profile/profile.component';
-
 
 @NgModule({
   declarations: [
@@ -65,6 +64,7 @@ import { ProfileComponent } from './profile/profile.component';
     MatFormFieldModule,
     MatAutocompleteModule,
     AppRoutingModule,
+
   ],
 
   providers: [

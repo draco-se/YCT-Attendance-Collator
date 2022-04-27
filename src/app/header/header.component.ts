@@ -60,8 +60,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this.authService.logout();
-    this.router.navigate(['/']);
     this.closeNav();
+    setTimeout(() => {
+      location.pathname = '/';
+    }, 600);
   }
 
   ngOnDestroy(): void {
