@@ -36,7 +36,7 @@ export class MapComponent implements OnInit {
 
         this.coordinates = coordinate;
         this.render(map);
-        console.log(coordinate);
+        console.log(JSON.stringify(coordinate));
         this.isLoading = false;
       },
       (err) => {
