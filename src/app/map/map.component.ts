@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from './map.service';
 
+declare var google: any
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
+
 export class MapComponent implements OnInit {
   map: google.maps.Map;
   isLoading: boolean = false;
