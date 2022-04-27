@@ -6,7 +6,7 @@
     "target": "es2019",
     "types": [
       "node",
-      "googlemaps"
+      "google.maps"
     ]
   },
   "files": [
