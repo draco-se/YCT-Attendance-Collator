@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { } from 'googlemaps';
 import { MapService } from './map.service';
 
 @Component({
@@ -7,7 +8,8 @@ import { MapService } from './map.service';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
-  map: any;
+  // @ViewChild('map') mapElement: any;
+  map: google.maps.Map;
   isLoading: boolean = false;
 
   constructor(private mapService: MapService) {}
