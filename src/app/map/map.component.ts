@@ -7,7 +7,6 @@ import { MapService } from './map.service';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
-  // @ViewChild('map') mapElement: any;
   map: any;
   isLoading: boolean = false;
 
