@@ -44,8 +44,7 @@ app-home {
 app-map {
   @include general-flex();
   background-color: #256325;
-  margin-top: 3.5rem;
-  height: -webkit-fill-available;
+  margin: 3.5rem 0;
 
   @media (min-width: 48rem) {
     margin-top: 5rem;
