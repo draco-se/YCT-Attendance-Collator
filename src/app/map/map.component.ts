@@ -53,11 +53,11 @@ export class MapComponent implements OnInit, OnDestroy {
   ) {}
   coordinates: Coordinates;
   formattedaddress = '';
-  options = {
-    componentRestrictions: {
-      country: 'NG',
-    },
-  };
+  // options = {
+  //   componentRestrictions: {
+  //     country: 'NG',
+  //   },
+  // };
 
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe((user) => {

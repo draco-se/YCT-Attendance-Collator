@@ -31,7 +31,6 @@
     <div class="form-input__cover">
       <input
         ngx-google-places-autocomplete
-        [options]="options"
         (onAddressChange)="AddressChange($event)"
         [ngClass]="{
           'ng-valid': !error,
