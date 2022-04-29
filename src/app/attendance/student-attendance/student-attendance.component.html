@@ -1,6 +1,11 @@
+<app-map
+  (coordinateGenerated)="onCoordinateGenerated($event)"
+  *ngIf="!located && !error"
+></app-map>
+
 <app-student *ngIf="authenticate"></app-student>
 
-<div  *ngIf="isLoading" class="load-box">
+<div *ngIf="isLoading && !error" class="load-box">
   <div class="lds-ellipsis loader">
     <div></div>
     <div></div>
@@ -9,7 +14,7 @@
   </div>
 </div>
 
-<div *ngIf="attendance.length == 0 && !isLoading" class="expired">
+<div *ngIf="error && !isLoading && located" class="expired">
   <svg
     x="0"
     y="0"
@@ -76,20 +81,24 @@
       </g>
     </g>
   </svg>
-  <p>This link has expired or bad network!</p>
+  <p>{{ error }}</p>
 </div>
 
-<h1 *ngIf="attendance.length > 0 && !isLoading">
+<h1 *ngIf="attendance.length > 0 && !isLoading && located && !error">
   Attendance <span>[{{ date }}]</span>
 </h1>
 
-<h2 *ngIf="attendance.length > 0 && !isLoading">
+<h2 *ngIf="attendance.length > 0 && !isLoading && located && !error">
   <span class="number-title">S/N</span>
   <span class="matric-title">Matric Number</span>
   <span class="status-title">Status</span>
 </h2>
 
-<ul *ngIf="attendance.length > 0 && !isLoading" class="records" #list>
+<ul
+  *ngIf="attendance.length > 0 && !isLoading && located && !error"
+  class="records"
+  #list
+>
   <li *ngFor="let attendanceLine of attendance; let i = index" class="record">
     <div class="number">{{ i + 1 }}.</div>
     <div class="matric-number">{{ attendanceLine.matricNumber }}</div>
@@ -113,6 +122,6 @@
   </li>
 </ul>
 
-<span *ngIf="attendance.length > 0 && !isLoading" class="timeout"
+<span *ngIf="attendance.length > 0 && !isLoading && located && !error" class="timeout"
   >Time Left - {{ hours }} hour : {{ minutes }} mins</span
 >

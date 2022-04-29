@@ -6,56 +6,10 @@ import {
   map,
   Subject,
   tap,
-  throwError,
+  throwError
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
-export interface Session {
-  _id: string;
-  title: string;
-  programmes: Programme[];
-}
-
-export interface Programme {
-  _id: string;
-  title: string;
-  courses: Course[];
-}
-
-export interface Course {
-  _id: string;
-  title: string;
-  attendanceRecords?: AttendanceRecord[];
-  aggregateAttendance?: AggregateAttendanceLine[];
-}
-
-export interface AttendanceRecord {
-  _id: string;
-  date: any;
-  token: string;
-  tokenResetExpiration: string;
-  attendance: AttendanceLine[];
-}
-
-export interface AttendanceLine {
-  _id: string;
-  name: string;
-  matricNumber: string;
-  isRegistered: boolean;
-  status: string;
-}
-
-// export interface AggregateAttendance {
-//   _id: string;
-//   attendance: AggregateAttendanceLine[];
-// }
-
-export interface AggregateAttendanceLine {
-  _id: string;
-  name: string;
-  matricNumber: string;
-  timesPresent: number;
-}
+import { AggregateAttendanceLine, AttendanceRecord, Programme, Session } from '../shared/shared.model';
 
 @Injectable({
   providedIn: 'root',

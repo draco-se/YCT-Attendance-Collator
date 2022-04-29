@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AttendanceRecord, AttendanceService } from '../attendance.service';
+import { AttendanceRecord } from 'src/app/shared/shared.model';
+import {  AttendanceService } from '../attendance.service';
 
 @Component({
   selector: 'app-attendance-records',

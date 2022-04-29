@@ -1,6 +1,7 @@
+import { Programme } from './../../shared/shared.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AttendanceService, Programme } from '../attendance.service';
+import { AttendanceService } from '../attendance.service';
 
 @Component({
   selector: 'app-programmes',

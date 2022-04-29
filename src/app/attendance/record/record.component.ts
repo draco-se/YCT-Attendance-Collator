@@ -2,7 +2,8 @@ import { environment } from './../../../environments/environment';
 import { AuthService } from './../../auth/auth.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AttendanceLine, AttendanceService } from '../attendance.service';
+import { AttendanceService } from '../attendance.service';
+import { AttendanceLine } from 'src/app/shared/shared.model';
 
 @Component({
   selector: 'app-record',

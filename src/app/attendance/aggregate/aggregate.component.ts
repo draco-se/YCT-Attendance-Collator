@@ -1,9 +1,9 @@
 import {
   AttendanceService,
-  AggregateAttendanceLine,
 } from './../attendance.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { AggregateAttendanceLine } from 'src/app/shared/shared.model';
 
 @Component({
   selector: 'app-aggregate',

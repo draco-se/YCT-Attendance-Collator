@@ -10,6 +10,7 @@ import {
   throwError,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AttendanceService } from '../attendance/attendance.service';
 import { User } from './user.model';
 
 export interface AuthResponseData {
@@ -33,7 +34,9 @@ export const bufferToBase64URLString = (buffer: ArrayBuffer): string => {
   return base64String.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 };
 
-export const base64URLStringToBuffer = (base64URLString: string): ArrayBuffer => {
+export const base64URLStringToBuffer = (
+  base64URLString: string,
+): ArrayBuffer => {
   // Convert from Base64URL to Base64
   const base64 = base64URLString.replace(/-/g, '+').replace(/_/g, '/');
   /**
@@ -63,7 +66,6 @@ export const base64URLStringToBuffer = (base64URLString: string): ArrayBuffer =>
 @Injectable({
   providedIn: 'root',
 })
-
 export class AuthService {
   user = new BehaviorSubject<User>(null);
   signedUSer: string;
@@ -72,7 +74,11 @@ export class AuthService {
 
   private tokenExpirationTimer: any;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private attendnaceService: AttendanceService,
+    private router: Router,
+  ) {}
 
   login(email: string, password: string) {
     return this.http
@@ -292,6 +298,7 @@ export class AuthService {
   logout() {
     this.user.next(null);
     localStorage.removeItem('YctUserData');
+    this.attendnaceService.setSessions([]);
 
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);

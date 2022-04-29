@@ -1,7 +1,7 @@
+import { Coordinates } from './../map/map.component';
 import { base64URLStringToBuffer } from './../auth/auth.service';
 import { environment } from 'src/environments/environment';
-import { AttendanceRecord } from './attendance.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
@@ -13,6 +13,7 @@ import {
   throwError,
 } from 'rxjs';
 import { bufferToBase64URLString } from '../auth/auth.service';
+import { AttendanceRecord } from '../shared/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -41,40 +42,6 @@ export class StudentService {
     this.studentClose.next(false);
   }
 
-  markAttendance(
-    sessionId: string,
-    progId: string,
-    courseId: string,
-    recordId: string,
-    id: string,
-    status: boolean,
-    userId: string,
-    token: string,
-  ) {
-    return this.http
-      .post<{ attendanceRecord: AttendanceRecord }>(
-        environment.restApiAddress + '/student-mark-attendance',
-        {
-          userId,
-          sessionId,
-          progId,
-          courseId,
-          recordId,
-          token,
-          id,
-          status,
-        },
-      )
-      .pipe(
-        map((resData) => {
-          return resData.attendanceRecord;
-        }),
-        tap((attendanceRecord) => {
-          this.studentRecordChanged.next(attendanceRecord);
-        }),
-      );
-  }
-
   fetchRecord(
     userId: string,
     sessionId: string,
@@ -82,10 +49,11 @@ export class StudentService {
     courseId: string,
     recordId: string,
     token: string,
+    coordinates: Coordinates,
   ) {
     return this.http
       .post<{ attendanceRecord: AttendanceRecord }>(
-        environment.restApiAddress + '/student-attendance',
+        environment.restApiAddress + '/student/attendance',
         {
           userId,
           sessionId,
@@ -93,9 +61,11 @@ export class StudentService {
           courseId,
           recordId,
           token,
+          coordinates,
         },
       )
       .pipe(
+        catchError(this.handleErrors),
         map((resData) => {
           return resData.attendanceRecord;
         }),
@@ -264,5 +234,51 @@ export class StudentService {
             });
         }),
       );
+  }
+
+  private handleErrors(errorRes: HttpErrorResponse) {
+    let errorMeassge = 'An unknown error occurred';
+
+    console.log(errorRes.error);
+
+    if (!errorRes.error) {
+      return throwError(errorMeassge);
+    }
+    switch (errorRes.error.message) {
+      case 'INVALID_LINK':
+        errorMeassge = 'Your link is not valid!';
+        break;
+
+      case 'LINK_EXPIRED':
+        errorMeassge = 'This link has expired or bad network!';
+        break;
+
+      case 'INVALID_DETAILS':
+        errorMeassge = 'Invalid details! Try again.';
+        break;
+
+      case 'INVALID_COORD':
+        errorMeassge = 'Invalid coordinates! Try again.';
+        break;
+
+      case 'INACCURATE_LOCATION':
+        errorMeassge =
+          'Your location is inaccurate! This might be due to your network';
+        break;
+
+      case 'RECORD_NOT_FOUND':
+        errorMeassge = 'Attendance record not found';
+        break;
+
+      case 'INVALID_TOKEN':
+        errorMeassge = 'Invalid token! Ensure your link is correct.';
+        break;
+
+      case 'OUT_OF_BOUND':
+        errorMeassge = "You're not in class! Try contacting your teacher.";
+        break;
+    }
+
+    return throwError(errorMeassge);
   }
 }

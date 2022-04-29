@@ -3,8 +3,8 @@
 <main>
   <div #map id="map">
     <p *ngIf="!isLoading">
-      You haven't selected any place yet. Please enter an address or locate
-      yourself!
+      You haven't taken any action yet. Click Auto locate or enter address to
+      see yourself!
     </p>
 
     <div *ngIf="isLoading" class="lds-ellipsis loader">
@@ -15,12 +15,57 @@
     </div>
   </div>
 
-  <button (click)="autoLocate(map)" id="locate-btn">Auto Locate</button>
+  <p class="error-box" *ngIf="error">{{ error }}</p>
 
-  <p>or</p>
+  <button *ngIf="!success" (click)="autoLocate()" id="locate-btn">
+    Auto Locate
+  </button>
 
-  <form>
-    <input type="text" name="address" ngModel="" placeholder="Enter a Location" />
-    <button type="submit">Find!</button>
+  <p *ngIf="!success && isAuthenticated">or</p>
+
+  <form
+    #form="ngForm"
+    *ngIf="!success && isAuthenticated"
+    (ngSubmit)="findAddressHandler(form)"
+  >
+    <div class="form-input__cover">
+      <input
+        ngx-google-places-autocomplete
+        [options]="options"
+        (onAddressChange)="AddressChange($event)"
+        [ngClass]="{
+          'ng-valid': !error,
+          'ng-invalid ng-touched': error
+        }"
+        type="text"
+        name="address"
+        ngModel
+        required
+        placeholder="Enter a Location"
+        #input="ngModel"
+      />
+      <span class="help-block" *ngIf="!input.valid && input.touched">{{
+        error
+      }}</span>
+    </div>
+    <button class="address-btn" [disabled]="!form.valid" type="submit">Find!</button>
+  </form>
+
+  <form #proceedForm="ngForm" *ngIf="success" (ngSubmit)="onSubmit()">
+    <div class="form-input__cover">
+      <label for="latlng">Okay with this location?</label>
+    </div>
+
+    <div *ngIf="!isLoading2" class="button-cover">
+      <button type="button" class="failed" (click)="tryAgain()">
+        Try Again!</button
+      ><button type="submit">Proceed</button>
+    </div>
+    <div *ngIf="isLoading2" class="lds-ellipsis loader">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </form>
 </main>

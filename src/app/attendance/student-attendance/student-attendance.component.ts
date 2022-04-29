@@ -1,7 +1,8 @@
+import { Coordinates } from './../../map/map.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { StudentService } from '../student.service';
-import { AttendanceLine, AttendanceService } from './../attendance.service';
+import { AttendanceLine } from 'src/app/shared/shared.model';
 
 @Component({
   selector: 'app-student-attendance',
@@ -12,9 +13,10 @@ import { AttendanceLine, AttendanceService } from './../attendance.service';
   ],
 })
 export class StudentAttendanceComponent implements OnInit, OnDestroy {
+  error: string;
   attendance: AttendanceLine[] = [];
   date: string;
-  isLoading: boolean = true;
+  isLoading: boolean = false;
   authenticate: boolean;
   minutes: number = 0;
   hours: number = 0;
@@ -26,6 +28,15 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
   courseId: string;
   recordId: string;
   token: string;
+  studentEl: {
+    teacherId: string;
+    sessionId: string;
+    programmeId: string;
+    courseId: string;
+    attendanceRecordId: string;
+    token: string;
+  };
+  located: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,34 +51,38 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
       this.courseId = params['courseId'];
       this.recordId = params['recordId'];
       this.token = params['token'];
-
-      this.studentService
-        .fetchRecord(
-          this.teacherId,
-          this.sessionId,
-          this.progId,
-          this.courseId,
-          this.recordId,
-          this.token,
-        )
-        .subscribe({
-          next: (details) => {
-            this.setAttendance(details);
-          },
-          error: (err) => {
-            console.error(err.error.message);
-            this.isLoading = false;
-          },
-        });
-
-      this.studentService.studentClose.subscribe((data) => {
-        this.authenticate = data;
-      });
-      this.studentService.studentRecordChanged.subscribe((details) => {
-        this.setAttendance(details);
-      });
     });
+  }
 
+  onCoordinateGenerated(coordinate: Coordinates) {
+    this.located = true;
+    this.isLoading = true;
+    this.studentService
+      .fetchRecord(
+        this.teacherId,
+        this.sessionId,
+        this.progId,
+        this.courseId,
+        this.recordId,
+        this.token,
+        coordinate,
+      )
+      .subscribe({
+        next: (details) => {
+          this.setAttendance(details);
+        },
+        error: (errorMessage) => {
+          this.error = errorMessage;
+          this.isLoading = false;
+        },
+      });
+
+    this.studentService.studentClose.subscribe((data) => {
+      this.authenticate = data;
+    });
+    this.studentService.studentRecordChanged.subscribe((details) => {
+      this.setAttendance(details);
+    });
   }
 
   setAttendance(details) {

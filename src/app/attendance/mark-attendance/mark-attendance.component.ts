@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Course, Programme, Session } from 'src/app/shared/shared.model';
 import {
-  AttendanceService,
-  Course,
-  Programme,
-  Session,
+  AttendanceService
 } from './../attendance.service';
 
 @Component({
@@ -25,11 +22,17 @@ export class MarkAttendanceComponent implements OnInit {
   programmeTitle: string = '';
   courses: Course[] = [];
   courseTitle: string = '';
-  mappingTime: boolean = true;
+  mappingTime: boolean = false;
+  createdAttRes: {
+    sessionId: string;
+    programmeId: string;
+    courseId: string;
+    attendanceRecordId: string;
+  };
 
   constructor(
     private attendanceService: AttendanceService,
-    private router: Router,
+
   ) {}
 
   ngOnInit(): void {
@@ -78,11 +81,8 @@ export class MarkAttendanceComponent implements OnInit {
     }
   }
 
-  getLocation() {}
-
   onSubmit(form: NgForm) {
     this.isLoading = true;
-
     this.attendanceService
       .createAttendance(
         form.value.session,
@@ -99,21 +99,14 @@ export class MarkAttendanceComponent implements OnInit {
           sessionId: string;
         }) => {
           this.isLoading = false;
-
+          this.createdAttRes = res;
           this.mappingTime = true;
-          // this.router.navigate([
-          //   '/programmes',
-          //   res.sessionId,
-          //   res.programmeId,
-          //   res.courseId,
-          //   res.attendanceRecordId,
-          // ]);
         },
         error: (err) => {
           this.error = err.error.message;
-
           this.isLoading = false;
         },
       });
   }
+
 }

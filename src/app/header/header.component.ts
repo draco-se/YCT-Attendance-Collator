@@ -62,7 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.logout();
     this.closeNav();
     setTimeout(() => {
-      location.pathname = '/';
+      this.router.navigate(['/']);
     }, 600);
   }
 

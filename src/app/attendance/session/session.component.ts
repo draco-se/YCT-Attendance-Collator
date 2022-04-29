@@ -1,5 +1,5 @@
-import { Session } from './../attendance.service';
 import { Component, OnInit } from '@angular/core';
+import { Session } from 'src/app/shared/shared.model';
 import { AttendanceService } from '../attendance.service';
 
 @Component({
@@ -7,7 +7,6 @@ import { AttendanceService } from '../attendance.service';
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss'],
 })
-
 export class SessionComponent implements OnInit {
   sessions: Session[];
 

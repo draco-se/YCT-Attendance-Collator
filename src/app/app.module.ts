@@ -11,6 +11,7 @@ import {
   SocialLoginModule,
 } from 'angularx-social-login';
 import { ValidateEqualModule } from 'ng-validate-equal';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -63,6 +64,7 @@ import { ProfileComponent } from './profile/profile.component';
     HttpClientModule,
     MatFormFieldModule,
     MatAutocompleteModule,
+    GooglePlaceModule,
     AppRoutingModule,
 
   ],

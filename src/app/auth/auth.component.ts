@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   PLATFORM_ID,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -38,6 +39,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private socialAuthService: SocialAuthService,
+    private renderer: Renderer2,
     @Inject(PLATFORM_ID) private platformId,
   ) {}
 
@@ -171,20 +173,36 @@ export class AuthComponent implements OnInit, OnDestroy {
   signupControl() {
     if (this.loginTimeout) clearTimeout(this.loginTimeout);
     setTimeout(() => {
-      this.underline.nativeElement.style.transform = 'translateX(100%)';
-      this.formContainer.nativeElement.style.transform = 'translateX(-50%)';
-      this.loginTitle.nativeElement.classList.remove('active');
-      this.signupTitle.nativeElement.classList.add('active');
+      this.renderer.setStyle(
+        this.underline.nativeElement,
+        'transform',
+        'translateX(100%)',
+      );
+      this.renderer.setStyle(
+        this.formContainer.nativeElement,
+        'transform',
+        'translateX(-50%)',
+      );
+      this.renderer.removeClass(this.loginTitle.nativeElement, 'active');
+      this.renderer.addClass(this.signupTitle.nativeElement, 'active');
       this.router.navigate(['signup']);
     }, 1);
   }
 
   loginControl() {
     if (this.signupTimeout) clearTimeout(this.signupTimeout);
-    this.loginTitle.nativeElement.classList.add('active');
-    this.signupTitle.nativeElement.classList.remove('active');
-    this.underline.nativeElement.style.transform = 'translateX(0)';
-    this.formContainer.nativeElement.style.transform = 'translateX(0)';
+    this.renderer.addClass(this.loginTitle.nativeElement, 'active');
+    this.renderer.removeClass(this.signupTitle.nativeElement, 'active');
+    this.renderer.setStyle(
+      this.underline.nativeElement,
+      'transform',
+      'translateX(0)',
+    );
+    this.renderer.setStyle(
+      this.formContainer.nativeElement,
+      'transform',
+      'translateX(0)',
+    );
     this.loginTimeout = setTimeout(() => {
       this.router.navigate(['login']);
     }, 500);
