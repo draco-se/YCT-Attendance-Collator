@@ -1,14 +1,15 @@
-import { AttendanceService } from './../attendance/attendance.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, throwError } from 'rxjs';
+import { catchError, map, Subject, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Session } from '../shared/shared.model';
+import { AttendanceService } from './../attendance/attendance.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
+  error = new Subject<any>();
+
   constructor(
     private http: HttpClient,
     private attendanceService: AttendanceService,
@@ -35,32 +36,6 @@ export class MapService {
       );
   }
 
-  postCoordinates(params: {
-    sessionId: string;
-    programmeId: string;
-    courseId: string;
-    attendanceRecordId: string;
-    coordinates: { lat: number; lng: number };
-  }) {
-    return this.http
-      .post<{
-        res: {
-          sessionId: string;
-          programmeId: string;
-          courseId: string;
-          recordId: string;
-        };
-        sessions: Session[];
-      }>(environment.restApiAddress + '/post-coordinates', params)
-      .pipe(
-        catchError(this.handleErrors),
-        map((res) => {
-          this.attendanceService.setSessions(res.sessions);
-          return res.res;
-        }),
-      );
-  }
-
   autoComplete(input: HTMLInputElement) {
     const center = { lat: 50.064192, lng: -130.605469 };
     // Create a bounding box with sides ~10km away from the center point
@@ -81,13 +56,13 @@ export class MapService {
     new google.maps.places.Autocomplete(input, options);
   }
 
-  private handleErrors(errorRes: HttpErrorResponse) {
+   handleErrors(errorRes: HttpErrorResponse) {
     let errorMeassge = 'An unknown error occurred';
 
     console.log(errorRes.error);
 
     if (!errorRes.error) {
-      return throwError(errorMeassge);
+      return errorMeassge;
     }
     switch (errorRes.error.message) {
       case 'USER_NOT_FOUND':
@@ -112,6 +87,6 @@ export class MapService {
         break;
     }
 
-    return throwError(errorMeassge);
+    return errorMeassge;
   }
 }

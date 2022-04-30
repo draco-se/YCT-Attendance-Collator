@@ -1,3 +1,4 @@
+import { Coordinates } from './../map/map.component';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
@@ -130,6 +131,7 @@ export class AttendanceService {
     course: string,
     hours: number,
     minutes: number,
+    coordinates: Coordinates
   ) {
     return this.http
       .post<{ message: string }>(
@@ -140,9 +142,11 @@ export class AttendanceService {
           course,
           hours,
           minutes,
+          coordinates
         },
       )
       .pipe(
+        catchError(this.handleErrors),
         map((res: any) => {
           this.setSessions(res.sessions);
 
@@ -192,7 +196,43 @@ export class AttendanceService {
         }),
         tap((sessions) => {
           this.setSessions(sessions);
-        }),
+        })
       );
   }
+
+  private handleErrors(errorRes: HttpErrorResponse) {
+    let errorMeassge = 'An unknown error occurred';
+
+    console.log(errorRes.error);
+
+    if (!errorRes.error) {
+      return throwError(errorMeassge);
+    }
+
+    switch (errorRes.error.message) {
+      case 'INVALID_FIELD':
+        errorMeassge = 'Some fields are invalid!';
+        break;
+
+      case 'FIELD_NOT_FOUND':
+        errorMeassge = 'Some fields are not in record!';
+        break;
+
+      case 'ATTENDANCE_LIMIT_EXCEEDED':
+        errorMeassge = 'One attendance per day, for a course!';
+        break;
+
+      case 'INVALID_COORD':
+        errorMeassge = 'Invalid coordinates! Try again.';
+        break;
+
+      case 'INACCURATE_LOCATION':
+        errorMeassge =
+          'Your location is inaccurate! This might be due to your network.';
+        break;
+    }
+
+    return throwError(errorMeassge);
+  }
 }
+

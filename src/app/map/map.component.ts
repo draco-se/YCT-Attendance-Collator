@@ -2,13 +2,11 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from './../auth/auth.service';
 import { MapService } from './map.service';
@@ -25,13 +23,6 @@ export interface Coordinates {
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit, OnDestroy {
-  @Input() serverElement: {
-    sessionId: string;
-    programmeId: string;
-    courseId: string;
-    attendanceRecordId: string;
-  };
-
   @Output() coordinateGenerated = new EventEmitter<Coordinates>();
 
   @ViewChild('map') mapEl: ElementRef<HTMLDivElement>;
@@ -46,7 +37,6 @@ export class MapComponent implements OnInit, OnDestroy {
   constructor(
     private mapService: MapService,
     private authService: AuthService,
-    private router: Router,
   ) {}
   coordinates: Coordinates;
 
@@ -56,6 +46,18 @@ export class MapComponent implements OnInit, OnDestroy {
 
       if (!this.isAuthenticated) {
         this.autoLocate();
+      }
+    });
+
+    this.mapService.error.subscribe((error) => {
+      if (
+        error != 'Some fields are not in record!' &&
+        error != 'Some fields are invalid!' &&
+        error != 'One attendance per day, for a course!'
+      ) {
+        console.log(error);
+        this.error = error;
+        this.isLoading2 = false;
       }
     });
   }
@@ -155,32 +157,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.isLoading2 = true;
-
-    if (this.isAuthenticated) {
-      this.mapService
-        .postCoordinates({
-          ...this.serverElement,
-          coordinates: this.coordinates,
-        })
-        .subscribe({
-          next: (res) => {
-            this.router.navigate([
-              'programmes',
-              res.sessionId,
-              res.programmeId,
-              res.courseId,
-              res.recordId,
-            ]);
-            console.log(res);
-          },
-          error: (errorMessage) => {
-            this.isLoading2 = false;
-            this.error = errorMessage;
-          },
-        });
-    } else {
-      this.coordinateGenerated.emit(this.coordinates);
-    }
+    this.coordinateGenerated.emit(this.coordinates);
   }
 
   ngOnDestroy(): void {

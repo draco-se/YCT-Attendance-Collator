@@ -3,8 +3,8 @@
 <main>
   <div #map id="map">
     <p *ngIf="!isLoading">
-      You haven't taken any action yet. Click Auto locate or enter address to
-      see yourself!
+      You haven't taken any action yet! Click Auto locate
+      <span *ngIf="isAuthenticated"> or enter address to see yourself!</span>
     </p>
 
     <div *ngIf="isLoading" class="lds-ellipsis loader">

@@ -244,6 +244,7 @@ export class StudentService {
     if (!errorRes.error) {
       return throwError(errorMeassge);
     }
+
     switch (errorRes.error.message) {
       case 'INVALID_LINK':
         errorMeassge = 'Your link is not valid!';

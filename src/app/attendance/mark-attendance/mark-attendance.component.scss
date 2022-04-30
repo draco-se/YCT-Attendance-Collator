@@ -14,7 +14,7 @@
 }
 
 
-p {
+.redirect {
   font-size: 1.2rem;
   margin: 1rem;
   text-align: justify;
@@ -24,12 +24,6 @@ p {
     text-decoration: underline;
     font-weight: bold;
   }
-}
-
-.error-box {
-  font-size: 1.1rem;
-  font-weight: normal;
-  width: 90%;
 }
 
 mat-option {

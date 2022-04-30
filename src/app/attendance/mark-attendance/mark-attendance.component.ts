@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
+import { NgModel } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Course, Programme, Session } from 'src/app/shared/shared.model';
-import {
-  AttendanceService
-} from './../attendance.service';
+import { Coordinates } from './../../map/map.component';
+import { MapService } from './../../map/map.service';
+import { AttendanceService } from './../attendance.service';
 
 @Component({
   selector: 'app-mark-attendance',
@@ -22,6 +23,8 @@ export class MarkAttendanceComponent implements OnInit {
   programmeTitle: string = '';
   courses: Course[] = [];
   courseTitle: string = '';
+  hour: number = 0;
+  minute: number = 30;
   mappingTime: boolean = false;
   createdAttRes: {
     sessionId: string;
@@ -32,7 +35,8 @@ export class MarkAttendanceComponent implements OnInit {
 
   constructor(
     private attendanceService: AttendanceService,
-
+    private mapService: MapService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -81,15 +85,19 @@ export class MarkAttendanceComponent implements OnInit {
     }
   }
 
-  onSubmit(form: NgForm) {
-    this.isLoading = true;
+  onSubmit() {
+    this.mappingTime = true;
+  }
+
+  finalize(coordinates: Coordinates) {
     this.attendanceService
       .createAttendance(
-        form.value.session,
-        form.value.programme,
-        form.value.course,
-        form.value.hours,
-        form.value.minutes,
+        this.sessionTitle,
+        this.programmeTitle,
+        this.courseTitle,
+        this.hour,
+        this.minute,
+        coordinates,
       )
       .subscribe({
         next: (res: {
@@ -99,14 +107,31 @@ export class MarkAttendanceComponent implements OnInit {
           sessionId: string;
         }) => {
           this.isLoading = false;
-          this.createdAttRes = res;
-          this.mappingTime = true;
+          this.router.navigate([
+            'programmes',
+            res.sessionId,
+            res.programmeId,
+            res.courseId,
+            res.attendanceRecordId,
+          ]);
+          console.log(res);
         },
-        error: (err) => {
-          this.error = err.error.message;
+        error: (errorMessage) => {
           this.isLoading = false;
+
+          if (
+            errorMessage == 'Some fields are not in record!' ||
+            errorMessage == 'Some fields are not in record!' ||
+            errorMessage == 'One attendance per day, for a course!'
+          ) {
+            this.mappingTime = false;
+            setTimeout(() => {
+              this.error = errorMessage;
+            }, 30);
+          } else {
+            this.mapService.error.next(errorMessage);
+          }
         },
       });
   }
-
 }

@@ -3,7 +3,7 @@
 
   <p *ngIf="error && !isLoading" class="error-box">{{ error }}</p>
 
-  <p *ngIf="sessions.length == 0">
+  <p class="redirect" *ngIf="sessions.length == 0">
     You haven't created a session for attendance.
     <a routerLink="/create-record">Click here!</a> to do so
   </p>
@@ -12,7 +12,7 @@
     *ngIf="sessions.length > 0"
     class="form-control"
     #attendanceForm="ngForm"
-    (submit)="onSubmit(attendanceForm)"
+    (submit)="onSubmit()"
   >
     <div class="form-input__cover">
       <label class="display-input" for="session">
@@ -132,7 +132,7 @@
           type="number"
           name="hours"
           placeholder="e.g 1"
-          ngModel="00"
+          [(ngModel)]="hour"
           required
           #hours="ngModel"
           min="0"
@@ -149,7 +149,7 @@
           type="number"
           name="minutes"
           placeholder="e.g 30"
-          ngModel="30"
+          [(ngModel)]="minute"
           required
           #minutes="ngModel"
           min="0"
@@ -182,4 +182,4 @@
   </form>
 </div>
 
-<app-map [serverElement]="createdAttRes" *ngIf="mappingTime"></app-map>
+<app-map (coordinateGenerated)="finalize($event)" *ngIf="mappingTime"></app-map>
