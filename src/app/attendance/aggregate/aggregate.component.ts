@@ -1,6 +1,4 @@
-import {
-  AttendanceService,
-} from './../attendance.service';
+import { AttendanceService } from './../attendance.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AggregateAttendanceLine } from 'src/app/shared/shared.model';
@@ -23,6 +21,7 @@ export class AggregateComponent implements OnInit {
   totalRecord: number;
   score: number = 5;
   filterer: number = 0;
+  details: AggregateAttendanceLine[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -44,12 +43,14 @@ export class AggregateComponent implements OnInit {
       this.courseId,
     ).length;
 
-    this.attendance = this.attendanceService
+    this.details = this.attendanceService
       .getAggregateRecord(this.sessionId, this.progId, this.courseId)
       .filter(
         (attendanceLine) =>
           attendanceLine.timesPresent / this.totalRecord > +this.filterer / 100,
       );
+
+      this.attendance = this.details
   }
 
   filter() {
@@ -66,6 +67,15 @@ export class AggregateComponent implements OnInit {
       (attendanceLine) =>
         attendanceLine.timesPresent / this.totalRecord >= this.filterer / 100,
     );
+  }
+
+  onSearch(searchInput: HTMLInputElement) {
+    this.attendance = [...this.details].filter((attendanceLine) =>
+      attendanceLine.matricNumber.includes(searchInput.value.toUpperCase()),
+    );
+
+    if (this.attendance.length == 0)
+      this.attendance = [...this.details];
   }
 
   roundUp(number: number) {

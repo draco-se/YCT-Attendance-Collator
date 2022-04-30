@@ -296,9 +296,9 @@ export class AuthService {
   }
 
   logout() {
+    this.attendnaceService.setSessions([]);
     this.user.next(null);
     localStorage.removeItem('YctUserData');
-    this.attendnaceService.setSessions([]);
 
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
@@ -309,6 +309,7 @@ export class AuthService {
   autoLogout(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
+      this.router.navigate(['/']);
     }, expirationDuration);
   }
 

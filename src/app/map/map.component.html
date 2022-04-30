@@ -4,7 +4,7 @@
   <div #map id="map">
     <p *ngIf="!isLoading">
       You haven't taken any action yet! Click Auto locate
-      <span *ngIf="isAuthenticated"> or enter address to see yourself!</span>
+      <span *ngIf="!student"> or enter address to see yourself!</span>
     </p>
 
     <div *ngIf="isLoading" class="lds-ellipsis loader">
@@ -21,11 +21,11 @@
     Auto Locate
   </button>
 
-  <p *ngIf="!success && isAuthenticated">or</p>
+  <p *ngIf="!success && !student">or</p>
 
   <form
     #form="ngForm"
-    *ngIf="!success && isAuthenticated"
+    *ngIf="!success && !student"
     (ngSubmit)="findAddressHandler(address)"
   >
     <div class="form-input__cover">

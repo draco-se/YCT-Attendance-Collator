@@ -1,3 +1,4 @@
+import { AttendanceRecord } from './../../shared/shared.model';
 import { environment } from './../../../environments/environment';
 import { AuthService } from './../../auth/auth.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -11,6 +12,7 @@ import { AttendanceLine } from 'src/app/shared/shared.model';
   styleUrls: ['./record.component.scss'],
 })
 export class RecordComponent implements OnInit, OnDestroy {
+  details: AttendanceRecord;
   attendance: AttendanceLine[] = [];
   date: string;
   isLoading: boolean = true;
@@ -37,22 +39,22 @@ export class RecordComponent implements OnInit, OnDestroy {
       this.progId = params['progId'].toLowerCase();
       this.courseId = params['courseId'].toLowerCase();
       this.recordId = params['recordId'].toLowerCase();
-      const details = this.attendanceService.getRecord(
+      this.details = this.attendanceService.getRecord(
         this.sessionId,
         this.progId,
         this.courseId,
         this.recordId,
       );
-      this.setAttendance(details);
+      this.setAttendance();
 
       this.attendanceService.sessionsChanged.subscribe(() => {
-        const details = this.attendanceService.getRecord(
+        this.details = this.attendanceService.getRecord(
           this.sessionId,
           this.progId,
           this.courseId,
           this.recordId,
         );
-        this.setAttendance(details);
+        this.setAttendance();
       });
     });
   }
@@ -84,20 +86,20 @@ export class RecordComponent implements OnInit, OnDestroy {
     });
   }
 
-  setAttendance(details) {
+  setAttendance() {
     this.isLoading = false;
 
-    this.attendance = [...details.attendance];
+    this.attendance = [...this.details.attendance];
 
-    this.date = details.date.split(',')[0].replaceAll('/', '-');
+    this.date = this.details.date.split(',')[0].replaceAll('/', '-');
 
-    details.tokenResetExpiration;
+    this.details.tokenResetExpiration;
 
     this.authService.user.subscribe((user) => {
-      if (new Date(details.tokenResetExpiration) > new Date() && !!user) {
-        this.link = `${environment.frontEndAddress}/attendance/${user.id}/${this.sessionId}/${this.progId}/${this.courseId}/${this.recordId}/${details.token}`;
+      if (new Date(this.details.tokenResetExpiration) > new Date() && !!user) {
+        this.link = `${environment.frontEndAddress}/attendance/${user.id}/${this.sessionId}/${this.progId}/${this.courseId}/${this.recordId}/${this.details.token}`;
         const time = new Date(
-          new Date(details.tokenResetExpiration).getTime() - Date.now(),
+          new Date(this.details.tokenResetExpiration).getTime() - Date.now(),
         );
 
         this.hours = time.getUTCHours();
@@ -135,6 +137,29 @@ export class RecordComponent implements OnInit, OnDestroy {
           this.statusProcessing = false;
         },
       });
+  }
+
+  onSearch(searchInput: HTMLInputElement) {
+    this.attendance = [...this.details.attendance].filter((attendanceLine) =>
+      attendanceLine.matricNumber.includes(searchInput.value.toUpperCase()),
+    );
+
+    if (this.attendance.length == 0)
+      this.attendance = [...this.details.attendance];
+  }
+
+  sortBy(opt: string) {
+    if (opt == 'status') {
+      this.attendance = [...this.details.attendance].sort((a, b) => {
+        const nameA = a.status.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.status.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) return 1;
+        if (nameA > nameB) return -1;
+        return 0;
+      });
+    } else {
+      this.attendance = [...this.details.attendance]
+    }
   }
 
   dropdown(el: HTMLDivElement, list: HTMLUListElement) {

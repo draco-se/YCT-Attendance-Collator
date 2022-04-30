@@ -1,3 +1,4 @@
+import { AttendanceRecord } from './../../shared/shared.model';
 import { Coordinates } from './../../map/map.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -15,6 +16,7 @@ import { AttendanceLine } from 'src/app/shared/shared.model';
 export class StudentAttendanceComponent implements OnInit, OnDestroy {
   error: string;
   attendance: AttendanceLine[] = [];
+  details: AttendanceRecord;
   date: string;
   isLoading: boolean = false;
   authenticate: boolean;
@@ -69,7 +71,8 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (details) => {
-          this.setAttendance(details);
+          this.details  = details
+          this.setAttendance();
         },
         error: (errorMessage) => {
           this.error = errorMessage;
@@ -81,18 +84,19 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
       this.authenticate = data;
     });
     this.studentService.studentRecordChanged.subscribe((details) => {
-      this.setAttendance(details);
+      this.details = details;
+      this.setAttendance();
     });
   }
 
-  setAttendance(details) {
+  setAttendance() {
     this.isLoading = false;
-    if (new Date(details.tokenResetExpiration) < new Date()) return;
+    if (new Date(this.details.tokenResetExpiration) < new Date()) return;
 
-    this.attendance = [...details.attendance];
+    this.attendance = [...this.details.attendance];
 
     const time = new Date(
-      new Date(details.tokenResetExpiration).getTime() - Date.now(),
+      new Date(this.details.tokenResetExpiration).getTime() - Date.now(),
     );
 
     this.hours = time.getUTCHours();
@@ -111,7 +115,7 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
       this.minutes--;
     }, 60000);
 
-    this.date = details.date.split(',')[0].replaceAll('/', '-');
+    this.date = this.details.date.split(',')[0].replaceAll('/', '-');
   }
 
   changeStatus(stautus: boolean, idx: number) {
@@ -128,6 +132,15 @@ export class StudentAttendanceComponent implements OnInit, OnDestroy {
       isRegistered: this.attendance[idx].isRegistered,
     };
     this.authenticate = true;
+  }
+
+  onSearch(searchInput: HTMLInputElement) {
+    this.attendance = [...this.details.attendance].filter((attendanceLine) =>
+      attendanceLine.matricNumber.includes(searchInput.value.toUpperCase()),
+    );
+
+    if (this.attendance.length == 0)
+      this.attendance = [...this.details.attendance];
   }
 
   dropdown(el: HTMLDivElement, list: HTMLUListElement) {

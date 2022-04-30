@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -22,8 +23,9 @@ export interface Coordinates {
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit, OnDestroy {
+export class MapComponent implements OnInit {
   @Output() coordinateGenerated = new EventEmitter<Coordinates>();
+  @Input() student: boolean = false;
 
   @ViewChild('map') mapEl: ElementRef<HTMLDivElement>;
   map: google.maps.Map;
@@ -31,8 +33,6 @@ export class MapComponent implements OnInit, OnDestroy {
   isLoading2: boolean = false;
   error: string;
   success: boolean = false;
-  userSub: Subscription;
-  isAuthenticated: boolean = false;
 
   constructor(
     private mapService: MapService,
@@ -41,13 +41,9 @@ export class MapComponent implements OnInit, OnDestroy {
   coordinates: Coordinates;
 
   ngOnInit(): void {
-    this.userSub = this.authService.user.subscribe((user) => {
-      this.isAuthenticated = !!user;
-
-      if (!this.isAuthenticated) {
-        this.autoLocate();
-      }
-    });
+    if (this.student) {
+      this.autoLocate();
+    }
 
     this.mapService.error.subscribe((error) => {
       if (
@@ -160,9 +156,4 @@ export class MapComponent implements OnInit, OnDestroy {
     this.coordinateGenerated.emit(this.coordinates);
   }
 
-  ngOnDestroy(): void {
-    if (this.userSub) {
-      this.userSub.unsubscribe();
-    }
-  }
 }

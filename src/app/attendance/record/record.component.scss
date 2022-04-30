@@ -58,9 +58,7 @@ h1 {
   height: 2.5rem;
   margin-bottom: 1rem;
   overflow: hidden;
-  @include display-flex();
-  justify-content: center;
-  align-items: center;
+  @include centered();
   background-color: #fff;
   border: 2px solid #005500;
   border-radius: 5px;
@@ -80,6 +78,19 @@ h1 {
     height: 2.5rem;
     width: 100%;
     border: none;
+    margin: 0;
+  }
+
+  .search-btn {
+    background-color: #005500;
+    width: 4rem;
+    height: 2.5rem;
+    border: none;
+
+    svg {
+      width: 1.5rem;
+      fill: #f5f5f5;
+    }
   }
 
   .link-action__cover {
@@ -94,6 +105,49 @@ h1 {
 
     svg {
       width: 100%;
+    }
+  }
+}
+
+.sort-box {
+  width: 80%;
+  @include centered();
+
+  label {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .btn-cover {
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 0.5rem;
+    border: 2px solid #005500;
+    background-color: #005500;
+  }
+
+  button {
+    border: none;
+    background-color: #005500;
+    color: #f5f5f5;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    padding: 0.5rem 0.7rem;
+
+    &:active {
+      background-color: #d6e2d6;
+      color: #005500;
+    }
+
+    &:last-child {
+      background-color: #d6e2d6;
+      color: #005500;
+      border-left: 2px solid #005500;
+
+      &:active {
+        background-color: #005500;
+        color: #f5f5f5;
+      }
     }
   }
 }
