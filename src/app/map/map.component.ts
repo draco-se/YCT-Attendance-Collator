@@ -6,15 +6,12 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from './../auth/auth.service';
 import { MapService } from './map.service';
-
-declare var google: any;
 
 export interface Coordinates {
   lat: number;
@@ -52,22 +49,19 @@ export class MapComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {}
   coordinates: Coordinates;
-  formattedaddress = '';
-  // options = {
-  //   componentRestrictions: {
-  //     country: 'NG',
-  //   },
-  // };
 
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe((user) => {
       this.isAuthenticated = !!user;
+
+      if (!this.isAuthenticated) {
+        this.autoLocate();
+      }
     });
   }
 
-  AddressChange(address: any) {
-    //setting address from API to local variable
-    this.formattedaddress = address.formatted_address.trim();
+  onAutoComplete(input: HTMLInputElement) {
+    this.mapService.autoComplete(input);
   }
 
   tryAgain() {
@@ -127,13 +121,13 @@ export class MapComponent implements OnInit, OnDestroy {
     this.success = true;
   }
 
-  findAddressHandler(form: NgForm) {
+  findAddressHandler(input: HTMLInputElement) {
     this.isLoading = true;
-    if (form.value.address.trim() == '') {
+    if (input.value.trim() == '') {
       throw new Error('Form input field is empty');
     }
 
-    this.mapService.getCoordsFromAddress(form.value.address).subscribe({
+    this.mapService.getCoordsFromAddress(input.value).subscribe({
       next: async (res) => {
         if (!res['lat']) {
           this.isLoading = false;

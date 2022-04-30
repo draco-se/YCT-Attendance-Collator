@@ -26,18 +26,18 @@
   <form
     #form="ngForm"
     *ngIf="!success && isAuthenticated"
-    (ngSubmit)="findAddressHandler(form)"
+    (ngSubmit)="findAddressHandler(address)"
   >
     <div class="form-input__cover">
       <input
-        ngx-google-places-autocomplete
-        (onAddressChange)="AddressChange($event)"
+        (input)="onAutoComplete(address)"
         [ngClass]="{
           'ng-valid': !error,
           'ng-invalid ng-touched': error
         }"
         type="text"
         name="address"
+        #address
         ngModel
         required
         placeholder="Enter a Location"
@@ -47,7 +47,9 @@
         error
       }}</span>
     </div>
-    <button class="address-btn" [disabled]="!form.valid" type="submit">Find!</button>
+    <button class="address-btn" [disabled]="!form.valid" type="submit">
+      Find!
+    </button>
   </form>
 
   <form #proceedForm="ngForm" *ngIf="success" (ngSubmit)="onSubmit()">
