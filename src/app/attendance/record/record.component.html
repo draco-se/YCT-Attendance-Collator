@@ -134,8 +134,10 @@
 <div *ngIf="attendance.length > 0 && !isLoading" class="sort-box">
   <Label>Sort By:</Label>
   <div class="btn-cover">
-    <button (click)="sortBy('status')">Status</button
-    ><button (click)="sortBy('index')">Index</button>
+    <span #index (click)="sortBy('index', index, status)">Index</span>
+    <span #status class="inactive" (click)="sortBy('status', index, status)"
+      >Status</span
+    >
   </div>
 </div>
 

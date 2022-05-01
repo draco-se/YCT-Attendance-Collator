@@ -148,7 +148,7 @@ export class RecordComponent implements OnInit, OnDestroy {
       this.attendance = [...this.details.attendance];
   }
 
-  sortBy(opt: string) {
+  sortBy(opt: string, index: HTMLSpanElement, status: HTMLSpanElement) {
     if (opt == 'status') {
       this.attendance = [...this.details.attendance].sort((a, b) => {
         const nameA = a.status.toUpperCase(); // ignore upper and lowercase
@@ -157,8 +157,12 @@ export class RecordComponent implements OnInit, OnDestroy {
         if (nameA > nameB) return -1;
         return 0;
       });
+      status.classList.remove('inactive')
+      index.classList.add('inactive')
     } else {
       this.attendance = [...this.details.attendance]
+      status.classList.add('inactive')
+      index.classList.remove('inactive')
     }
   }
 

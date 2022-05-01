@@ -37,7 +37,7 @@
             </g>
           </svg>
         </summary>
-        <div (click)="closeDetails(detail)" class="backdrop"></div>
+        <div (click)="closeDetails(detail)" (touchstart)="closeDetails(detail)" class="backdrop"></div>
         <ul>
           <li
             style="font-size: 2rem; padding: 0 0.5rem"

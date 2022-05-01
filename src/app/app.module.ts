@@ -31,6 +31,8 @@ import { HomeComponent } from './home/home.component';
 import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProfileComponent } from './profile/profile.component';
+import { DetailsComponent } from './profile/details/details.component';
+import { AggregateRecordsComponent } from './profile/aggregate-records/aggregate-records.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { ProfileComponent } from './profile/profile.component';
     StudentAttendanceComponent,
     StudentComponent,
     PageNotFoundComponent,
+    DetailsComponent,
+    AggregateRecordsComponent,
   ],
 
   imports: [
