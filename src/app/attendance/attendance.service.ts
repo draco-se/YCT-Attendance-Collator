@@ -222,6 +222,22 @@ export class AttendanceService {
       );
   }
 
+  deleteProgramme(sessionId: string, programmeId: string) {
+    return this.http
+      .post(environment.restApiAddress + '/delete-programme', {
+        sessionId,
+        programmeId,
+      })
+      .pipe(
+        map((resData: any) => {
+          return resData.sessions;
+        }),
+        tap((sessions) => {
+          this.setSessions(sessions);
+        }),
+      );
+  }
+
   modifyCourse(
     sessionId: string,
     programmeId: string,

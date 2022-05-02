@@ -86,6 +86,26 @@ export class ProgrammesComponent implements OnInit {
     this.renderer.removeAttribute(form, 'style');
   }
 
+  deleteProg(progId: string, detail: HTMLDetailsElement) {
+    this.progIsLoading = true;
+
+    this.attendanceService.deleteProgramme(this.sessionId, progId).subscribe({
+      next: () => {
+        this.error = '';
+        this.progIsLoading = false;
+        this.closeDetails(detail);
+      },
+      error: async (err: HttpErrorResponse) => {
+        console.log(err.error.message);
+        this.closeDetails(detail);
+        this.error = err.error.message;
+        alert(this.error);
+        this.progIsLoading = false;
+      },
+      complete: () => console.info('Created Successfully'),
+    });
+  }
+
   sort(array: any[]) {
     const sortedArray = [...array].sort((a, b) => {
       if (a.title < b.title) return -1;
