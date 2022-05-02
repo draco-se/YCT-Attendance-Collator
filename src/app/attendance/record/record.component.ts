@@ -118,6 +118,7 @@ export class RecordComponent implements OnInit, OnDestroy {
 
   changeStatus(status: boolean, id: string) {
     this.statusProcessing = true;
+
     this.attendanceService
       .markAttendance(
         this.sessionId,

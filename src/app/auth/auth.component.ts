@@ -215,6 +215,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.userSub.unsubscribe();
+      if (this.signupTimeout) clearTimeout(this.signupTimeout);
+      if (this.loginTimeout) clearTimeout(this.loginTimeout);
     }
   }
 }

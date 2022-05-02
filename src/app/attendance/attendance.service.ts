@@ -7,10 +7,15 @@ import {
   map,
   Subject,
   tap,
-  throwError
+  throwError,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AggregateAttendanceLine, AttendanceRecord, Programme, Session } from '../shared/shared.model';
+import {
+  AggregateAttendanceLine,
+  AttendanceRecord,
+  Programme,
+  Session,
+} from '../shared/shared.model';
 
 @Injectable({
   providedIn: 'root',
@@ -86,7 +91,7 @@ export class AttendanceService {
   ) {
     if (edit) {
       return this.http
-        .post(environment.restApiAddress + '/modify-record', {
+        .post(environment.restApiAddress + '/add-record', {
           session,
           programme,
           course,
@@ -131,7 +136,7 @@ export class AttendanceService {
     course: string,
     hours: number,
     minutes: number,
-    coordinates: Coordinates
+    coordinates: Coordinates,
   ) {
     return this.http
       .post<{ message: string }>(
@@ -142,7 +147,7 @@ export class AttendanceService {
           course,
           hours,
           minutes,
-          coordinates
+          coordinates,
         },
       )
       .pipe(
@@ -196,7 +201,47 @@ export class AttendanceService {
         }),
         tap((sessions) => {
           this.setSessions(sessions);
-        })
+        }),
+      );
+  }
+
+  modifyProgramme(sessionId: string, programmeId: string, newTitle: string) {
+    return this.http
+      .post(environment.restApiAddress + '/modify-programme', {
+        sessionId,
+        programmeId,
+        newTitle,
+      })
+      .pipe(
+        map((resData: any) => {
+          return resData.sessions;
+        }),
+        tap((sessions) => {
+          this.setSessions(sessions);
+        }),
+      );
+  }
+
+  modifyCourse(
+    sessionId: string,
+    programmeId: string,
+    courseId: string,
+    newTitle: string,
+  ) {
+    return this.http
+      .post(environment.restApiAddress + '/modify-programme', {
+        sessionId,
+        programmeId,
+        courseId,
+        newTitle,
+      })
+      .pipe(
+        map((resData: any) => {
+          return resData.sessions;
+        }),
+        tap((sessions) => {
+          this.setSessions(sessions);
+        }),
       );
   }
 
@@ -235,4 +280,3 @@ export class AttendanceService {
     return throwError(errorMeassge);
   }
 }
-

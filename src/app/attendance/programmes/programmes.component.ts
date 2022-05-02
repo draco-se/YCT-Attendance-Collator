@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
 import { Programme } from './../../shared/shared.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AttendanceService } from '../attendance.service';
 
@@ -11,20 +13,77 @@ import { AttendanceService } from '../attendance.service';
 export class ProgrammesComponent implements OnInit {
   programmes: Programme[] = [];
   sessionId: string;
-  timeout: any;
   backdrop: boolean = false;
+  courseEdit: boolean = false;
+  progIsLoading: boolean = false;
+  error: string;
 
   constructor(
     private route: ActivatedRoute,
     private attendanceService: AttendanceService,
+    private renderer: Renderer2,
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       const id = params['year'];
+
       this.programmes = this.sort(this.attendanceService.getProgrammes(id));
       this.sessionId = id;
+
+      this.attendanceService.sessionsChanged.subscribe(() => {
+        this.programmes = this.sort(this.attendanceService.getProgrammes(id));
+      });
     });
+  }
+
+  startEditProg(listEl: HTMLLIElement, event: Event) {
+    event.stopPropagation();
+    const head: HTMLHeadingElement = listEl.querySelector('h1');
+    const form: HTMLFormElement = listEl.querySelector('.edit-cover');
+    const detail: HTMLDetailsElement = listEl.querySelector('details');
+
+    this.closeDetails(detail);
+    this.renderer.setStyle(head, 'display', 'none');
+    this.renderer.setStyle(form, 'display', 'flex');
+  }
+
+  onEditProg(form: NgForm, idx: number) {
+    if (this.programmes[idx].title == form.value.edittedProg.trim()) {
+      this.error = 'Use a diffent title!';
+      alert(this.error);
+      return;
+    }
+
+    this.progIsLoading = true;
+
+    this.attendanceService
+      .modifyProgramme(
+        this.sessionId,
+        this.programmes[idx]._id,
+        form.value.edittedProg,
+      )
+      .subscribe({
+        next: () => {
+          this.error = '';
+          this.progIsLoading = false;
+        },
+        error: async (err: HttpErrorResponse) => {
+          console.log(err.error.message);
+          this.error = err.error.message;
+          alert(this.error);
+          this.progIsLoading = false;
+        },
+        complete: () => console.info('Created Successfully'),
+      });
+  }
+
+  closeEditProg(listEl: HTMLLIElement) {
+    const head: HTMLHeadingElement = listEl.querySelector('h1');
+    const form: HTMLFormElement = listEl.querySelector('.edit-cover');
+
+    this.renderer.removeAttribute(head, 'style');
+    this.renderer.removeAttribute(form, 'style');
   }
 
   sort(array: any[]) {
@@ -40,7 +99,6 @@ export class ProgrammesComponent implements OnInit {
   closeDetails(detail: HTMLDetailsElement) {
     if (!detail.hasAttribute('open')) return;
     detail.removeAttribute('open');
-    clearTimeout(this.timeout);
   }
 
   dropdown(listEl: HTMLLIElement, prog: HTMLUListElement) {
@@ -55,8 +113,10 @@ export class ProgrammesComponent implements OnInit {
   closedropdown(programmes: HTMLUListElement) {
     const courses: NodeList = programmes.querySelectorAll('.courses');
     const details: NodeList = programmes.querySelectorAll('details');
+    const programme: NodeList = programmes.querySelectorAll('.programme');
 
     courses.forEach((el: HTMLElement) => el.removeAttribute('style'));
     details.forEach((el: HTMLElement) => el.removeAttribute('style'));
+    programme.forEach((el: HTMLLIElement) => this.closeEditProg(el));
   }
 }

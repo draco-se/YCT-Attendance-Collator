@@ -9,14 +9,65 @@
 </h2>
 <ul *ngIf="programmes.length > 0" class="programmes" #prog>
   <li
-    *ngFor="let programme of programmes"
+    *ngFor="let programme of programmes; let i = index"
     class="programme"
     #listEl
     (click)="dropdown(listEl, prog)"
   >
-    <h1>{{ programme.title }}</h1>
+    <div class="programme-title">
+      <h1>
+        {{ programme.title }}
+      </h1>
+      <div class="edit-cover">
+        <div class="edit-form__main-cover">
+          <form
+            [ngClass]="{
+              'edit-title__form': true,
+              'ng-valid': !error,
+              'ng-invalid ng-touched': error
+            }"
+            autocomplete="off"
+            #editProgForm="ngForm"
+            (ngSubmit)="onEditProg(editProgForm, i)"
+          >
+            <input
+              (click)="$event.stopImmediatePropagation()"
+              class="edit-title__input edit-prog__title"
+              type="text"
+              [ngModel]="programme.title"
+              name="edittedProg"
+              required
+            />
+            <button
+              [disabled]="!editProgForm.valid"
+              (click)="$event.stopImmediatePropagation()"
+              *ngIf="!progIsLoading"
+              class="edit-title__btn"
+            >
+              Edit
+            </button>
+          </form>
+          <span *ngIf="!editProgForm.valid || error" class="help-block"
+            >Invalid programme title!</span
+          >
+        </div>
+        <button
+          *ngIf="!progIsLoading"
+          class="close-edit__title"
+          (click)="closeEditProg(listEl)"
+        >
+          &times;
+        </button>
+        <div *ngIf="progIsLoading" class="lds-ring loader">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
     <div class="course-cover">
-      <details #detail>
+      <details #detail [style]="i == 0 ? 'display: block;' : null">
         <summary>
           <svg
             x="0"
@@ -37,7 +88,11 @@
             </g>
           </svg>
         </summary>
-        <div (click)="closeDetails(detail)" (touchstart)="closeDetails(detail)" class="backdrop"></div>
+        <div
+          (click)="closeDetails(detail)"
+          (touchstart)="closeDetails(detail)"
+          class="backdrop"
+        ></div>
         <ul>
           <li
             style="font-size: 2rem; padding: 0 0.5rem"
@@ -58,18 +113,27 @@
             Add Programme
           </li>
           <li>Edit course name</li>
-          <li>Edit programme name</li>
+          <li (click)="startEditProg(listEl, $event)">Edit programme name</li>
           <li>Delete Programme</li>
           <li>Delete Course</li>
         </ul>
       </details>
-      <ul class="courses">
+      <ul class="courses" [style]="i == 0 ? 'display: block;' : null">
         <li
           *ngFor="let course of sort(programme.courses)"
           routerLink="{{ programme._id + '/' + course._id }}"
           class="course"
         >
-          {{ course.title }}
+          <span class="course-title" *ngIf="!courseEdit">
+            {{ course.title }}
+          </span>
+          <input
+            *ngIf="courseEdit"
+            (click)="$event.stopImmediatePropagation()"
+            class="edit-title__input"
+            type="text"
+            name="edittedCourse"
+          />
         </li>
       </ul>
     </div>
