@@ -104,7 +104,6 @@ export class AttendanceService {
             return resData.sessions;
           }),
           tap((sessions) => {
-            console.log(sessions);
             this.setSessions(sessions);
           }),
         );
