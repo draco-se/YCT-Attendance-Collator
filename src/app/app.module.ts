@@ -20,8 +20,8 @@ import { CreateRecordComponent } from './attendance/create-record/create-record.
 import { MarkAttendanceComponent } from './attendance/mark-attendance/mark-attendance.component';
 import { ProgrammesComponent } from './attendance/programmes/programmes.component';
 import { RecordComponent } from './attendance/record/record.component';
-import { SessionComponent } from './attendance/session/session.component';
 import { StudentAttendanceComponent } from './attendance/student-attendance/student-attendance.component';
+import { SessionComponent } from './attendance/session/session.component';
 import { StudentComponent } from './attendance/student/student.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -30,9 +30,13 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ProfileComponent } from './profile/profile.component';
-import { DetailsComponent } from './profile/details/details.component';
 import { AggregateRecordsComponent } from './profile/aggregate-records/aggregate-records.component';
+import { DetailsComponent } from './profile/details/details.component';
+import { ProfileComponent } from './profile/profile.component';
+import { AlertComponent } from './shared/alert/alert.component';
+import { LoaderComponent } from './shared/loader/loader.component';
+import { ModalComponent } from './shared/modal/modal.component';
+
 
 @NgModule({
   declarations: [
@@ -55,6 +59,9 @@ import { AggregateRecordsComponent } from './profile/aggregate-records/aggregate
     PageNotFoundComponent,
     DetailsComponent,
     AggregateRecordsComponent,
+    ModalComponent,
+    AlertComponent,
+    LoaderComponent,
   ],
 
   imports: [

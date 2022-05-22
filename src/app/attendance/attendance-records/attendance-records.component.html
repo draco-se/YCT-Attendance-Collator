@@ -31,7 +31,11 @@
         <div class="circle"></div>
       </div>
       <p id="{{ dailyRecord._id }}" routerLink="{{ dailyRecord._id }}">
-        Day {{ i + 1 }} [{{ dailyRecord.date.replaceAll('/', '-') }}]
+        Day {{ i + 1 }} [{{
+          dailyRecord.date.replaceAll('/', '-').split(':')[0] +
+            ':' +
+            dailyRecord.date.replaceAll('/', '-').split(':')[1]
+        }}]
       </p>
     </li>
   </ul>

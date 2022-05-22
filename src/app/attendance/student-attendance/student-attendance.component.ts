@@ -1,5 +1,5 @@
-import { AttendanceRecord } from './../../shared/shared.model';
-import { Coordinates } from './../../map/map.component';
+import { AttendanceRecord } from '../../shared/shared.model';
+import { Coordinates } from '../../map/map.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { StudentService } from '../student.service';
@@ -13,6 +13,7 @@ import { AttendanceLine } from 'src/app/shared/shared.model';
     './student-attendance.component.scss',
   ],
 })
+
 export class StudentAttendanceComponent implements OnInit, OnDestroy {
   error: string;
   attendance: AttendanceLine[] = [];

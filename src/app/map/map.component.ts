@@ -2,13 +2,10 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
+  Input, OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { AuthService } from './../auth/auth.service';
 import { MapService } from './map.service';
 

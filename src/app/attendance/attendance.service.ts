@@ -22,6 +22,7 @@ import {
 })
 export class AttendanceService {
   sessions: Session[] = [];
+  confimation = new Subject<'cancel' | 'proceed'>();
   sessionsChanged = new Subject<Session[]>();
   isLoading = new Subject<boolean>();
   link = new BehaviorSubject<{ token: string; tokenResetExpiration: string }>(
@@ -212,6 +213,7 @@ export class AttendanceService {
         newTitle,
       })
       .pipe(
+        catchError(this.handleErrors),
         map((resData: any) => {
           return resData.sessions;
         }),
@@ -240,17 +242,38 @@ export class AttendanceService {
   modifyCourse(
     sessionId: string,
     programmeId: string,
-    courseId: string,
-    newTitle: string,
+    courses: { _id: string; newTitle: string }[],
   ) {
     return this.http
-      .post(environment.restApiAddress + '/modify-programme', {
+      .post(environment.restApiAddress + '/modify-course', {
         sessionId,
         programmeId,
-        courseId,
-        newTitle,
+        courses,
       })
       .pipe(
+        catchError(this.handleErrors),
+        map((resData: any) => {
+          return resData.sessions;
+        }),
+        tap((sessions) => {
+          this.setSessions(sessions);
+        }),
+      );
+  }
+
+  deleteCourse(
+    sessionId: string,
+    programmeId: string,
+    courses: { _id: string }[],
+  ) {
+    return this.http
+      .post(environment.restApiAddress + '/delete-course', {
+        sessionId,
+        programmeId,
+        courses,
+      })
+      .pipe(
+        catchError(this.handleErrors),
         map((resData: any) => {
           return resData.sessions;
         }),
@@ -270,6 +293,10 @@ export class AttendanceService {
     }
 
     switch (errorRes.error.message) {
+      case 'USER_NOT_FOUND':
+        errorMeassge = 'User Not Found!';
+        break;
+
       case 'INVALID_FIELD':
         errorMeassge = 'Some fields are invalid!';
         break;
@@ -289,6 +316,30 @@ export class AttendanceService {
       case 'INACCURATE_LOCATION':
         errorMeassge =
           'Your location is inaccurate! This might be due to your network.';
+        break;
+
+      case 'EMPTY_FIELD':
+        errorMeassge = 'Some fields are empty!';
+        break;
+
+      case 'TITLE_EXIST':
+        errorMeassge = 'This title exist!';
+        break;
+
+      case 'PROG_NOT_FOUND':
+        errorMeassge = 'Editted programme not found!';
+        break;
+
+      case 'PROGRAMME_NOT_FOUND':
+        errorMeassge = "This programme doesn't exist!";
+        break;
+
+      case 'COURSE_NOT_FOUND':
+        errorMeassge = 'Course not found!';
+        break;
+
+      case 'COURSE_NOT_EDITTED':
+        errorMeassge = 'No course title was editted!';
         break;
     }
 

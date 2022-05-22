@@ -28,6 +28,7 @@ export class AuthInterceptor implements HttpInterceptor {
           req.url.includes(environment.restApiAddress + '/modify-programme') ||
           req.url.includes(environment.restApiAddress + '/delete-programme') ||
           req.url.includes(environment.restApiAddress + '/modify-course') ||
+          req.url.includes(environment.restApiAddress + '/delete-course') ||
           req.url.includes(environment.restApiAddress + '/mark-attendance') ||
           req.url.includes(environment.restApiAddress + '/post-coordinates') ||
           req.url.includes(environment.restApiAddress + '/sessions') ||
