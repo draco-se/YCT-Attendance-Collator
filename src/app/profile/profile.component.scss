@@ -82,20 +82,33 @@
   .profile-nav-cover {
     width: 200%;
     @include display-flex();
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     flex-wrap: nowrap;
     overflow-x: unset;
   }
 
-  // .navigations {
-  //   width: calc(37.5% - 0.5rem);
-  //   height: 560px;
-  //   margin: 0;
-  //   overflow-y: scroll;
+  .navigations {
+    width: calc(36% - 0.5rem);
+    height: 26.25rem;
+    margin: 0.5rem 0;
+    overflow-y: scroll;
+    background-color: white;
 
-  //   background-color: white;
-  // }
+    &::-webkit-scrollbar {
+      width: 5px; /* width of the entire scrollbar */
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent; /* color of the tracking area */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #256325;
+      border-radius: 20px; /* roundness of the scroll thumb */
+      border: 3px solid transparent; /* creates padding around scroll thumb */
+    }
+  }
 
   #profile-nav {
     width: 50%;

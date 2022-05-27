@@ -1,3 +1,4 @@
+import { DetailsComponent } from './profile/details/details.component';
 import { AggregateComponent } from './attendance/aggregate/aggregate.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { StudentAttendanceComponent } from './attendance/student-attendance/student-attendance.component';
@@ -31,6 +32,18 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'details',
+        component: DetailsComponent,
+        canActivate: [AuthGuard],
+      },
+    ],
+  },
+  {
+    path: 'details',
+    component: DetailsComponent,
     canActivate: [AuthGuard],
   },
   {

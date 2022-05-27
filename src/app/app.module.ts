@@ -37,7 +37,6 @@ import { AlertComponent } from './shared/alert/alert.component';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { ModalComponent } from './shared/modal/modal.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

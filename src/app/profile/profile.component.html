@@ -128,11 +128,19 @@
   </div>
   <div class="profile-nav-container">
     <div class="profile-nav-cover">
-      <ul id="profile-nav">
+      <ul id="profile-nav" [@navWidth]="state">
         <li>
           <a>Aggregate Records</a>
         </li>
         <li>
+          <a>Graphical Analysis</a>
+        </li>
+        <li
+          [routerLink]="
+            screenWidth >= 768 ? '/profile/details' : '/details'
+          "
+          (click)="onClick()"
+        >
           <a>Account Details</a>
         </li>
         <li>
@@ -145,9 +153,9 @@
           <a>Log out</a>
         </li>
       </ul>
-      <!-- <div class="navigations">
+      <div class="navigations">
         <router-outlet></router-outlet>
-      </div> -->
+      </div>
     </div>
   </div>
 </main>
