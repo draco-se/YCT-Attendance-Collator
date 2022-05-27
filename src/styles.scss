@@ -32,6 +32,10 @@
     cursor: pointer;
   }
 
+}
+
+html {
+
   &::-webkit-scrollbar {
     width: 7px; /* width of the entire scrollbar */
   }
