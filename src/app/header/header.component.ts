@@ -26,6 +26,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userSub = this.authService.user.subscribe((user) => {
       this.isAuthenticated = !!user;
     });
+
+    document.onclick = () => {
+      const detail: HTMLDetailsElement = document.querySelector('details');
+      if (detail && detail.hasAttribute('open')) {
+        detail.removeAttribute('open');
+      }
+    };
   }
 
   openNav() {
@@ -50,11 +57,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
-  toggleDetails(detail: HTMLDetailsElement) {
+  toggleDetails(detail: HTMLDetailsElement, e: Event) {
+    e.stopPropagation();
     if (detail.hasAttribute('open')) {
       detail.removeAttribute('open');
     } else {
-      detail.setAttribute('open', null);
+      detail.setAttribute('open', '');
     }
   }
 

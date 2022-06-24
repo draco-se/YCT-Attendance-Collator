@@ -1,45 +1,22 @@
-import { DetailsComponent } from './profile/details/details.component';
-import { AggregateComponent } from './attendance/aggregate/aggregate.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { StudentAttendanceComponent } from './attendance/student-attendance/student-attendance.component';
-import { MarkAttendanceComponent } from './attendance/mark-attendance/mark-attendance.component';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
-import { AttendanceRecordsComponent } from './attendance/attendance-records/attendance-records.component';
-import { AttendanceResolver } from './attendance/attendance.resolver';
-import { CreateRecordComponent } from './attendance/create-record/create-record.component';
-import { ProgrammesComponent } from './attendance/programmes/programmes.component';
-import { RecordComponent } from './attendance/record/record.component';
-import { SessionComponent } from './attendance/session/session.component';
-import { AuthComponent } from './auth/auth.component';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
-import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { DetailsComponent } from './profile/details/details.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: 'login',
-    component: AuthComponent,
-  },
-  {
-    path: 'signup',
-    component: AuthComponent,
+    path: '',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'profile',
-    component: ProfileComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'details',
-        component: DetailsComponent,
-        canActivate: [AuthGuard],
-      },
-    ],
+    loadChildren: () =>
+      import('./profile/profile.module').then((m) => m.ProfileModule),
   },
   {
     path: 'details',
@@ -48,49 +25,57 @@ const routes: Routes = [
   },
   {
     path: 'sessions',
-    component: SessionComponent,
-    resolve: [AttendanceResolver],
-    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./attendance/session/session.module').then(
+        (m) => m.SessionModule,
+      ),
   },
   {
     path: 'mark-attendance',
-    component: MarkAttendanceComponent,
-    resolve: [AttendanceResolver],
-    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./attendance/mark-attendance/mark-attendance.module').then(
+        (m) => m.MarkAttendanceModule,
+      ),
   },
   {
     path: 'programmes/:year',
-    component: ProgrammesComponent,
-    resolve: [AttendanceResolver],
-    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./attendance/programmes/programmes.module').then(
+        (m) => m.ProgrammesModule,
+      ),
   },
   {
     path: 'programmes/:year/:progId/:courseId',
-    component: AttendanceRecordsComponent,
-    resolve: [AttendanceResolver],
-    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./attendance/attendance-records/attendance-records.module').then(
+        (m) => m.AttendanceRecordsModule,
+      ),
   },
   {
     path: 'aggregate/:sessionId/:progId/:courseId',
-    component: AggregateComponent,
-    resolve: [AttendanceResolver],
-    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./attendance/aggregate/aggregate.module').then(
+        (m) => m.AggregateModule,
+      ),
   },
   {
     path: 'programmes/:year/:progId/:courseId/:recordId',
-    component: RecordComponent,
-    resolve: [AttendanceResolver],
-    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./attendance/record/record.module').then((m) => m.RecordModule),
   },
   {
     path: 'attendance/:userId/:year/:progId/:courseId/:recordId/:token',
-    component: StudentAttendanceComponent,
-  },
-  {
-    path: 'create-record',
-    component: CreateRecordComponent,
-    resolve: [AttendanceResolver],
-    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./attendance/student-attendance/student-attendance.module').then(
+        (m) => m.StudentAttendanceModule,
+      ),
+    },
+    {
+      path: 'create-record',
+      loadChildren: () =>
+        import('./attendance/create-record/create-record.module').then(
+          (m) => m.CreateRecordModule,
+        ),
   },
   {
     path: 'not-found',
@@ -102,11 +87,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      scrollPositionRestoration: 'enabled',
+      scrollPositionRestoration: 'top',
       preloadingStrategy: PreloadAllModules,
       anchorScrolling: 'enabled',
-      onSameUrlNavigation: 'reload',
-      // scrollOffset: [0, 50],
     }),
   ],
   exports: [RouterModule],

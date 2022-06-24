@@ -4,18 +4,16 @@
     ><img src="../../assets/images/yct.png" alt="Yabatech Logo" /> YABATECH</a
   >
   <ul class="header-list">
-    <li routerLink="/" class="header-list__item">
-      <a routerLinkActive="active">Home</a>
+    <li routerLink="/" routerLinkActive="active" class="header-list__item">
+      Home
     </li>
-    <li class="header-list__item">
-      <a routerLink="/" fragment="about">About</a>
-    </li>
+    <li routerLink="/" fragment="about" class="header-list__item">About</li>
     <li *ngIf="isAuthenticated" routerLink="/profile" class="header-list__item">
-      <a>My Account</a>
+      My Account
     </li>
     <li *ngIf="isAuthenticated" class="header-list__item">
       <details #detail>
-        <summary (click)="toggleDetails(detail)">
+        <summary (click)="toggleDetails(detail, $event)">
           <a>Manage Attendance</a>
         </summary>
         <ul class="attendance-actions">
@@ -48,14 +46,14 @@
       routerLink="login"
       class="header-list__item header-login__btn"
     >
-      <a>Login</a>
+      Login
     </li>
     <li
       *ngIf="!isAuthenticated"
       routerLink="signup"
       class="header-list__item header-signup__btn"
     >
-      <a>Signup</a>
+      Signup
     </li>
   </ul>
   <div class="toggle-btn" (click)="openNav()">
@@ -133,7 +131,13 @@
     >
       My Account
     </li>
-    <li *ngIf="!isAuthenticated" routerLink="/" fragment="about" class="nav-list__item" (click)="closeNav()">
+    <li
+      *ngIf="!isAuthenticated"
+      routerLink="/"
+      fragment="about"
+      class="nav-list__item"
+      (click)="closeNav()"
+    >
       About
     </li>
     <li *ngIf="!isAuthenticated" class="nav-list__item" (click)="closeNav()">
