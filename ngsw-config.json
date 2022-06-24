@@ -37,10 +37,10 @@
       "name": "httprequests",
       "urls": ["https://yct-restapi.herokuapp.com/**"],
       "cacheConfig": {
-        "maxSize": 1,
+        "maxSize": 50,
         "maxAge": "6h",
         "timeout": "10s",
-        "strategy": "performance"
+        "strategy": "freshness"
       }
     }
   ]
