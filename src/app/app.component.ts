@@ -22,15 +22,28 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.authService.autoLogin();
+      document.body.style.overflow = 'hidden';
 
-
-      if (location.pathname.includes('attendance')) this.loaded = true;
-      setTimeout(() => {
+      if (location.pathname.includes('attendance')) {
+        document.body.removeAttribute('style');
         this.loaded = true;
-      }, 2000);
+      }
+
+      setTimeout(() => {
+        if (document.body.hasAttribute('style')) {
+          document.body.removeAttribute('style');
+        }
+        this.loaded = true;
+      }, 3000);
 
       this.attendanceSerice.isLoading.subscribe((res) => {
         this.loaded = res;
+
+        if (this.loaded && document.body.hasAttribute('style')) {
+          document.body.removeAttribute('style');
+          return;
+        }
+        document.body.style.overflow = 'hidden';
       });
     }
   }
